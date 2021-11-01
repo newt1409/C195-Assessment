@@ -11,16 +11,17 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Views/DAOPatternDemo.fxml"));
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
-        DBConnection sql = new DBConnection();
-        sql.openConnection();
     }
 
 
     public static void main(String[] args) {
+
+        DBConnection.openConnection();
         launch(args);
+        DBConnection.closeConnection();
     }
 }
