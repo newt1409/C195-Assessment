@@ -25,8 +25,9 @@ public class DBConnection {
         }
         catch(Exception e)
         {
-            //System.out.println("Error:" + e.getMessage());
-            e.printStackTrace();
+            System.out.println("Error:" + e.getMessage());
+            //e.printStackTrace();
+            System.exit(0);
         }
         return connection;
     }
