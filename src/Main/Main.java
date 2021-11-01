@@ -15,12 +15,12 @@ public class Main extends Application {
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
-        DBConnection sql = new DBConnection();
-        sql.openConnection();
     }
 
 
     public static void main(String[] args) {
+
+        DBConnection.openConnection();
         launch(args);
     }
 }

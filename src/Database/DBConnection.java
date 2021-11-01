@@ -25,7 +25,8 @@ public class DBConnection {
         }
         catch(Exception e)
         {
-            System.out.println("Error:" + e.getMessage());
+            //System.out.println("Error:" + e.getMessage());
+            e.printStackTrace();
         }
         return connection;
     }
@@ -41,7 +42,8 @@ public class DBConnection {
         }
         catch(Exception e)
         {
-            System.out.println("Error:" + e.getMessage());
+            //System.out.println("Error:" + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
