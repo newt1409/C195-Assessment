@@ -1,4 +1,4 @@
-package sample;
+package Main;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +14,8 @@ public class Main extends Application {
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
+        DBConnection sql = new DBConnection();
+        sql.openConnection();
     }
 
 
