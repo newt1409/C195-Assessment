@@ -18,9 +18,9 @@ public class Countries {
     private Calendar lastUpdate;
     private String lastUpdateBy;
 
-    public Countries(int userId, String userName, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy) {
-        this.countryId = userId;
-        this.countryName = userName;
+    public Countries(int countryId, String countryName, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy) {
+        this.countryId = countryId;
+        this.countryName = countryName;
         this.createDate = createDate;
         this.createdBy = createdBy;
         this.lastUpdate = lastUpdate;
@@ -30,28 +30,28 @@ public class Countries {
     /**
      * @return the userId
      */
-    public int getUserId() {
+    public int getCountryId() {
         return countryId;
     }
 
     /**
      * @param userId the userId to set
      */
-    public void setUserId(int userId) {
+    public void setCountryId(int userId) {
         this.countryId = userId;
     }
 
     /**
      * @return the userName
      */
-    public String getUserName() {
+    public String getCountryName() {
         return countryName;
     }
 
     /**
      * @param userName the userName to set
      */
-    public void setUserName(String userName) {
+    public void setCountryName(String userName) {
         this.countryName = userName;
     }
 

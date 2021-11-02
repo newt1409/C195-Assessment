@@ -22,7 +22,7 @@ import static utilities.TimeFiles.stringToCalendar;
  */
 /* typically you would also have create, update and read methods*/
 public class DBUsers {
-    static boolean act;
+
      public static User getUser(String userName) throws SQLException, Exception{
         // type is name or phone, value is the name or the phone #
         DBConnection.openConnection();
@@ -35,8 +35,8 @@ public class DBUsers {
                 int userid=result.getInt("userid");
                 String userNameG=result.getString("userName");
                 String password=result.getString("password");
-                int active=result.getInt("active");
-                if(active==1) act=true;
+
+
                 String createDate=result.getString("createDate");
                 String createdBy=result.getString("createBy");
                 String lastUpdate=result.getString("lastUpdate");

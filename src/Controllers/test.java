@@ -27,4 +27,14 @@ public class test implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
+
+    public void Countries(ActionEvent actionEvent) throws IOException {
+        //change scenes
+        Parent root = FXMLLoader.load(getClass().getResource("../Views/Countries.fxml"));
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root, 500, 500);
+        stage.setTitle("Add Part");
+        stage.setScene(scene);
+        stage.show();
+    }
 }
