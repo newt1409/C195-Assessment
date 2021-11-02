@@ -14,7 +14,7 @@ import static Database.DBConnection.connection;
  *
  * @author carolyn.sher
  */
-public class Query {
+public class DBQuery {
     private static String query;
     private static Statement stmt;
     private static ResultSet result;

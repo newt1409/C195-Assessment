@@ -5,7 +5,7 @@
  */
 package Controllers;
 
-import Database.UserDaoImpl;
+import Database.DBUsers;
 import model.User;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,7 +24,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
  *
  * @author carolyn.sher
  */
-public class DAOPatternDemoController implements Initializable {
+public class UsersController implements Initializable {
 
     @FXML
     private TableView<User> UserTable;
@@ -35,7 +35,7 @@ public class DAOPatternDemoController implements Initializable {
     @FXML
     private TableColumn<?, ?> Password;
 
-    ObservableList<User> Users= FXCollections.observableArrayList();
+    ObservableList<User> UserList= FXCollections.observableArrayList();
     /**
      * Initializes the controller class.
      */
@@ -49,13 +49,13 @@ public class DAOPatternDemoController implements Initializable {
        
 
         try {
-            Users.addAll(UserDaoImpl.getAllUsers());
+            UserList.addAll(DBUsers.getAllUsers());
             
   
         } catch (Exception ex) {
-            Logger.getLogger(DAOPatternDemoController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UsersController.class.getName()).log(Level.SEVERE, null, ex);
         }
-                    UserTable.setItems(Users);
+                    UserTable.setItems(UserList);
                     //Using Lambda for efficient selection off a tableview
      
     }    

@@ -10,21 +10,17 @@ import java.util.Calendar;
  *
  * @author carolyn.sher
  */
-public class User {
-    private int userId;
-    private String userName;
-    private String password;
-
+public class Countries {
+    private int countryId;
+    private String countryName;
     private Calendar createDate;
     private String createdBy;
     private Calendar lastUpdate;
-    private String lastUpdateBy; 
+    private String lastUpdateBy;
 
-    public User(int userId, String userName, String password, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy) {
-        this.userId = userId;
-        this.userName = userName;
-        this.password = password;
-
+    public Countries(int userId, String userName, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy) {
+        this.countryId = userId;
+        this.countryName = userName;
         this.createDate = createDate;
         this.createdBy = createdBy;
         this.lastUpdate = lastUpdate;
@@ -35,42 +31,28 @@ public class User {
      * @return the userId
      */
     public int getUserId() {
-        return userId;
+        return countryId;
     }
 
     /**
      * @param userId the userId to set
      */
     public void setUserId(int userId) {
-        this.userId = userId;
+        this.countryId = userId;
     }
 
     /**
      * @return the userName
      */
     public String getUserName() {
-        return userName;
+        return countryName;
     }
 
     /**
      * @param userName the userName to set
      */
     public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    /**
-     * @return the password
-     */
-    public String getPassword() {
-        return password;
-    }
-
-    /**
-     * @param password the password to set
-     */
-    public void setPassword(String password) {
-        this.password = password;
+        this.countryName = userName;
     }
 
     /**
