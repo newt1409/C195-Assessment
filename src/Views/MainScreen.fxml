@@ -2,10 +2,55 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.test">
+<AnchorPane prefHeight="460.0" prefWidth="875.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.test">
    <children>
-      <Button layoutX="268.0" layoutY="91.0" mnemonicParsing="false" onAction="#Users" text="Users" />
-      <Button layoutX="257.0" layoutY="137.0" mnemonicParsing="false" onAction="#Countries" text="Countries" />
+      <Button layoutX="341.0" layoutY="31.0" mnemonicParsing="false" onAction="#Users" text="Users" />
+      <Button layoutX="405.0" layoutY="31.0" mnemonicParsing="false" onAction="#Countries" text="Countries" />
+      <Label layoutX="100.0" layoutY="35.0" text="User" />
+      <ChoiceBox fx:id="selectUser" layoutX="127.0" layoutY="31.0" prefWidth="150.0" />
+      <TableView fx:id="appTable" layoutX="23.0" layoutY="91.0" prefHeight="121.0" prefWidth="830.0">
+        <columns>
+          <TableColumn fx:id="appId" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="appTitle" prefWidth="147.0" text="Title" />
+            <TableColumn fx:id="appDesc" prefWidth="291.0" text="Description" />
+            <TableColumn fx:id="appLoc" prefWidth="130.0" text="Location" />
+            <TableColumn fx:id="type" minWidth="2.0" prefWidth="51.0" text="Type" />
+            <TableColumn fx:id="appStart" prefWidth="67.0" text="Start Time" />
+            <TableColumn fx:id="appEnd" minWidth="0.0" prefWidth="68.0" text="End Time" />
+        </columns>
+      </TableView>
+      <Label layoutX="23.0" layoutY="74.0" text="Current Appointments">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="23.0" layoutY="246.0" text="Name" />
+      <TextField fx:id="customerId" layoutX="74.0" layoutY="242.0" />
+      <Label layoutX="23.0" layoutY="281.0" text="Address" />
+      <TextField fx:id="customerAddress" layoutX="74.0" layoutY="277.0" />
+      <Label layoutX="23.0" layoutY="220.0" text="Customer Info">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="23.0" layoutY="383.0" text="Postal Code" />
+      <TextField fx:id="customerPostal" layoutX="91.0" layoutY="379.0" prefHeight="25.0" prefWidth="133.0" />
+      <Label layoutX="23.0" layoutY="418.0" text="Phone #" />
+      <TextField fx:id="customerPhone" layoutX="91.0" layoutY="414.0" prefHeight="25.0" prefWidth="133.0" />
+      <Label layoutX="472.0" layoutY="220.0" text="Contacts">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="472.0" layoutY="246.0" text="Name" />
+      <TextField fx:id="contactId" layoutX="523.0" layoutY="242.0" />
+      <Label layoutX="472.0" layoutY="280.0" text="Email" />
+      <TextField fx:id="contactEmail" layoutX="523.0" layoutY="276.0" />
+      <Label layoutX="23.0" layoutY="315.0" text="State/Provice" />
+      <TextField fx:id="customerDiv" layoutX="98.0" layoutY="311.0" prefHeight="25.0" prefWidth="125.0" />
+      <Label layoutX="23.0" layoutY="349.0" text="Country" />
+      <TextField fx:id="customerCountry" layoutX="73.0" layoutY="345.0" prefHeight="25.0" prefWidth="150.0" />
    </children>
 </AnchorPane>
