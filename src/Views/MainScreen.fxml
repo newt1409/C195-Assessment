@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="460.0" prefWidth="875.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.test">
+<AnchorPane prefHeight="460.0" prefWidth="875.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MainScreen">
    <children>
       <Button layoutX="341.0" layoutY="31.0" mnemonicParsing="false" onAction="#Users" text="Users" />
       <Button layoutX="405.0" layoutY="31.0" mnemonicParsing="false" onAction="#Countries" text="Countries" />
@@ -16,7 +16,7 @@
           <TableColumn fx:id="appTitle" prefWidth="147.0" text="Title" />
             <TableColumn fx:id="appDesc" prefWidth="291.0" text="Description" />
             <TableColumn fx:id="appLoc" prefWidth="130.0" text="Location" />
-            <TableColumn fx:id="type" minWidth="2.0" prefWidth="51.0" text="Type" />
+            <TableColumn fx:id="apptype" minWidth="2.0" prefWidth="51.0" text="Type" />
             <TableColumn fx:id="appStart" prefWidth="67.0" text="Start Time" />
             <TableColumn fx:id="appEnd" minWidth="0.0" prefWidth="68.0" text="End Time" />
         </columns>

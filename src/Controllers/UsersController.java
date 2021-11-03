@@ -43,9 +43,9 @@ public class UsersController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
     ID.setCellValueFactory(new PropertyValueFactory<>("userId"));
     // CustomerName.setCellValueFactory(new PropertyValueFactory<>("address"));
-       UserName.setCellValueFactory(new PropertyValueFactory<>("userName"));
-//       CustomerAddress2.setCellValueFactory(new PropertyValueFactory<>("customerAddress2"));
-       Password.setCellValueFactory(new PropertyValueFactory<>("password"));
+    UserName.setCellValueFactory(new PropertyValueFactory<>("userName"));
+    // CustomerAddress2.setCellValueFactory(new PropertyValueFactory<>("customerAddress2"));
+    Password.setCellValueFactory(new PropertyValueFactory<>("password"));
        
 
         try {
@@ -55,8 +55,8 @@ public class UsersController implements Initializable {
         } catch (Exception ex) {
             Logger.getLogger(UsersController.class.getName()).log(Level.SEVERE, null, ex);
         }
-                    UserTable.setItems(UserList);
-                    //Using Lambda for efficient selection off a tableview
+        UserTable.setItems(UserList);
+        //Using Lambda for efficient selection off a tableview
      
     }    
     
