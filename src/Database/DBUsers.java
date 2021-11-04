@@ -23,33 +23,6 @@ import static utilities.TimeFiles.stringToCalendar;
 /* typically you would also have create, update and read methods*/
 public class DBUsers {
 
-     public static User getUser(String userName) throws SQLException, Exception{
-        // type is name or phone, value is the name or the phone #
-        DBConnection.openConnection();
-        String sqlStatement="select * FROM users WHERE userName  = '" + userName+ "'";
-         //  String sqlStatement="select FROM address";
-        DBQuery.makeQuery(sqlStatement);
-           User userResult;
-           ResultSet result= DBQuery.getResult();
-           while(result.next()){
-                int userid=result.getInt("userid");
-                String userNameG=result.getString("userName");
-                String password=result.getString("password");
-
-
-                String createDate=result.getString("createDate");
-                String createdBy=result.getString("createBy");
-                String lastUpdate=result.getString("lastUpdate");
-                String lastUpdateby=result.getString("lastUpdatedBy");
-                Calendar createDateCalendar=stringToCalendar(createDate);
-                Calendar lastUpdateCalendar=stringToCalendar(lastUpdate);
-             //   s(int addressId, String address, String address2, int cityId, String postalCode, String phone, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy)
-                userResult= new User(userid, userName, password, createDateCalendar, createdBy, lastUpdateCalendar, lastUpdateby);
-                return userResult;
-           }
-             //DBConnection.closeConnection();
-        return null;
-    }
     public static ObservableList<User> getAllUsers() throws SQLException, Exception{
         ObservableList<User> allUsers=FXCollections.observableArrayList();    
         //DBConnection.openConnection();

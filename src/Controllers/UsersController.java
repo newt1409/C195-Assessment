@@ -35,7 +35,7 @@ public class UsersController implements Initializable {
     @FXML
     private TableColumn<?, ?> Password;
 
-    ObservableList<User> UserList= FXCollections.observableArrayList();
+    @FXML private ObservableList<User> UserList= FXCollections.observableArrayList();
     /**
      * Initializes the controller class.
      */

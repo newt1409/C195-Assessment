@@ -9,7 +9,7 @@
       <Button layoutX="341.0" layoutY="31.0" mnemonicParsing="false" onAction="#Users" text="Users" />
       <Button layoutX="405.0" layoutY="31.0" mnemonicParsing="false" onAction="#Countries" text="Countries" />
       <Label layoutX="100.0" layoutY="35.0" text="User" />
-      <ChoiceBox fx:id="selectUser" layoutX="127.0" layoutY="31.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="selectUser" layoutX="127.0" layoutY="31.0" onAction="#popUserData" prefWidth="150.0" />
       <TableView fx:id="appTable" layoutX="23.0" layoutY="91.0" prefHeight="121.0" prefWidth="830.0">
         <columns>
           <TableColumn fx:id="appId" prefWidth="75.0" text="ID" />
