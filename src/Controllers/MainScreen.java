@@ -31,13 +31,13 @@ public class MainScreen implements Initializable {
     public ChoiceBox selectUser = new ChoiceBox();
     public TableView<Appointments> appTable = new TableView();
 
-    @FXML private TableColumn<Appointments, Integer> Id = new TableColumn<>();
-    @FXML private TableColumn<Appointments, String> Title = new TableColumn<>();
-    @FXML private TableColumn<Appointments, String> Desc = new TableColumn<>();
-    @FXML private TableColumn<Appointments, String> Loc = new TableColumn<>();
-    @FXML private TableColumn<Appointments, String> Type = new TableColumn<>();
-    @FXML private TableColumn<Appointments, String> Start = new TableColumn<>();
-    @FXML private TableColumn<Appointments, String> End = new TableColumn<>();
+    @FXML private TableColumn<Appointments, Integer> ID;
+    @FXML private TableColumn<Appointments, String> Title;
+    @FXML private TableColumn<Appointments, String> Description;
+    @FXML private TableColumn<Appointments, String> Location;
+    @FXML private TableColumn<Appointments, String> Type;
+    @FXML private TableColumn<Appointments, String> Start;
+    @FXML private TableColumn<Appointments, String> End;
 
     @FXML private TextField customerId;
     @FXML private TextField customerAddress;
@@ -79,20 +79,10 @@ public class MainScreen implements Initializable {
         for (User u : UserList) {
             selectUser.getItems().add(u.getUserName());
         }
-        Id.setCellValueFactory(new PropertyValueFactory<>("appId"));
-        Title.setCellValueFactory(new PropertyValueFactory<>("appName"));
-        Desc.setCellValueFactory(new PropertyValueFactory<>("appDesc"));
-        Loc.setCellValueFactory(new PropertyValueFactory<>("appLoc"));
-        Type.setCellValueFactory(new PropertyValueFactory<>("appType"));
-        Start.setCellValueFactory(new PropertyValueFactory<>("appStart"));
-        End.setCellValueFactory(new PropertyValueFactory<>("appEnd"));
     }
 
     public void popUserData(ActionEvent actionEvent) throws Exception {
-        //System.out.println(selectUser.getValue());
-        //System.out.println(AppList);
-        //AppList.removeAll();
-        //System.out.println(AppList);
+        AppList.clear();
         try {
             UserList.addAll(DBUsers.getAllUsers());
         } catch (Exception ex) {
@@ -101,14 +91,16 @@ public class MainScreen implements Initializable {
         for (User u : UserList) {
             if (u.getUserName() == selectUser.getValue()) {
                 AppList.addAll(DBAppointments.getUserAppointments(u.getUserId()));
-
             }
-
         }
-        System.out.println(AppList);
         appTable.setItems(AppList);
-        AppList.removeAll();
-
+        ID.setCellValueFactory(new PropertyValueFactory<>("appId"));
+        Title.setCellValueFactory(new PropertyValueFactory<>("appTitle"));
+        Description.setCellValueFactory(new PropertyValueFactory<>("appDesc"));
+        Location.setCellValueFactory(new PropertyValueFactory<>("appLocation"));
+        Type.setCellValueFactory(new PropertyValueFactory<>("appType"));
+        Start.setCellValueFactory(new PropertyValueFactory<>("appStart"));
+        End.setCellValueFactory(new PropertyValueFactory<>("appEnd"));
 
     }
 
