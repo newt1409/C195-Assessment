@@ -17,6 +17,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.*;
 
@@ -79,6 +80,32 @@ public class MainScreen implements Initializable {
         for (User u : UserList) {
             selectUser.getItems().add(u.getUserName());
         }
+        appTable.setOnMouseClicked((MouseEvent event) -> {
+            if (event.getClickCount() == 1) {
+                try {
+                    popAppData();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void popAppData() throws Exception {
+        if (appTable.getSelectionModel().getSelectedItem() != null) {
+            CustomerList.addAll(DBCustomers.getAllCustomers);
+            ContactList.addAll(DBContacts.getAllContacts);
+            Appointments selectedApp = appTable.getSelectionModel().getSelectedItem();
+            int selectedCustomer = selectedApp.getcustomerId();
+            int selectedContact = selectedApp.getContactId();
+
+            for (Customers c : CustomerList){
+                if  (c.() == selectedApp.getAppId()){
+
+                }
+
+            }
+        }
     }
 
     public void popUserData(ActionEvent actionEvent) throws Exception {
@@ -101,6 +128,7 @@ public class MainScreen implements Initializable {
         Type.setCellValueFactory(new PropertyValueFactory<>("appType"));
         Start.setCellValueFactory(new PropertyValueFactory<>("appStart"));
         End.setCellValueFactory(new PropertyValueFactory<>("appEnd"));
+
 
     }
 

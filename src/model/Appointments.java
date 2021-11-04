@@ -67,7 +67,7 @@ public class Appointments {
     /**
      * @return the contactId
      */
-    public int getCcontactId() {
+    public int getContactId() {
         return contactId;
     }
     /**
