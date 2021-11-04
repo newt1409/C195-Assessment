@@ -12,13 +12,13 @@
       <ChoiceBox fx:id="selectUser" layoutX="127.0" layoutY="31.0" onAction="#popUserData" prefWidth="150.0" />
       <TableView fx:id="appTable" layoutX="23.0" layoutY="91.0" prefHeight="121.0" prefWidth="830.0">
         <columns>
-          <TableColumn fx:id="appId" prefWidth="75.0" text="ID" />
-          <TableColumn fx:id="appTitle" prefWidth="147.0" text="Title" />
-            <TableColumn fx:id="appDesc" prefWidth="291.0" text="Description" />
-            <TableColumn fx:id="appLoc" prefWidth="130.0" text="Location" />
-            <TableColumn fx:id="apptype" minWidth="2.0" prefWidth="51.0" text="Type" />
-            <TableColumn fx:id="appStart" prefWidth="67.0" text="Start Time" />
-            <TableColumn fx:id="appEnd" minWidth="0.0" prefWidth="68.0" text="End Time" />
+          <TableColumn fx:id="ID" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="Title" prefWidth="147.0" text="Title" />
+            <TableColumn fx:id="Description" prefWidth="291.0" text="Description" />
+            <TableColumn fx:id="Location" prefWidth="130.0" text="Location" />
+            <TableColumn fx:id="Type" minWidth="2.0" prefWidth="51.0" text="Type" />
+            <TableColumn fx:id="Start" prefWidth="67.0" text="Start Time" />
+            <TableColumn fx:id="End" minWidth="0.0" prefWidth="68.0" text="End Time" />
         </columns>
       </TableView>
       <Label layoutX="23.0" layoutY="74.0" text="Current Appointments">

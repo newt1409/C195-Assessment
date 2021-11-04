@@ -14,13 +14,6 @@
             <TableColumn fx:id="Type" prefWidth="63.0" text="Type" />
             <TableColumn fx:id="Start" prefWidth="64.0" text="Start" />
             <TableColumn fx:id="End" prefWidth="58.0" text="End" />
-            <TableColumn fx:id="CreatedDate" maxWidth="50.0" prefWidth="628.0" text="CreateDate" />
-            <TableColumn fx:id="CreatedBy" maxWidth="50.0" prefWidth="628.0" text="CreatedBy" />
-            <TableColumn fx:id="LastUpdate" maxWidth="50.0" prefWidth="628.0" text="LastUpdate" />
-            <TableColumn fx:id="LastUpdatedBy" maxWidth="50.0" prefWidth="628.0" text="LastUpdatedBy" />
-            <TableColumn fx:id="CustID" maxWidth="50.0" prefWidth="628.0" text="CustID" />
-            <TableColumn fx:id="UserID" maxWidth="50.0" prefWidth="628.0" text="UserID" />
-            <TableColumn fx:id="ContactID" maxWidth="50.0" prefWidth="628.0" text="ContactID" />
         </columns>
       </TableView>
    </children>

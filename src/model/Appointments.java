@@ -11,13 +11,13 @@ import java.util.Calendar;
  * @author carolyn.sher
  */
 public class Appointments {
-    private int appId;
-    private String appTitle;
-    private String appDesc;
-    private String appLocation;
-    private String appType;
-    private String appStart;
-    private String appEnd;
+    private int id;
+    private String title;
+    private String description;
+    private String location;
+    private String type;
+    private String start;
+    private String end;
 
     private Calendar createDate;
     private String createdBy;
@@ -29,13 +29,13 @@ public class Appointments {
     private int contactId;
 
     public Appointments(int appId, String appTitle, String appDesc, String appLocation, String appType, String appStart, String appEnd, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy, int customerId, int userId, int contactId) {
-        this.appId = appId;
-        this.appTitle = appTitle;
-        this.appDesc = appDesc;
-        this.appLocation = appLocation;
-        this.appType = appType;
-        this.appStart = appStart;
-        this.appEnd = appEnd;
+        this.id = appId;
+        this.title = appTitle;
+        this.description = appDesc;
+        this.location = appLocation;
+        this.type = appType;
+        this.start = appStart;
+        this.end = appEnd;
 
         this.createDate = createDate;
         this.createdBy = createdBy;
@@ -50,7 +50,7 @@ public class Appointments {
      * @return the appId
      */
     public int getAppId() {
-        return appId;
+        return id;
     }
     /**
      * @return the customerId
@@ -61,33 +61,31 @@ public class Appointments {
     /**
      * @return the userId
      */
-    public int getuserId() {
+    public int getUserId() {
         return userId;
     }
     /**
      * @return the contactId
      */
-    public int getcontactId() {
+    public int getCcontactId() {
         return contactId;
     }
-
     /**
      * @return the userName
      */
-    public String getappTitle() {
-        return appTitle;
+    public String getAppTitle() {
+        return title;
     }
-
-    public String getappDesc() {
-        return appDesc;
+    public String getAppDesc() {
+        return description;
     }
-    public String getappLocation() {
-        return appLocation;
+    public String getAppLocation() {
+        return location;
     }
-    public String getappType() { return appType; }
-    public String getappStart() { return appStart; }
-    public String getappEnd() {
-        return appEnd;
+    public String getAppType() { return type; }
+    public String getAppStart() { return start; }
+    public String getAppEnd() {
+        return end;
     }
     /**
      * @return the createDate
