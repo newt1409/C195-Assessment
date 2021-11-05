@@ -30,5 +30,8 @@ public class Divisions {
 
         this.countryId = countryId;
     }
+    public int getDivId () { return divId;}
+    public String getDivName () { return divName;}
+    public int getCountryId () {return countryId;}
 
 }

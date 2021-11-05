@@ -1,7 +1,6 @@
 package Controllers;
 
-import Database.DBAppointments;
-import Database.DBUsers;
+import Database.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -40,23 +39,23 @@ public class MainScreen implements Initializable {
     @FXML private TableColumn<Appointments, String> Start;
     @FXML private TableColumn<Appointments, String> End;
 
-    @FXML private TextField customerId;
+    @FXML private TextField customerName;
     @FXML private TextField customerAddress;
     @FXML private TextField customerPostal;
     @FXML private TextField customerPhone;
     @FXML private TextField customerDiv;
     @FXML private TextField customerCountry;
 
-    @FXML private TextField contactId;
+    @FXML private TextField contactName;
     @FXML private TextField contactEmail;
 
 
     @FXML private ObservableList<User> UserList = FXCollections.observableArrayList();
     @FXML private ObservableList<Appointments> AppList = FXCollections.observableArrayList();
-    @FXML private ObservableList<Customers> CustomerList = FXCollections.observableArrayList();
-    @FXML private ObservableList<Contact> ContactList = FXCollections.observableArrayList();
-    @FXML private ObservableList<Divisions> DivisionsList = FXCollections.observableArrayList();
-    @FXML private ObservableList<Countries> CountryList = FXCollections.observableArrayList();
+    @FXML private Customers appCustomer;
+    @FXML private Contact appContact;
+    @FXML private Divisions appDiv;
+    @FXML private Countries appCountry;
 
 
 
@@ -93,19 +92,25 @@ public class MainScreen implements Initializable {
 
     private void popAppData() throws Exception {
         if (appTable.getSelectionModel().getSelectedItem() != null) {
-            CustomerList.addAll(DBCustomers.getAllCustomers);
-            ContactList.addAll(DBContacts.getAllContacts);
             Appointments selectedApp = appTable.getSelectionModel().getSelectedItem();
             int selectedCustomer = selectedApp.getcustomerId();
             int selectedContact = selectedApp.getContactId();
+            appCustomer = DBCustomers.getCustomerData(selectedCustomer);
+            appContact = DBContacts.getContactData(selectedContact);
+            appDiv = DBDivisions.getDivisionData(appCustomer.getdivId());
+            appCountry = DBCountries.getCountryData(appDiv.getCountryId());
 
-            for (Customers c : CustomerList){
-                if  (c.() == selectedApp.getAppId()){
+            customerName.setText(String.valueOf(appCustomer.getCustomerName()));
+            customerAddress.setText(String.valueOf(appCustomer.getCustomerAddress()));
+            customerPostal.setText(String.valueOf(appCustomer.getCustomerPostal()));
+            customerPhone.setText(String.valueOf(appCustomer.getCustomerPhone()));
+            customerDiv.setText(String.valueOf(appDiv.getDivName()));
+            customerCountry.setText(String.valueOf(appCountry.getCountryName()));
 
-                }
-
+            contactName.setText(String.valueOf(appContact.getContactName()));
+            contactEmail.setText(String.valueOf(appContact.getContactEmail()));
             }
-        }
+
     }
 
     public void popUserData(ActionEvent actionEvent) throws Exception {

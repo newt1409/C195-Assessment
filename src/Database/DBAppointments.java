@@ -25,8 +25,8 @@ import static utilities.TimeFiles.stringToCalendar;
 /* typically you would also have create, update and read methods*/
 public class DBAppointments {
 
-     public static ObservableList<Appointments> getUserAppointments(int userID) throws SQLException, Exception{
-         ObservableList<Appointments> userAppointments=FXCollections.observableArrayList();
+     public static Appointments getUserAppointments(int userID) throws SQLException, Exception{
+
          try {
              String sql = "select * FROM appointments WHERE User_ID  = '" + userID + "'";
              PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
@@ -51,15 +51,13 @@ public class DBAppointments {
 
                  //   s(int addressId, String address, String address2, int cityId, String postalCode, String phone, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy)
                  Appointments appResult = new Appointments(appId, appName, appDesc, appLoc, appType, appStart, appEnd, createDateCalendar, createdBy, lastUpdateCalendar, lastUpdateby, custId, userId, contactId);
-                 userAppointments.add(appResult);
+                 return appResult;
 
              }
-         } catch (SQLException throwables) {
+         } catch (SQLException | ParseException throwables) {
              throwables.printStackTrace();
-         } catch (ParseException e) {
-             e.printStackTrace();
          }
-         return userAppointments;
+         return null;
      }
     public static ObservableList<Appointments> getAllAppointments() throws SQLException, Exception{
         ObservableList<Appointments> allAppointments=FXCollections.observableArrayList();

@@ -11,6 +11,7 @@ import java.util.Calendar;
  * @author carolyn.sher
  */
 public class Contact {
+
     private int contactId;
     private String contactName;
     private String contactEmail;
@@ -19,6 +20,7 @@ public class Contact {
         this.contactId = contactId;
         this.contactName = contactName;
         this.contactEmail = contactEmail;
-
     }
+    public String getContactName() { return contactName; }
+    public String getContactEmail() { return contactEmail; }
 }

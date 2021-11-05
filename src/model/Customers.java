@@ -37,6 +37,58 @@ public class Customers {
         this.lastUpdateBy = lastUpdateBy;
 
         this.divId = divId;
-
     }
+    /**
+     * @return the appId
+     */
+    public int getCustomerId() {
+        return customerId;
+    }
+    /**
+     * @return the divId
+     */
+    public int getdivId() {
+        return divId;
+    }
+    /**
+     * @return the userName
+     */
+    public String getCustomerName() {
+        return customerName;
+    }
+    public String getCustomerAddress() {
+        return customerAddress;
+    }
+    public String getCustomerPostal() {
+        return customerPostal;
+    }
+    public String getCustomerPhone() { return customerPhone; }
+    /**
+     * @return the createDate
+     */
+    public Calendar getCreateDate() {
+        return createDate;
+    }
+
+    /**
+     * @return the createdBy
+     */
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    /**
+     * @return the lastUpdate
+     */
+    public Calendar getLastUpdate() {
+        return lastUpdate;
+    }
+
+    /**
+     * @return the lastUpdateBy
+     */
+    public String getLastUpdateBy() {
+        return lastUpdateBy;
+    }
+
 }
