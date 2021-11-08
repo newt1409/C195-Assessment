@@ -1,7 +1,6 @@
 package Controllers;
 
 import Database.DBCountries;
-import Database.DBUsers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,7 +9,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Countries;
-import model.User;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -46,7 +44,7 @@ public class CountriesController implements Initializable {
 
 
         } catch (Exception ex) {
-            Logger.getLogger(UsersController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(addCustomer.class.getName()).log(Level.SEVERE, null, ex);
         }
         CountryTable.setItems(CountryList);
         //Using Lambda for efficient selection off a tableview

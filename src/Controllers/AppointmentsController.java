@@ -34,7 +34,7 @@ public class AppointmentsController implements Initializable {
 
 
         } catch (Exception ex) {
-            Logger.getLogger(UsersController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(addCustomer.class.getName()).log(Level.SEVERE, null, ex);
         }
         appTable.getItems().setAll(appList);
 
