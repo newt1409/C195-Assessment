@@ -5,15 +5,18 @@
  */
 package Database;
 
+import Controllers.MainScreen;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import model.Appointments;
 import model.Customers;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 import static utilities.TimeFiles.stringToCalendar;
@@ -79,5 +82,21 @@ public class DBCustomers {
             throwables.printStackTrace();
         }
         return allCustomers;
-    } 
+    }
+
+    public static void addCustomerData(String custName, String custAddress, String custPostal, String custPhone, int divId) throws SQLException, Exception{
+        try {
+
+            String createdBy = MainScreen.userLabel.getText();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            //Calendar createDateCalendar = stringToCalendar(LocalDateTime.now().toString());
+            //Calendar lastUpdateCalendar = stringToCalendar(LocalDateTime.now().toString());
+            String sql = "insert into customers (Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID) values (" + custName + ", " + custAddress + ", " + custPostal + ", " + custPhone + ", " + LocalDateTime.now().format(formatter) + ", " + createdBy + ", " + LocalDateTime.now().format(formatter) + ", " + createdBy + ", " + divId +")";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            int rs = ps.executeUpdate();
+            System.out.println(rs);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }

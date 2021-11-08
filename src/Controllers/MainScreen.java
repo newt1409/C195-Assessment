@@ -10,12 +10,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.*;
@@ -28,8 +24,9 @@ import java.util.logging.Logger;
 
 public class MainScreen implements Initializable {
 
-    public ChoiceBox selectUser = new ChoiceBox();
-    public TableView<Appointments> appTable = new TableView();
+    @FXML public ChoiceBox selectUser = new ChoiceBox();
+    @FXML public TableView<Appointments> appTable = new TableView();
+    @FXML public static Label userLabel = new Label("");
 
     @FXML private TableColumn<Appointments, Integer> ID;
     @FXML private TableColumn<Appointments, String> Title;
@@ -61,7 +58,7 @@ public class MainScreen implements Initializable {
 
     public void Users(ActionEvent actionEvent) throws IOException {
         //change scenes
-        Parent root = FXMLLoader.load(getClass().getResource("../Views/Users.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../Views/addCustomer.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 500, 500);
         stage.setTitle("Add Part");
@@ -74,7 +71,7 @@ public class MainScreen implements Initializable {
         try {
             UserList.addAll(DBUsers.getAllUsers());
         } catch (Exception ex) {
-            Logger.getLogger(UsersController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(addCustomer.class.getName()).log(Level.SEVERE, null, ex);
         }
         for (User u : UserList) {
             selectUser.getItems().add(u.getUserName());
@@ -95,10 +92,12 @@ public class MainScreen implements Initializable {
             Appointments selectedApp = appTable.getSelectionModel().getSelectedItem();
             int selectedCustomer = selectedApp.getcustomerId();
             int selectedContact = selectedApp.getContactId();
+
             appCustomer = DBCustomers.getCustomerData(selectedCustomer);
             appContact = DBContacts.getContactData(selectedContact);
             appDiv = DBDivisions.getDivisionData(appCustomer.getdivId());
             appCountry = DBCountries.getCountryData(appDiv.getCountryId());
+
 
             customerName.setText(String.valueOf(appCustomer.getCustomerName()));
             customerAddress.setText(String.valueOf(appCustomer.getCustomerAddress()));
@@ -118,11 +117,12 @@ public class MainScreen implements Initializable {
         try {
             UserList.addAll(DBUsers.getAllUsers());
         } catch (Exception ex) {
-            Logger.getLogger(UsersController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(addCustomer.class.getName()).log(Level.SEVERE, null, ex);
         }
         for (User u : UserList) {
             if (u.getUserName() == selectUser.getValue()) {
                 AppList.addAll(DBAppointments.getUserAppointments(u.getUserId()));
+                userLabel.setText(u.getUserName());
             }
         }
         appTable.setItems(AppList);
@@ -148,5 +148,13 @@ public class MainScreen implements Initializable {
     }
 
 
-
+    public void addCustomer(ActionEvent actionEvent) throws IOException {
+        //change scenes
+        Parent root = FXMLLoader.load(getClass().getResource("../Views/addCustomer.fxml"));
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root, 270, 320);
+        stage.setTitle("Add Customer");
+        stage.setScene(scene);
+        stage.show();
+    }
 }

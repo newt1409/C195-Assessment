@@ -49,7 +49,7 @@ public class DBDivisions {
          }
         return null;
      }
-    public static ObservableList<Divisions> getAllContacts() throws SQLException, Exception{
+    public static ObservableList<Divisions> getAllDivisions() throws SQLException, Exception{
         ObservableList<Divisions> allDivisions=FXCollections.observableArrayList();
         try {
             String sql = "select * from first_level_divisions";
@@ -72,5 +72,6 @@ public class DBDivisions {
             throwables.printStackTrace();
         }
         return allDivisions;
-    } 
+    }
+
 }
