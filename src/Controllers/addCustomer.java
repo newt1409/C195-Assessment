@@ -75,6 +75,7 @@ public class addCustomer implements Initializable {
         }
 
         DBCustomers.addCustomerData(customerName.getText(), customerAddress.getText(), customerPostal.getText(), customerPhone.getText(), custDiv);
+        goBack(actionEvent);
     }
 
     public void goBack(ActionEvent actionEvent) throws IOException {

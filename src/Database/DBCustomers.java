@@ -91,10 +91,10 @@ public class DBCustomers {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             //Calendar createDateCalendar = stringToCalendar(LocalDateTime.now().toString());
             //Calendar lastUpdateCalendar = stringToCalendar(LocalDateTime.now().toString());
-            String sql = "insert into customers (Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID) values (" + custName + ", " + custAddress + ", " + custPostal + ", " + custPhone + ", " + LocalDateTime.now().format(formatter) + ", " + createdBy + ", " + LocalDateTime.now().format(formatter) + ", " + createdBy + ", " + divId +")";
+            String sql = "insert into customers (Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, " + "Last_Updated_By, Division_ID) " +
+                         "values ('" + custName + "', '" + custAddress + "', '" + custPostal + "', '" + custPhone + "', '" + LocalDateTime.now().format(formatter) + "', '" + createdBy + "', '" + LocalDateTime.now().format(formatter) + "', '" + createdBy + "', " + divId +")";
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
             int rs = ps.executeUpdate();
-            System.out.println(rs);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
