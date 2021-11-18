@@ -7,10 +7,11 @@
 
 <AnchorPane prefHeight="460.0" prefWidth="875.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MainScreen">
    <children>
-      <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#1f93ff00" height="241.0" layoutX="24.0" layoutY="215.0" stroke="#9e9a9a" strokeType="INSIDE" width="290.0" />
+      <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#1f93ff00" height="60.0" layoutX="24.0" layoutY="53.0" stroke="#9e9a9a" strokeType="INSIDE" width="288.0" />
+      <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#1f93ff00" height="60.0" layoutX="24.0" layoutY="215.0" stroke="#9e9a9a" strokeType="INSIDE" width="288.0" />
       <Button layoutX="144.0" layoutY="220.0" mnemonicParsing="false" onAction="#addCustomer" text="New" />
       <Button layoutX="193.0" layoutY="220.0" mnemonicParsing="false" onAction="#Countries" text="Modify" />
-      <Label layoutX="32.0" layoutY="36.0" text="User:">
+      <Label layoutX="32.0" layoutY="22.0" text="User:">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Label>
@@ -26,43 +27,42 @@
             <TableColumn fx:id="End" minWidth="0.0" prefWidth="130.0" text="End Time" />
         </columns>
       </TableView>
-      <Label layoutX="33.0" layoutY="66.0" text="Appointments">
+      <Label layoutX="33.0" layoutY="60.0" text="Appointments">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="32.0" layoutY="259.0" text="Name" />
-      <TextField fx:id="customerName" layoutX="83.0" layoutY="255.0" prefHeight="25.0" prefWidth="220.0" />
-      <Label layoutX="32.0" layoutY="294.0" text="Address" />
-      <TextField fx:id="customerAddress" layoutX="83.0" layoutY="290.0" prefHeight="25.0" prefWidth="220.0" />
       <Label layoutX="33.0" layoutY="223.0" text="Customer Info">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="32.0" layoutY="396.0" text="Postal Code" />
-      <TextField fx:id="customerPostal" layoutX="100.0" layoutY="392.0" prefHeight="25.0" prefWidth="133.0" />
-      <Label layoutX="32.0" layoutY="431.0" text="Phone #" />
-      <TextField fx:id="customerPhone" layoutX="100.0" layoutY="427.0" prefHeight="25.0" prefWidth="133.0" />
-      <Label layoutX="472.0" layoutY="220.0" text="Contacts">
+      <Label layoutX="42.0" layoutY="358.0" text="Contacts">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="472.0" layoutY="246.0" text="Name" />
-      <TextField fx:id="contactName" layoutX="523.0" layoutY="242.0" />
-      <Label layoutX="472.0" layoutY="280.0" text="Email" />
-      <TextField fx:id="contactEmail" layoutX="523.0" layoutY="276.0" />
-      <Label layoutX="32.0" layoutY="328.0" text="State/Province" />
-      <TextField fx:id="customerDiv" layoutX="113.0" layoutY="324.0" prefHeight="25.0" prefWidth="189.0" />
-      <Label layoutX="32.0" layoutY="362.0" text="Country" />
-      <TextField fx:id="customerCountry" layoutX="82.0" layoutY="358.0" prefHeight="25.0" prefWidth="220.0" />
+      <Label layoutX="42.0" layoutY="384.0" text="Name" />
+      <TextField fx:id="contactName" layoutX="93.0" layoutY="380.0" />
+      <Label layoutX="42.0" layoutY="418.0" text="Email" />
+      <TextField fx:id="contactEmail" layoutX="93.0" layoutY="414.0" />
       <Button layoutX="256.0" layoutY="220.0" mnemonicParsing="false" onAction="#Countries" text="Delete" />
-      <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#1f93ff00" height="94.0" layoutX="464.0" layoutY="216.0" stroke="#9e9a9a" strokeType="INSIDE" width="227.0" />
+      <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#1f93ff00" height="94.0" layoutX="34.0" layoutY="354.0" stroke="#9e9a9a" strokeType="INSIDE" width="227.0" />
       <Label fx:id="userLabel" layoutX="71.0" layoutY="36.0" prefHeight="20.0" prefWidth="121.0">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
+      <TableView fx:id="custTable" layoutX="23.0" layoutY="255.0" prefHeight="67.0" prefWidth="830.0">
+        <columns>
+            <TableColumn fx:id="custID" prefWidth="39.0" text="ID" />
+            <TableColumn fx:id="customerName" prefWidth="109.0" text="Name" />
+            <TableColumn fx:id="customerAddress" prefWidth="185.0" text="Address" />
+            <TableColumn fx:id="customerPhone" prefWidth="156.0" text="Phone" />
+            <TableColumn fx:id="customerDiv" prefWidth="116.0" text="State/Province" />
+            <TableColumn fx:id="customerPostal" minWidth="2.0" prefWidth="94.0" text="Postal" />
+            <TableColumn fx:id="customerCountry" minWidth="0.0" prefWidth="130.0" text="Country" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>

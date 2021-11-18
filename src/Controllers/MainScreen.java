@@ -18,6 +18,7 @@ import model.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,7 +27,10 @@ public class MainScreen implements Initializable {
 
     @FXML public ChoiceBox selectUser = new ChoiceBox();
     @FXML public TableView<Appointments> appTable = new TableView();
+    @FXML public TableView custTable = new TableView();
     @FXML public static Label userLabel = new Label("");
+
+
 
     @FXML private TableColumn<Appointments, Integer> ID;
     @FXML private TableColumn<Appointments, String> Title;
@@ -36,12 +40,13 @@ public class MainScreen implements Initializable {
     @FXML private TableColumn<Appointments, String> Start;
     @FXML private TableColumn<Appointments, String> End;
 
-    @FXML private TextField customerName;
-    @FXML private TextField customerAddress;
-    @FXML private TextField customerPostal;
-    @FXML private TextField customerPhone;
-    @FXML private TextField customerDiv;
-    @FXML private TextField customerCountry;
+    @FXML private TableColumn<Customers, Integer> custID;
+    @FXML private TableColumn<Customers, String> customerName;
+    @FXML private TableColumn<Customers, String> customerAddress;
+    @FXML private TableColumn<Customers, String> customerPostal;
+    @FXML private TableColumn<Customers, String> customerPhone;
+    @FXML private TableColumn<Divisions, String> customerDiv;
+    @FXML private TableColumn<Countries, String> customerCountry;
 
     @FXML private TextField contactName;
     @FXML private TextField contactEmail;
@@ -49,7 +54,8 @@ public class MainScreen implements Initializable {
 
     @FXML private ObservableList<User> UserList = FXCollections.observableArrayList();
     @FXML private ObservableList<Appointments> AppList = FXCollections.observableArrayList();
-    @FXML private Customers appCustomer;
+    //@FXML private ObservableList<Customers> appCustomer = FXCollections.observableArrayList();
+
     @FXML private Contact appContact;
     @FXML private Divisions appDiv;
     @FXML private Countries appCountry;
@@ -90,9 +96,27 @@ public class MainScreen implements Initializable {
     private void popAppData() throws Exception {
         if (appTable.getSelectionModel().getSelectedItem() != null) {
             Appointments selectedApp = appTable.getSelectionModel().getSelectedItem();
-            int selectedCustomer = selectedApp.getcustomerId();
-            int selectedContact = selectedApp.getContactId();
+            Customers selectedCustomer = DBCustomers.getCustomerData(selectedApp.getcustomerId());
+            Divisions selectedDiv = DBDivisions.getDivisionData(selectedCustomer.getdivId());
+            Countries selectedCountry = DBCountries.getCountryData(selectedDiv.getCountryId());
+            Contact selectedContact = DBContacts.getContactData(selectedApp.getContactId());
 
+            custTable.getItems().addAll(selectedCustomer.getCustomerId(), selectedCustomer.getCustomerName(), selectedCustomer.getCustomerAddress(), selectedCustomer.getCustomerPhone(), selectedDiv.getDivName(), selectedCustomer.getCustomerPostal(), selectedCountry.getCountryName());
+
+            custID.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+            customerName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+            customerAddress.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));
+            customerPhone.setCellValueFactory(new PropertyValueFactory<>("customerPhone"));
+            customerPostal.setCellValueFactory(new PropertyValueFactory<>("customerPostal"));
+
+            customerDiv.setCellValueFactory(new PropertyValueFactory<>("divName"));
+
+            customerCountry.setCellValueFactory(new PropertyValueFactory<>("countryId"));
+
+            contactName.setText(String.valueOf(selectedContact.getContactName()));
+            contactEmail.setText(String.valueOf(selectedContact.getContactEmail()));
+
+/*
             appCustomer = DBCustomers.getCustomerData(selectedCustomer);
             appContact = DBContacts.getContactData(selectedContact);
             appDiv = DBDivisions.getDivisionData(appCustomer.getdivId());
@@ -105,9 +129,8 @@ public class MainScreen implements Initializable {
             customerPhone.setText(String.valueOf(appCustomer.getCustomerPhone()));
             customerDiv.setText(String.valueOf(appDiv.getDivName()));
             customerCountry.setText(String.valueOf(appCountry.getCountryName()));
+*/
 
-            contactName.setText(String.valueOf(appContact.getContactName()));
-            contactEmail.setText(String.valueOf(appContact.getContactEmail()));
             }
 
     }
@@ -133,6 +156,7 @@ public class MainScreen implements Initializable {
         Type.setCellValueFactory(new PropertyValueFactory<>("appType"));
         Start.setCellValueFactory(new PropertyValueFactory<>("appStart"));
         End.setCellValueFactory(new PropertyValueFactory<>("appEnd"));
+
 
 
     }
