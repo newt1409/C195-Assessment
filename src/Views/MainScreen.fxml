@@ -15,7 +15,6 @@
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Label>
-      <ChoiceBox fx:id="selectUser" layoutX="429.0" layoutY="14.0" onAction="#popUserData" prefWidth="150.0" />
       <TableView fx:id="appTable" layoutX="23.0" layoutY="83.0" prefHeight="121.0" prefWidth="830.0">
         <columns>
           <TableColumn fx:id="ID" prefWidth="39.0" text="ID" />
@@ -48,9 +47,9 @@
       <TextField fx:id="contactEmail" layoutX="93.0" layoutY="414.0" />
       <Button layoutX="256.0" layoutY="220.0" mnemonicParsing="false" onAction="#Countries" text="Delete" />
       <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#1f93ff00" height="94.0" layoutX="34.0" layoutY="354.0" stroke="#9e9a9a" strokeType="INSIDE" width="227.0" />
-      <Label fx:id="userLabel" layoutX="71.0" layoutY="36.0" prefHeight="20.0" prefWidth="121.0">
+      <Label fx:id="userLabel" layoutX="80.0" layoutY="18.0" prefHeight="20.0" prefWidth="121.0" text="admin">
          <font>
-            <Font size="14.0" />
+            <Font name="System Bold Italic" size="18.0" />
          </font>
       </Label>
       <TableView fx:id="custTable" layoutX="23.0" layoutY="255.0" prefHeight="67.0" prefWidth="830.0">

@@ -87,7 +87,7 @@ public class DBCustomers {
     public static void addCustomerData(String custName, String custAddress, String custPostal, String custPhone, int divId) throws SQLException, Exception{
         try {
 
-            String createdBy = MainScreen.userLabel.getText();
+            String createdBy = MainScreen.validUser.getUserName();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             //Calendar createDateCalendar = stringToCalendar(LocalDateTime.now().toString());
             //Calendar lastUpdateCalendar = stringToCalendar(LocalDateTime.now().toString());

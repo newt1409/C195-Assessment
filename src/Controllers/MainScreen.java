@@ -28,7 +28,8 @@ public class MainScreen implements Initializable {
     @FXML public ChoiceBox selectUser = new ChoiceBox();
     @FXML public TableView<Appointments> appTable = new TableView();
     @FXML public TableView custTable = new TableView();
-    @FXML public static Label userLabel = new Label("");
+    @FXML public Label userLabel = new Label("");
+    @FXML public static User validUser;
 
 
 
@@ -76,12 +77,22 @@ public class MainScreen implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             UserList.addAll(DBUsers.getAllUsers());
+            validUser = LoginController.getValidUser();
+            AppList.addAll(DBAppointments.getUserAppointments(validUser.getUserId()));
         } catch (Exception ex) {
             Logger.getLogger(addCustomer.class.getName()).log(Level.SEVERE, null, ex);
         }
-        for (User u : UserList) {
-            selectUser.getItems().add(u.getUserName());
-        }
+        System.out.println(LoginController.getValidUser().getUserName());
+        userLabel.setText(validUser.getUserName());
+        //AppList.clear();
+        appTable.setItems(AppList);
+        ID.setCellValueFactory(new PropertyValueFactory<>("appId"));
+        Title.setCellValueFactory(new PropertyValueFactory<>("appTitle"));
+        Description.setCellValueFactory(new PropertyValueFactory<>("appDesc"));
+        Location.setCellValueFactory(new PropertyValueFactory<>("appLocation"));
+        Type.setCellValueFactory(new PropertyValueFactory<>("appType"));
+        Start.setCellValueFactory(new PropertyValueFactory<>("appStart"));
+        End.setCellValueFactory(new PropertyValueFactory<>("appEnd"));
         appTable.setOnMouseClicked((MouseEvent event) -> {
             if (event.getClickCount() == 1) {
                 try {
@@ -135,31 +146,6 @@ public class MainScreen implements Initializable {
 
     }
 
-    public void popUserData(ActionEvent actionEvent) throws Exception {
-        AppList.clear();
-        try {
-            UserList.addAll(DBUsers.getAllUsers());
-        } catch (Exception ex) {
-            Logger.getLogger(addCustomer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        for (User u : UserList) {
-            if (u.getUserName() == selectUser.getValue()) {
-                AppList.addAll(DBAppointments.getUserAppointments(u.getUserId()));
-                userLabel.setText(u.getUserName());
-            }
-        }
-        appTable.setItems(AppList);
-        ID.setCellValueFactory(new PropertyValueFactory<>("appId"));
-        Title.setCellValueFactory(new PropertyValueFactory<>("appTitle"));
-        Description.setCellValueFactory(new PropertyValueFactory<>("appDesc"));
-        Location.setCellValueFactory(new PropertyValueFactory<>("appLocation"));
-        Type.setCellValueFactory(new PropertyValueFactory<>("appType"));
-        Start.setCellValueFactory(new PropertyValueFactory<>("appStart"));
-        End.setCellValueFactory(new PropertyValueFactory<>("appEnd"));
-
-
-
-    }
 
     public void Countries(ActionEvent actionEvent) throws IOException {
         //change scenes
