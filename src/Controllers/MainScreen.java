@@ -27,7 +27,7 @@ import java.util.logging.Logger;
 public class MainScreen implements Initializable {
 
     @FXML public TableView<Appointments> appTable = new TableView<>();
-    @FXML public TableView custTable = new TableView<>();
+    @FXML public TableView<Wrapper> custTable = new TableView<>();
     @FXML public Label userLabel = new Label("");
     @FXML public static User validUser;
 
@@ -39,13 +39,13 @@ public class MainScreen implements Initializable {
     @FXML private TableColumn<Appointments, String> Start;
     @FXML private TableColumn<Appointments, String> End;
 
-    @FXML private TableColumn<Customers, Integer> custID;
-    @FXML private TableColumn<Customers, String> custName;
-    @FXML private TableColumn<Customers, String> custAddress;
-    @FXML private TableColumn<Customers, String> custPostal;
-    @FXML private TableColumn<Customers, String> custPhone;
-    @FXML private TableColumn<Divisions, String> custDiv;
-    @FXML private TableColumn<Countries, String> custCountry;
+    @FXML private TableColumn<Wrapper, Integer> custID;
+    @FXML private TableColumn<Wrapper, String> custName;
+    @FXML private TableColumn<Wrapper, String> custAddress;
+    @FXML private TableColumn<Wrapper, String> custPostal;
+    @FXML private TableColumn<Wrapper, String> custPhone;
+    @FXML private TableColumn<Wrapper, String> custDiv;
+    @FXML private TableColumn<Wrapper, String> custCountry;
 
     @FXML private TextField contactName;
     @FXML private TextField contactEmail;
@@ -53,9 +53,9 @@ public class MainScreen implements Initializable {
 
     @FXML private ObservableList<User> UserList = FXCollections.observableArrayList();
     @FXML private ObservableList<Appointments> AppList = FXCollections.observableArrayList();
-    @FXML private ObservableList appCustomer = FXCollections.observableArrayList();
-    //@FXML private ObservableList<Divisions> appDiv = FXCollections.observableArrayList();
-    //@FXML private ObservableList<Countries> appCountry = FXCollections.observableArrayList();
+    @FXML private Customers appCustomer;
+    @FXML private Divisions appDiv;
+    @FXML private Countries appCountry;
 
 
 
@@ -107,37 +107,29 @@ public class MainScreen implements Initializable {
 
     private void popAppData() throws Exception {
         if (appTable.getSelectionModel().getSelectedItem() != null) {
-            /*
             try {
-                appCustomer.addAll(DBCustomers.getCustomerData(appTable.getSelectionModel().getSelectedItem().getcustomerId()));
-                appDiv.addAll(DBDivisions.getDivisionData(appCustomer.get(0).getdivId()));
-                appCountry.addAll(DBCountries.getCountryData(appDiv.get(0).getCountryId()));
-            } catch (Exception ex) {
-                Logger.getLogger(addCustomer.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
+                Integer custInt = appTable.getSelectionModel().getSelectedItem().getcustomerId();
+                Integer divInt = DBCustomers.getCustomerData(custInt).getdivId();
+                Integer countryInt = DBDivisions.getDivisionData(divInt).getCountryId();
+                appCustomer = DBCustomers.getCustomerData(custInt);
+                appDiv = DBDivisions.getDivisionData(divInt);
+                appCountry = DBCountries.getCountryData(countryInt);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+            Wrapper rapper = new Wrapper(appCustomer, appDiv, appCountry);
+            ObservableList<Wrapper> tableWrapper = null;
+            tableWrapper.setAll(rapper);
+            custTable.setItems(tableWrapper);
+            //custTable.getItems().add(DBDivisions.getDivisionData(DBCustomers.getCustomerData(appTable.getSelectionModel().getSelectedItem().getcustomerId())).getDivId())
 
-            Appointments selectedApp = appTable.getSelectionModel().getSelectedItem();
-            Customers selectedCustomer = DBCustomers.getCustomerData(selectedApp.getcustomerId());
-            assert selectedCustomer != null;
-            Divisions selectedDiv = DBDivisions.getDivisionData(selectedCustomer.getdivId());
-            assert selectedDiv != null;
-            Countries selectedCountry = DBCountries.getCountryData(selectedDiv.getCountryId());
-            Contact selectedContact = DBContacts.getContactData(selectedApp.getContactId());
-            //custTable.getItems().addAll(selectedCustomer.getCustomerId(), selectedCustomer.getCustName(), selectedCustomer.getCustAddress(), selectedCustomer.getCustPhone(), selectedDiv.getDivName(), selectedCustomer.getCustPostal(), selectedCountry.getCountryName());
-            appCustomer.addAll(selectedCustomer.getId(), selectedCustomer.getCustName(), selectedCustomer.getCustAddress(), selectedCustomer.getCustPhone(), selectedDiv.getDivName(), selectedCustomer.getCustPostal(), selectedCountry.getCountryName());
-
-            System.out.println(appCustomer);
-            custTable.setItems(appCustomer);
-
-            custID.setCellValueFactory(new PropertyValueFactory<Customers, Integer>("id"));
-
-            /*custName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
-            custAddress.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));
-            custPhone.setCellValueFactory(new PropertyValueFactory<>("customerPhone"));
-            custPostal.setCellValueFactory(new PropertyValueFactory<>("customerPostal"));
-            custDiv.setCellValueFactory(new PropertyValueFactory<>("divName"));
-            custCountry.setCellValueFactory(new PropertyValueFactory<>("countryId"));
-*/
+            custID.setCellValueFactory(new PropertyValueFactory<Wrapper, Integer>("customerId"));
+            custName.setCellValueFactory(new PropertyValueFactory<Wrapper, String>("customerName"));
+            custAddress.setCellValueFactory(new PropertyValueFactory<Wrapper, String>("customerAddress"));
+            custPhone.setCellValueFactory(new PropertyValueFactory<Wrapper, String>("customerPhone"));
+            custPostal.setCellValueFactory(new PropertyValueFactory<Wrapper, String>("customerPostal"));
+            custDiv.setCellValueFactory(new PropertyValueFactory<Wrapper, String>("divName"));
+            custCountry.setCellValueFactory(new PropertyValueFactory<Wrapper, String>("countryName"));
 
 
 
@@ -147,8 +139,9 @@ public class MainScreen implements Initializable {
 
 
 
-            contactName.setText(String.valueOf(selectedContact.getContactName()));
-            contactEmail.setText(String.valueOf(selectedContact.getContactEmail()));
+
+            contactName.setText(String.valueOf(DBContacts.getContactData(appTable.getSelectionModel().getSelectedItem().getcustomerId()).getContactName()));
+            contactEmail.setText(String.valueOf(DBContacts.getContactData(appTable.getSelectionModel().getSelectedItem().getcustomerId()).getContactEmail()));
 
 /*
             appCustomer = DBCustomers.getCustomerData(selectedCustomer);

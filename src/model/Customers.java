@@ -16,7 +16,7 @@ import java.util.Calendar;
  * @author carolyn.sher
  */
 public class Customers {
-    private int id;
+    private int customerId;
     private String customerName;
     private String customerAddress;
     private String customerPostal;
@@ -30,7 +30,7 @@ public class Customers {
     private int divId;
 
     public Customers(int custID, String custName, String custAddress, String custPostal, String custPhone, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy, int divId) {
-        this.id = custID;
+        this.customerId = custID;
         this.customerName = custName;
         this.customerAddress = custAddress;
         this.customerPostal = custPostal;
@@ -43,10 +43,11 @@ public class Customers {
 
         this.divId = divId;
     }
+
     /**
      * @return the appId
      */
-    public int getId() { return this.id; }
+    public int getCustomerId() { return customerId; }
     /**
      * @return the divId
      */
@@ -56,16 +57,16 @@ public class Customers {
     /**
      * @return the userName
      */
-    public String getCustName() {
+    public String getCustomerName() {
         return customerName;
     }
-    public String getCustAddress() {
+    public String getCustomerAddress() {
         return customerAddress;
     }
-    public String getCustPostal() {
+    public String getCustomerPostal() {
         return customerPostal;
     }
-    public String getCustPhone() { return customerPhone; }
+    public String getCustomerPhone() { return customerPhone; }
     /**
      * @return the createDate
      */
