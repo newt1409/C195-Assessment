@@ -52,15 +52,15 @@
             <Font name="System Bold Italic" size="18.0" />
          </font>
       </Label>
-      <TableView fx:id="custTable" layoutX="23.0" layoutY="255.0" prefHeight="67.0" prefWidth="830.0">
+      <TableView fx:id="custTable" layoutX="23.0" layoutY="247.0" prefHeight="101.0" prefWidth="830.0">
         <columns>
-            <TableColumn fx:id="custID" prefWidth="39.0" text="ID" />
-            <TableColumn fx:id="customerName" prefWidth="109.0" text="Name" />
-            <TableColumn fx:id="customerAddress" prefWidth="185.0" text="Address" />
-            <TableColumn fx:id="customerPhone" prefWidth="156.0" text="Phone" />
-            <TableColumn fx:id="customerDiv" prefWidth="116.0" text="State/Province" />
-            <TableColumn fx:id="customerPostal" minWidth="2.0" prefWidth="94.0" text="Postal" />
-            <TableColumn fx:id="customerCountry" minWidth="0.0" prefWidth="130.0" text="Country" />
+          <TableColumn fx:id="custID" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="custName" prefWidth="75.0" text="Name" />
+            <TableColumn fx:id="custAddress" prefWidth="75.0" text="Address" />
+            <TableColumn fx:id="custPhone" prefWidth="75.0" text="Phone" />
+            <TableColumn fx:id="custDiv" prefWidth="75.0" text="State/Province" />
+            <TableColumn fx:id="custPostal" prefWidth="75.0" text="Postal" />
+            <TableColumn fx:id="custCountry" prefWidth="75.0" text="Country" />
         </columns>
       </TableView>
    </children>

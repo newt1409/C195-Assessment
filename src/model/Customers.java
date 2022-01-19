@@ -4,6 +4,11 @@ package model;/*
  * and open the template in the editor.
  */
 
+import com.mysql.cj.conf.IntegerProperty;
+import com.mysql.cj.conf.StringProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 import java.util.Calendar;
 
 /**
@@ -11,7 +16,7 @@ import java.util.Calendar;
  * @author carolyn.sher
  */
 public class Customers {
-    private int customerId;
+    private int id;
     private String customerName;
     private String customerAddress;
     private String customerPostal;
@@ -24,12 +29,12 @@ public class Customers {
 
     private int divId;
 
-    public Customers(int customerId, String customerName, String customerAddress, String customerPostal, String customerPhone, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy, int divId) {
-        this.customerId = customerId;
-        this.customerName = customerName;
-        this.customerAddress = customerAddress;
-        this.customerPostal = customerPostal;
-        this.customerPhone = customerPhone;
+    public Customers(int custID, String custName, String custAddress, String custPostal, String custPhone, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy, int divId) {
+        this.id = custID;
+        this.customerName = custName;
+        this.customerAddress = custAddress;
+        this.customerPostal = custPostal;
+        this.customerPhone = custPhone;
 
         this.createDate = createDate;
         this.createdBy = createdBy;
@@ -41,9 +46,7 @@ public class Customers {
     /**
      * @return the appId
      */
-    public int getCustomerId() {
-        return customerId;
-    }
+    public int getId() { return this.id; }
     /**
      * @return the divId
      */
@@ -53,16 +56,16 @@ public class Customers {
     /**
      * @return the userName
      */
-    public String getCustomerName() {
+    public String getCustName() {
         return customerName;
     }
-    public String getCustomerAddress() {
+    public String getCustAddress() {
         return customerAddress;
     }
-    public String getCustomerPostal() {
+    public String getCustPostal() {
         return customerPostal;
     }
-    public String getCustomerPhone() { return customerPhone; }
+    public String getCustPhone() { return customerPhone; }
     /**
      * @return the createDate
      */

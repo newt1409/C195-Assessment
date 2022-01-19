@@ -1,6 +1,7 @@
 package Controllers;
 
 import Database.*;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,24 +15,21 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import model.*;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MainScreen implements Initializable {
 
-    @FXML public ChoiceBox selectUser = new ChoiceBox();
-    @FXML public TableView<Appointments> appTable = new TableView();
-    @FXML public TableView custTable = new TableView();
+    @FXML public TableView<Appointments> appTable = new TableView<>();
+    @FXML public TableView custTable = new TableView<>();
     @FXML public Label userLabel = new Label("");
     @FXML public static User validUser;
-
-
 
     @FXML private TableColumn<Appointments, Integer> ID;
     @FXML private TableColumn<Appointments, String> Title;
@@ -42,12 +40,12 @@ public class MainScreen implements Initializable {
     @FXML private TableColumn<Appointments, String> End;
 
     @FXML private TableColumn<Customers, Integer> custID;
-    @FXML private TableColumn<Customers, String> customerName;
-    @FXML private TableColumn<Customers, String> customerAddress;
-    @FXML private TableColumn<Customers, String> customerPostal;
-    @FXML private TableColumn<Customers, String> customerPhone;
-    @FXML private TableColumn<Divisions, String> customerDiv;
-    @FXML private TableColumn<Countries, String> customerCountry;
+    @FXML private TableColumn<Customers, String> custName;
+    @FXML private TableColumn<Customers, String> custAddress;
+    @FXML private TableColumn<Customers, String> custPostal;
+    @FXML private TableColumn<Customers, String> custPhone;
+    @FXML private TableColumn<Divisions, String> custDiv;
+    @FXML private TableColumn<Countries, String> custCountry;
 
     @FXML private TextField contactName;
     @FXML private TextField contactEmail;
@@ -55,11 +53,14 @@ public class MainScreen implements Initializable {
 
     @FXML private ObservableList<User> UserList = FXCollections.observableArrayList();
     @FXML private ObservableList<Appointments> AppList = FXCollections.observableArrayList();
-    //@FXML private ObservableList<Customers> appCustomer = FXCollections.observableArrayList();
+    @FXML private ObservableList appCustomer = FXCollections.observableArrayList();
+    //@FXML private ObservableList<Divisions> appDiv = FXCollections.observableArrayList();
+    //@FXML private ObservableList<Countries> appCountry = FXCollections.observableArrayList();
+
+
 
     @FXML private Contact appContact;
-    @FXML private Divisions appDiv;
-    @FXML private Countries appCountry;
+
 
 
 
@@ -106,23 +107,45 @@ public class MainScreen implements Initializable {
 
     private void popAppData() throws Exception {
         if (appTable.getSelectionModel().getSelectedItem() != null) {
+            /*
+            try {
+                appCustomer.addAll(DBCustomers.getCustomerData(appTable.getSelectionModel().getSelectedItem().getcustomerId()));
+                appDiv.addAll(DBDivisions.getDivisionData(appCustomer.get(0).getdivId()));
+                appCountry.addAll(DBCountries.getCountryData(appDiv.get(0).getCountryId()));
+            } catch (Exception ex) {
+                Logger.getLogger(addCustomer.class.getName()).log(Level.SEVERE, null, ex);
+            }*/
+
             Appointments selectedApp = appTable.getSelectionModel().getSelectedItem();
             Customers selectedCustomer = DBCustomers.getCustomerData(selectedApp.getcustomerId());
+            assert selectedCustomer != null;
             Divisions selectedDiv = DBDivisions.getDivisionData(selectedCustomer.getdivId());
+            assert selectedDiv != null;
             Countries selectedCountry = DBCountries.getCountryData(selectedDiv.getCountryId());
             Contact selectedContact = DBContacts.getContactData(selectedApp.getContactId());
+            //custTable.getItems().addAll(selectedCustomer.getCustomerId(), selectedCustomer.getCustName(), selectedCustomer.getCustAddress(), selectedCustomer.getCustPhone(), selectedDiv.getDivName(), selectedCustomer.getCustPostal(), selectedCountry.getCountryName());
+            appCustomer.addAll(selectedCustomer.getId(), selectedCustomer.getCustName(), selectedCustomer.getCustAddress(), selectedCustomer.getCustPhone(), selectedDiv.getDivName(), selectedCustomer.getCustPostal(), selectedCountry.getCountryName());
 
-            custTable.getItems().addAll(selectedCustomer.getCustomerId(), selectedCustomer.getCustomerName(), selectedCustomer.getCustomerAddress(), selectedCustomer.getCustomerPhone(), selectedDiv.getDivName(), selectedCustomer.getCustomerPostal(), selectedCountry.getCountryName());
+            System.out.println(appCustomer);
+            custTable.setItems(appCustomer);
 
-            custID.setCellValueFactory(new PropertyValueFactory<>("customerId"));
-            customerName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
-            customerAddress.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));
-            customerPhone.setCellValueFactory(new PropertyValueFactory<>("customerPhone"));
-            customerPostal.setCellValueFactory(new PropertyValueFactory<>("customerPostal"));
+            custID.setCellValueFactory(new PropertyValueFactory<Customers, Integer>("id"));
 
-            customerDiv.setCellValueFactory(new PropertyValueFactory<>("divName"));
+            /*custName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+            custAddress.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));
+            custPhone.setCellValueFactory(new PropertyValueFactory<>("customerPhone"));
+            custPostal.setCellValueFactory(new PropertyValueFactory<>("customerPostal"));
+            custDiv.setCellValueFactory(new PropertyValueFactory<>("divName"));
+            custCountry.setCellValueFactory(new PropertyValueFactory<>("countryId"));
+*/
 
-            customerCountry.setCellValueFactory(new PropertyValueFactory<>("countryId"));
+
+
+
+
+
+
+
 
             contactName.setText(String.valueOf(selectedContact.getContactName()));
             contactEmail.setText(String.valueOf(selectedContact.getContactEmail()));
