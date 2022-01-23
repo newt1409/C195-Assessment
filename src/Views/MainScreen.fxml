@@ -55,7 +55,7 @@
       <TableView fx:id="custTable" editable="true" layoutX="23.0" layoutY="247.0" prefHeight="101.0" prefWidth="830.0">
         <columns>
           <TableColumn fx:id="custID" prefWidth="35.0" text="ID" />
-          <TableColumn fx:id="custName" prefWidth="134.0" text="Name" />
+          <TableColumn fx:id="custNam" prefWidth="134.0" text="Name" />
             <TableColumn fx:id="custAddress" prefWidth="192.0" text="Address" />
             <TableColumn fx:id="custPhone" prefWidth="117.0" text="Phone" />
             <TableColumn fx:id="custDiv" prefWidth="127.0" text="State/Province" />
