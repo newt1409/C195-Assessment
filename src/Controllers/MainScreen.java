@@ -27,7 +27,7 @@ import java.util.logging.Logger;
 public class MainScreen implements Initializable {
 
     @FXML public TableView<Appointments> appTable = new TableView<>();
-    @FXML public TableView<Wrapper> custTable = new TableView<>();
+    @FXML public TableView<Customers> custTable = new TableView<>();
     @FXML public Label userLabel = new Label("");
     @FXML public static User validUser;
 
@@ -39,13 +39,13 @@ public class MainScreen implements Initializable {
     @FXML private TableColumn<Appointments, String> Start;
     @FXML private TableColumn<Appointments, String> End;
 
-    @FXML private TableColumn<Wrapper, Integer> custID;
-    @FXML private TableColumn<Wrapper, String> custName;
-    @FXML private TableColumn<Wrapper, String> custAddress;
-    @FXML private TableColumn<Wrapper, String> custPostal;
-    @FXML private TableColumn<Wrapper, String> custPhone;
-    @FXML private TableColumn<Wrapper, String> custDiv;
-    @FXML private TableColumn<Wrapper, String> custCountry;
+    @FXML private TableColumn<Customers, Integer> custID;
+    @FXML private TableColumn<Customers, String> custName;
+    @FXML private TableColumn<Customers, String> custAddress;
+    @FXML private TableColumn<Customers, String> custPostal;
+    @FXML private TableColumn<Customers, String> custPhone;
+    @FXML private TableColumn<Customers, String> custDiv;
+    @FXML private TableColumn<Customers, String> custCountry;
 
     @FXML private TextField contactName;
     @FXML private TextField contactEmail;
@@ -109,27 +109,27 @@ public class MainScreen implements Initializable {
         if (appTable.getSelectionModel().getSelectedItem() != null) {
             try {
                 Integer custInt = appTable.getSelectionModel().getSelectedItem().getcustomerId();
-                Integer divInt = DBCustomers.getCustomerData(custInt).getdivId();
-                Integer countryInt = DBDivisions.getDivisionData(divInt).getCountryId();
+                //Integer divInt = DBCustomers.getCustomerData(custInt).getdivId();
+                //Integer countryInt = DBDivisions.getDivisionData(divInt).getCountryId();
                 appCustomer = DBCustomers.getCustomerData(custInt);
-                appDiv = DBDivisions.getDivisionData(divInt);
-                appCountry = DBCountries.getCountryData(countryInt);
+                //appDiv = DBDivisions.getDivisionData(divInt);
+                //appCountry = DBCountries.getCountryData(countryInt);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-            Wrapper rapper = new Wrapper(appCustomer, appDiv, appCountry);
-            ObservableList<Wrapper> tableWrapper = null;
-            tableWrapper.setAll(rapper);
-            custTable.setItems(tableWrapper);
+            //Wrapper rapper = new Wrapper(appCustomer, appDiv, appCountry);
+            //ObservableList tableWrapper = null;
+            //tableWrapper.setAll(rapper);
+            custTable.getItems().add(appCustomer);
             //custTable.getItems().add(DBDivisions.getDivisionData(DBCustomers.getCustomerData(appTable.getSelectionModel().getSelectedItem().getcustomerId())).getDivId())
 
-            custID.setCellValueFactory(new PropertyValueFactory<Wrapper, Integer>("customerId"));
-            custName.setCellValueFactory(new PropertyValueFactory<Wrapper, String>("customerName"));
-            custAddress.setCellValueFactory(new PropertyValueFactory<Wrapper, String>("customerAddress"));
-            custPhone.setCellValueFactory(new PropertyValueFactory<Wrapper, String>("customerPhone"));
-            custPostal.setCellValueFactory(new PropertyValueFactory<Wrapper, String>("customerPostal"));
-            custDiv.setCellValueFactory(new PropertyValueFactory<Wrapper, String>("divName"));
-            custCountry.setCellValueFactory(new PropertyValueFactory<Wrapper, String>("countryName"));
+            custID.setCellValueFactory(new PropertyValueFactory<Customers, Integer>("customerId"));
+            custName.setCellValueFactory(new PropertyValueFactory<Customers, String>("customerName"));
+            custAddress.setCellValueFactory(new PropertyValueFactory<Customers, String>("customerAddress"));
+            custPhone.setCellValueFactory(new PropertyValueFactory<Customers, String>("customerPhone"));
+            custPostal.setCellValueFactory(new PropertyValueFactory<Customers, String>("customerPostal"));
+            custDiv.setCellValueFactory(new PropertyValueFactory<Customers, String>("customerDivision"));
+            custCountry.setCellValueFactory(new PropertyValueFactory<Customers, String>("customerCountry"));
 
 
 
