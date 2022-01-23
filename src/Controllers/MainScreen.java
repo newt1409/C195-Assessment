@@ -109,20 +109,12 @@ public class MainScreen implements Initializable {
         if (appTable.getSelectionModel().getSelectedItem() != null) {
             try {
                 Integer custInt = appTable.getSelectionModel().getSelectedItem().getcustomerId();
-                //Integer divInt = DBCustomers.getCustomerData(custInt).getdivId();
-                //Integer countryInt = DBDivisions.getDivisionData(divInt).getCountryId();
                 appCustomer = DBCustomers.getCustomerData(custInt);
-                //appDiv = DBDivisions.getDivisionData(divInt);
-                //appCountry = DBCountries.getCountryData(countryInt);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-            //Wrapper rapper = new Wrapper(appCustomer, appDiv, appCountry);
-            //ObservableList tableWrapper = null;
-            //tableWrapper.setAll(rapper);
+            custTable.getItems().clear();
             custTable.getItems().add(appCustomer);
-            //custTable.getItems().add(DBDivisions.getDivisionData(DBCustomers.getCustomerData(appTable.getSelectionModel().getSelectedItem().getcustomerId())).getDivId())
-
             custID.setCellValueFactory(new PropertyValueFactory<Customers, Integer>("customerId"));
             custName.setCellValueFactory(new PropertyValueFactory<Customers, String>("customerName"));
             custAddress.setCellValueFactory(new PropertyValueFactory<Customers, String>("customerAddress"));
@@ -130,36 +122,9 @@ public class MainScreen implements Initializable {
             custPostal.setCellValueFactory(new PropertyValueFactory<Customers, String>("customerPostal"));
             custDiv.setCellValueFactory(new PropertyValueFactory<Customers, String>("customerDivision"));
             custCountry.setCellValueFactory(new PropertyValueFactory<Customers, String>("customerCountry"));
-
-
-
-
-
-
-
-
-
-
             contactName.setText(String.valueOf(DBContacts.getContactData(appTable.getSelectionModel().getSelectedItem().getcustomerId()).getContactName()));
             contactEmail.setText(String.valueOf(DBContacts.getContactData(appTable.getSelectionModel().getSelectedItem().getcustomerId()).getContactEmail()));
-
-/*
-            appCustomer = DBCustomers.getCustomerData(selectedCustomer);
-            appContact = DBContacts.getContactData(selectedContact);
-            appDiv = DBDivisions.getDivisionData(appCustomer.getdivId());
-            appCountry = DBCountries.getCountryData(appDiv.getCountryId());
-
-
-            customerName.setText(String.valueOf(appCustomer.getCustomerName()));
-            customerAddress.setText(String.valueOf(appCustomer.getCustomerAddress()));
-            customerPostal.setText(String.valueOf(appCustomer.getCustomerPostal()));
-            customerPhone.setText(String.valueOf(appCustomer.getCustomerPhone()));
-            customerDiv.setText(String.valueOf(appDiv.getDivName()));
-            customerCountry.setText(String.valueOf(appCountry.getCountryName()));
-*/
-
             }
-
     }
 
 
