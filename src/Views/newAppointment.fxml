@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="268.0" prefWidth="281.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AppointmentsController">
+   <children>
+      <TextField fx:id="appID" editable="false" layoutX="111.0" layoutY="107.0" prefHeight="25.0" prefWidth="114.0" />
+      <Label layoutX="43.0" layoutY="55.0" text="ID" />
+      <Label layoutX="54.0" layoutY="14.0" text="New Appointment">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="42.0" layoutY="83.0" text="Title" />
+      <Label layoutX="42.0" layoutY="109.0" text="Description" />
+      <Label layoutX="42.0" layoutY="136.0" text="Location" />
+      <Label layoutX="42.0" layoutY="164.0" text="Type" />
+      <Label layoutX="42.0" layoutY="191.0" text="Start" />
+      <Label layoutX="43.0" layoutY="218.0" text="Stop" />
+      <TextField fx:id="appID1" editable="false" layoutX="111.0" layoutY="80.0" prefHeight="25.0" prefWidth="114.0" />
+      <TextField fx:id="appID11" editable="false" layoutX="111.0" layoutY="53.0" prefHeight="25.0" prefWidth="114.0" />
+      <TextField fx:id="appID2" editable="false" layoutX="111.0" layoutY="134.0" prefHeight="25.0" prefWidth="114.0" />
+      <TextField fx:id="appID21" editable="false" layoutX="111.0" layoutY="161.0" prefHeight="25.0" prefWidth="114.0" />
+      <TextField fx:id="appID211" editable="false" layoutX="111.0" layoutY="188.0" prefHeight="25.0" prefWidth="114.0" />
+      <TextField fx:id="appID2111" editable="false" layoutX="111.0" layoutY="215.0" prefHeight="25.0" prefWidth="114.0" />
+      <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#0a0a0a00" height="241.0" layoutX="33.0" layoutY="9.0" stroke="BLACK" strokeType="INSIDE" width="216.0" />
+   </children>
+</AnchorPane>

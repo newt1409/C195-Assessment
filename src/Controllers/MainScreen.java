@@ -127,18 +127,6 @@ public class MainScreen implements Initializable {
             }
     }
 
-
-    public void Countries(ActionEvent actionEvent) throws IOException {
-        //change scenes
-        Parent root = FXMLLoader.load(getClass().getResource("../Views/Appointments.fxml"));
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 800, 500);
-        stage.setTitle("Add Part");
-        stage.setScene(scene);
-        stage.show();
-    }
-
-
     public void addCustomer(ActionEvent actionEvent) throws IOException {
         //change scenes
         Parent root = FXMLLoader.load(getClass().getResource("../Views/addCustomer.fxml"));
@@ -148,4 +136,19 @@ public class MainScreen implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+    public void modCustomer(ActionEvent actionEvent) {
+    }
+
+    public void delCustomer(ActionEvent actionEvent) {
+    }
+
+    public void addApp(ActionEvent actionEvent) {
+    }
+
+    public void modApp(ActionEvent actionEvent) {
+    }
+
+    public void delApp(ActionEvent actionEvent) {
+    }
+
 }
