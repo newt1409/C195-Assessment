@@ -56,10 +56,10 @@ public class MainScreen implements Initializable {
     @FXML private Customers appCustomer;
     @FXML private Divisions appDiv;
     @FXML private Countries appCountry;
-
-
-
     @FXML private Contact appContact;
+
+    @FXML private static int modCustomerId;
+    @FXML public static Integer getModCustomerId () { return modCustomerId; }
 
 
 
@@ -129,14 +129,31 @@ public class MainScreen implements Initializable {
 
     public void addCustomer(ActionEvent actionEvent) throws IOException {
         //change scenes
-        Parent root = FXMLLoader.load(getClass().getResource("../Views/addCustomer.fxml"));
+        if (appTable.getSelectionModel().getSelectedItem() == null)
+        {
+            error_message("No Appointment was selected");
+        } else if (appTable.getSelectionModel().getSelectedItem().getcustomerId() != 0) {
+            error_message("You cannot add more than one customer per appointment");
+        } else {
+            Parent root = FXMLLoader.load(getClass().getResource("../Views/addCustomer.fxml"));
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root, 270, 320);
+            stage.setTitle("Add Customer");
+            stage.setScene(scene);
+            stage.show();
+        }
+    }
+    public void modCustomer(ActionEvent actionEvent) throws IOException {
+        //change scenes
+        if (custTable.getSelectionModel().getSelectedItem() != null) {
+            modCustomerId = custTable.getSelectionModel().getSelectedItem().getCustomerId();
+        }
+        Parent root = FXMLLoader.load(getClass().getResource("../Views/modCustomer.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 270, 320);
         stage.setTitle("Add Customer");
         stage.setScene(scene);
         stage.show();
-    }
-    public void modCustomer(ActionEvent actionEvent) {
     }
 
     public void delCustomer(ActionEvent actionEvent) {
@@ -150,5 +167,18 @@ public class MainScreen implements Initializable {
 
     public void delApp(ActionEvent actionEvent) {
     }
+
+    private void error_message (String inMsg) {
+       Alert alert = new Alert(Alert.AlertType.INFORMATION);
+       alert.setTitle("Error");
+       alert.setHeaderText(inMsg);
+       alert.setContentText("click ok to return");
+       alert.showAndWait().ifPresent(rs -> {
+           if (rs == ButtonType.OK) {
+               System.out.println("Pressed OK.");
+           }
+       });
+    }
+
 
 }

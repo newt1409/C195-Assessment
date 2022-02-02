@@ -99,4 +99,21 @@ public class DBCustomers {
             throwables.printStackTrace();
         }
     }
+
+    public static void modCustomerData(int custId, String custName, String custAddress, String custPostal, String custPhone, int divId) throws SQLException, Exception{
+        try {
+
+            String modifiedBy = MainScreen.validUser.getUserName();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            //Calendar createDateCalendar = stringToCalendar(LocalDateTime.now().toString());
+            //Calendar lastUpdateCalendar = stringToCalendar(LocalDateTime.now().toString());
+            String sql = "update customers set Customer_Name = '" + custName + "', Address = '" + custAddress + "', Postal_Code = '" +
+                          custPostal + "', Phone = '" + custPhone + "', Last_Update = '" + LocalDateTime.now().format(formatter) + "', Last_Updated_By = '" +
+                          modifiedBy + "' where Customer_ID = " + custId;
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            int rs = ps.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }

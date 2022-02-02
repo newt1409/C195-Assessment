@@ -7,6 +7,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="311.0" prefWidth="242.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.addCustomer">
    <children>
+      <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#19191a00" height="291.0" layoutX="9.0" layoutY="15.0" stroke="BLACK" strokeType="INSIDE" width="224.0" />
       <Label layoutX="18.0" layoutY="69.0" text="Name" />
       <TextField fx:id="customerName" layoutX="69.0" layoutY="65.0" text="asdf" />
       <Label layoutX="18.0" layoutY="104.0" text="Address" />
@@ -26,6 +27,5 @@
       <Button layoutX="166.0" layoutY="273.0" mnemonicParsing="false" onAction="#goBack" text="Cancel" />
       <ComboBox fx:id="customerDiv" layoutX="102.0" layoutY="134.0" prefHeight="25.0" prefWidth="115.0" />
       <ComboBox fx:id="customerCountry" layoutX="69.0" layoutY="168.0" onAction="#popDiv" prefHeight="25.0" prefWidth="149.0" />
-      <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#19191a00" height="291.0" layoutX="9.0" layoutY="15.0" stroke="BLACK" strokeType="INSIDE" width="224.0" />
    </children>
 </AnchorPane>

@@ -9,7 +9,7 @@
    <children>
       <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#1f93ff00" height="60.0" layoutX="24.0" layoutY="53.0" stroke="#9e9a9a" strokeType="INSIDE" width="288.0" />
       <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#1f93ff00" height="60.0" layoutX="24.0" layoutY="215.0" stroke="#9e9a9a" strokeType="INSIDE" width="288.0" />
-      <Button layoutX="144.0" layoutY="220.0" mnemonicParsing="false" onAction="#addCustomer" text="New" />
+      <Button layoutX="144.0" layoutY="220.0" mnemonicParsing="false" onAction="#addCustomer" text="Add" />
       <Button layoutX="193.0" layoutY="220.0" mnemonicParsing="false" onAction="#modCustomer" text="Modify" />
       <Label layoutX="32.0" layoutY="22.0" text="User:">
          <font>
