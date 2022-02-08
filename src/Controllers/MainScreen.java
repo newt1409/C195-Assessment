@@ -137,7 +137,7 @@ public class MainScreen implements Initializable {
         } else {
             Parent root = FXMLLoader.load(getClass().getResource("../Views/addCustomer.fxml"));
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root, 270, 320);
+            Scene scene = new Scene(root, 240, 330);
             stage.setTitle("Add Customer");
             stage.setScene(scene);
             stage.show();
@@ -150,16 +150,43 @@ public class MainScreen implements Initializable {
         }
         Parent root = FXMLLoader.load(getClass().getResource("../Views/modCustomer.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 270, 320);
+        Scene scene = new Scene(root, 240, 330);
         stage.setTitle("Add Customer");
         stage.setScene(scene);
         stage.show();
     }
 
     public void delCustomer(ActionEvent actionEvent) {
+        if (custTable.getSelectionModel().getSelectedItem() != null) {
+            modCustomerId = custTable.getSelectionModel().getSelectedItem().getCustomerId();
+            ButtonType foo = new ButtonType("DELETE", ButtonBar.ButtonData.OK_DONE);
+            ButtonType bar = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Alert alert = new Alert(Alert.AlertType.WARNING, "", foo, bar);
+            alert.setTitle("WARNING");
+            alert.setHeaderText("Are you sure you want to do that?\n THIS WILL DELETE THE ASSOCIATED APPOINTMENT AS WELL!");
+            alert.setContentText("Deleting Record!!");
+            alert.showAndWait().ifPresent(rs -> {
+                if (rs == foo) {
+                    try {
+                        DBCustomers.delCustomerData(modCustomerId);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } else {
+            error_message("No Customer was selected");
+        }
+
     }
 
-    public void addApp(ActionEvent actionEvent) {
+    public void addApp(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("../Views/addAppointment.fxml"));
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root, 240, 330);
+        stage.setTitle("Add Customer");
+        stage.setScene(scene);
+        stage.show();
     }
 
     public void modApp(ActionEvent actionEvent) {
@@ -168,7 +195,7 @@ public class MainScreen implements Initializable {
     public void delApp(ActionEvent actionEvent) {
     }
 
-    private void error_message (String inMsg) {
+    public static void error_message (String inMsg) {
        Alert alert = new Alert(Alert.AlertType.INFORMATION);
        alert.setTitle("Error");
        alert.setHeaderText(inMsg);

@@ -43,8 +43,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class modCustomer implements Initializable {
 
+
     @FXML private ComboBox customerDiv;
     @FXML private ComboBox customerCountry;
+    @FXML private TextField customerID;
     @FXML private TextField customerName;
     @FXML private TextField customerAddress;
     @FXML private TextField customerPostal;
@@ -68,6 +70,7 @@ public class modCustomer implements Initializable {
         for (Countries c : CountryList) {
             customerCountry.getItems().add(c.getCountryName());
         }
+        customerID.setText(String.valueOf(modCustomer.getCustomerId()));
         customerName.setText(modCustomer.getCustomerName());
         customerAddress.setText((modCustomer.getCustomerAddress()));
         customerPostal.setText(modCustomer.getCustomerPostal());

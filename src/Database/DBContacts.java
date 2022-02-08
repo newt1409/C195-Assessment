@@ -44,6 +44,7 @@ public class DBContacts {
          }
         return null;
      }
+
     public static ObservableList<Contact> getAllContacts() throws SQLException, Exception{
         ObservableList<Contact> allContacts=FXCollections.observableArrayList();
         try {
@@ -61,5 +62,24 @@ public class DBContacts {
             throwables.printStackTrace();
         }
         return allContacts;
-    } 
+    }
+    public static Contact modContactData(int conID, String inConName, String inEmail) throws SQLException, Exception{
+
+        try {
+            String sql = "update contacts set Contact_Name = '" + inConName + "', Email = '" + inEmail + "' WHERE Contact_ID  = '" + conID + "'";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int contId = rs.getInt("Contact_ID");
+                String conName = rs.getString("Contact_Name");
+                String conEmail = rs.getString("Email");
+                Contact conResult = new Contact(contId, conName, conEmail);
+
+                return conResult;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
+    }
 }

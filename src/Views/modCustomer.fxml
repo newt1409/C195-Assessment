@@ -5,27 +5,29 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="311.0" prefWidth="242.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.modCustomer">
+<AnchorPane id="AnchorPane" prefHeight="339.0" prefWidth="242.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.modCustomer">
     <children>
-        <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#19191a00" height="291.0" layoutX="9.0" layoutY="15.0" stroke="BLACK" strokeType="INSIDE" width="224.0" />
-        <Label layoutX="18.0" layoutY="69.0" text="Name" />
-        <TextField fx:id="customerName" layoutX="69.0" layoutY="65.0" />
-        <Label layoutX="18.0" layoutY="104.0" text="Address" />
-        <TextField fx:id="customerAddress" layoutX="69.0" layoutY="100.0" />
-        <Label layoutX="18.0" layoutY="206.0" text="Postal Code" />
-        <TextField fx:id="customerPostal" layoutX="86.0" layoutY="202.0" prefHeight="25.0" prefWidth="133.0" />
-        <Label layoutX="18.0" layoutY="241.0" text="Phone #" />
-        <TextField fx:id="customerPhone" layoutX="86.0" layoutY="237.0" prefHeight="25.0" prefWidth="133.0" />
-        <Label layoutX="18.0" layoutY="138.0" text="State/Province" />
-        <Label layoutX="18.0" layoutY="172.0" text="Country" />
-        <Label layoutX="39.0" layoutY="30.0" prefHeight="25.0" prefWidth="166.0" text="Modify Customer">
+        <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#19191a00" height="317.0" layoutX="9.0" layoutY="7.0" stroke="BLACK" strokeType="INSIDE" width="224.0" />
+        <Label layoutX="18.0" layoutY="85.0" text="Name" />
+        <TextField fx:id="customerName" layoutX="69.0" layoutY="81.0" />
+        <Label layoutX="18.0" layoutY="120.0" text="Address" />
+        <TextField fx:id="customerAddress" layoutX="69.0" layoutY="116.0" />
+        <Label layoutX="18.0" layoutY="222.0" text="Postal Code" />
+        <TextField fx:id="customerPostal" layoutX="86.0" layoutY="218.0" prefHeight="25.0" prefWidth="133.0" />
+        <Label layoutX="18.0" layoutY="257.0" text="Phone #" />
+        <TextField fx:id="customerPhone" layoutX="86.0" layoutY="253.0" prefHeight="25.0" prefWidth="133.0" />
+        <Label layoutX="18.0" layoutY="154.0" text="State/Province" />
+        <Label layoutX="18.0" layoutY="188.0" text="Country" />
+        <Button layoutX="120.0" layoutY="289.0" mnemonicParsing="false" onAction="#Save" text="Save" />
+        <Button layoutX="166.0" layoutY="289.0" mnemonicParsing="false" onAction="#goBack" text="Cancel" />
+        <ComboBox fx:id="customerDiv" layoutX="102.0" layoutY="150.0" prefHeight="25.0" prefWidth="115.0" />
+        <ComboBox fx:id="customerCountry" layoutX="69.0" layoutY="184.0" onAction="#popDiv" prefHeight="25.0" prefWidth="149.0" />
+        <TextField fx:id="customerID" disable="true" editable="false" layoutX="69.0" layoutY="50.0" />
+        <Label layoutX="18.0" layoutY="54.0" text="ID" />
+        <Label layoutX="39.0" layoutY="16.0" prefHeight="25.0" prefWidth="166.0" text="Modify Customer">
             <font>
                 <Font name="System Bold" size="16.0" />
             </font>
         </Label>
-        <Button layoutX="120.0" layoutY="273.0" mnemonicParsing="false" onAction="#Save" text="Save" />
-        <Button layoutX="166.0" layoutY="273.0" mnemonicParsing="false" onAction="#goBack" text="Cancel" />
-        <ComboBox fx:id="customerDiv" layoutX="102.0" layoutY="134.0" prefHeight="25.0" prefWidth="115.0" />
-        <ComboBox fx:id="customerCountry" layoutX="69.0" layoutY="168.0" onAction="#popDiv" prefHeight="25.0" prefWidth="149.0" />
     </children>
 </AnchorPane>

@@ -116,4 +116,14 @@ public class DBCustomers {
             throwables.printStackTrace();
         }
     }
+
+    public static void delCustomerData(int custId) throws SQLException, Exception{
+        try {
+            String sql = "delete * from customers where Customer_ID = " + custId;
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            int rs = ps.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }
