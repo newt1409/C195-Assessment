@@ -7,7 +7,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="375.0" prefWidth="281.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.addAppointmentsController">
    <children>
-      <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#0a0a0a00" height="333.0" layoutX="33.0" layoutY="11.0" stroke="BLACK" strokeType="INSIDE" width="216.0" />
+      <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#0a0a0a00" height="357.0" layoutX="33.0" layoutY="11.0" stroke="BLACK" strokeType="INSIDE" width="216.0" />
       <TextField fx:id="appDesc" editable="false" layoutX="111.0" layoutY="107.0" prefHeight="25.0" prefWidth="114.0" text="asdf" />
       <Label layoutX="43.0" layoutY="55.0" text="ID" />
       <Label layoutX="54.0" layoutY="14.0" text="New Appointment">
@@ -25,8 +25,8 @@
       <TextField fx:id="appID" disable="true" editable="false" layoutX="111.0" layoutY="53.0" prefHeight="25.0" prefWidth="114.0" />
       <TextField fx:id="appLoc" editable="false" layoutX="111.0" layoutY="134.0" prefHeight="25.0" prefWidth="114.0" text="asdf" />
       <TextField fx:id="appType" editable="false" layoutX="111.0" layoutY="161.0" prefHeight="25.0" prefWidth="114.0" text="asdf" />
-      <Button layoutX="120.0" layoutY="307.0" mnemonicParsing="false" onAction="#Save" text="Save" />
-      <Button layoutX="170.0" layoutY="307.0" mnemonicParsing="false" onAction="#goBack" text="Cancel" />
+      <Button layoutX="120.0" layoutY="339.0" mnemonicParsing="false" onAction="#Save" text="Save" />
+      <Button layoutX="170.0" layoutY="339.0" mnemonicParsing="false" onAction="#goBack" text="Cancel" />
       <Separator prefWidth="200.0" />
       <DatePicker fx:id="appDateStart" layoutX="110.0" layoutY="217.0" prefHeight="25.0" prefWidth="114.0" />
       <DatePicker fx:id="appDateStop" layoutX="111.0" layoutY="273.0" prefHeight="25.0" prefWidth="114.0" />
@@ -34,5 +34,7 @@
       <Label layoutX="42.0" layoutY="280.0" text="Stop Date" />
       <Label layoutX="41.0" layoutY="250.0" text="Stop Time" />
       <TextField fx:id="appTimeStop" editable="false" layoutX="110.0" layoutY="245.0" prefHeight="25.0" prefWidth="114.0" text="14:00" />
+      <ComboBox fx:id="appCustomer" layoutX="111.0" layoutY="304.0" prefHeight="25.0" prefWidth="114.0" />
+      <Label layoutX="42.0" layoutY="308.0" text="Customer" />
    </children>
 </AnchorPane>

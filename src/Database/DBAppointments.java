@@ -5,6 +5,7 @@
  */
 package Database;
 
+import Controllers.MainScreen;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointments;
@@ -14,6 +15,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 import static utilities.TimeFiles.stringToCalendar;
@@ -98,8 +101,26 @@ public class DBAppointments {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-        //DBConnection.closeConnection();
         return allAppointments;
-    } 
+    }
+
+    public static void addAppointment(String appName, String appDesc, String appLoc, String appType, String appStart, String appEnd, int appCust) throws SQLException, Exception{
+        try {
+
+            String createdBy = MainScreen.validUser.getUserName();
+            int custID = MainScreen.validUser.getUserId();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            //Calendar createDateCalendar = stringToCalendar(LocalDateTime.now().toString());
+            //Calendar lastUpdateCalendar = stringToCalendar(LocalDateTime.now().toString());
+            String sql = "insert into appointments (Title, Description, Location, Type, Start, End, Create_Date, Created_By, Last_Update, " + "Last_Updated_By, Customer_ID, User_ID) " +
+                         "values ('" + appName + "', '" + appDesc + "', '" + appLoc + "', '" + appType + "', '" + appStart + "', '" + appEnd + "', '" + LocalDateTime.now().format(formatter) + "', '" + createdBy + "', '" + LocalDateTime.now().format(formatter) + "', '" + createdBy + "', '" + appCust +"', " + custID +")";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            int rs = ps.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+
+
 }
