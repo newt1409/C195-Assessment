@@ -5,7 +5,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="333.0" prefWidth="242.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.addCustomer">
+<AnchorPane id="AnchorPane" prefHeight="333.0" prefWidth="242.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.newCustomer">
    <children>
       <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#19191a00" height="317.0" layoutX="9.0" layoutY="7.0" stroke="BLACK" strokeType="INSIDE" width="224.0" />
       <Label layoutX="18.0" layoutY="87.0" text="Name" />

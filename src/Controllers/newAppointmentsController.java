@@ -1,9 +1,6 @@
 package Controllers;
 
-import Database.DBAppointments;
-import Database.DBCountries;
-import Database.DBCustomers;
-import Database.DBDivisions;
+import Database.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,23 +11,17 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import model.Appointments;
-import model.Countries;
-import model.Customers;
-import model.Divisions;
+import model.*;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class addAppointmentsController implements Initializable {
+public class newAppointmentsController implements Initializable {
+
 
 
     @FXML private TextField appID;
@@ -44,17 +35,23 @@ public class addAppointmentsController implements Initializable {
     @FXML private DatePicker appDateStop;
 
     @FXML private ComboBox appCustomer;
+    @FXML private ComboBox appContact;
     @FXML private ObservableList<Customers> CustomerList = FXCollections.observableArrayList();
+    @FXML private ObservableList<Contact> ContactList = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             CustomerList.addAll(DBCustomers.getAllCustomers());
+            ContactList.addAll(DBContacts.getAllContacts());
         } catch (Exception ex) {
-            Logger.getLogger(addAppointmentsController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(newAppointmentsController.class.getName()).log(Level.SEVERE, null, ex);
         }
         for (Customers c : CustomerList) {
             appCustomer.getItems().add(c.getCustomerName());
+        }
+        for (Contact c : ContactList) {
+            appContact.getItems().add(c.getContactName());
         }
     }
 
@@ -73,11 +70,15 @@ public class addAppointmentsController implements Initializable {
                 //LocalDateTime appStartTime = LocalDateTime.parse(appStartDateTime, formatter);
                 //LocalDateTime appStopTime = LocalDateTime.parse(appStopDateTime, formatter);
                 int appCustID = 0;
-                int appcontact = 0
+                int appContactID = 0;
                 for (Customers c : CustomerList ) {
                     if (c.getCustomerName().equals(appCustomer.getValue())) {
                         appCustID = c.getCustomerId();
-
+                    }
+                }
+                for (Contact c : ContactList ) {
+                    if (c.getContactName().equals(appContact.getValue())) {
+                        appContactID = c.getContactID();
                     }
                 }
                 DBAppointments.addAppointment(appTitle.getText(),
@@ -86,7 +87,8 @@ public class addAppointmentsController implements Initializable {
                         appType.getText(),
                         appStartDateTime,
                         appStopDateTime,
-                        appCustID);
+                        appCustID,
+                        appContactID);
                 goBack(actionEvent);
             } else {
             }

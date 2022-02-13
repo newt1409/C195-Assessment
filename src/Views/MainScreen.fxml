@@ -7,9 +7,10 @@
 
 <AnchorPane prefHeight="460.0" prefWidth="875.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MainScreen">
    <children>
+      <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#1f93ff00" height="94.0" layoutX="23.0" layoutY="354.0" stroke="#9e9a9a" strokeType="INSIDE" width="288.0" />
       <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#1f93ff00" height="60.0" layoutX="24.0" layoutY="53.0" stroke="#9e9a9a" strokeType="INSIDE" width="288.0" />
       <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#1f93ff00" height="60.0" layoutX="24.0" layoutY="215.0" stroke="#9e9a9a" strokeType="INSIDE" width="288.0" />
-      <Button layoutX="144.0" layoutY="220.0" mnemonicParsing="false" onAction="#addCustomer" text="Add" />
+      <Button layoutX="144.0" layoutY="220.0" mnemonicParsing="false" onAction="#newCustomer" text="New" />
       <Button layoutX="193.0" layoutY="220.0" mnemonicParsing="false" onAction="#modCustomer" text="Modify" />
       <Label layoutX="32.0" layoutY="22.0" text="User:">
          <font>
@@ -36,17 +37,16 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="42.0" layoutY="358.0" text="Contacts">
+      <Label layoutX="35.0" layoutY="362.0" text="Contact Info">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="42.0" layoutY="384.0" text="Name" />
-      <TextField fx:id="contactName" layoutX="93.0" layoutY="380.0" />
-      <Label layoutX="42.0" layoutY="418.0" text="Email" />
-      <TextField fx:id="contactEmail" layoutX="93.0" layoutY="414.0" />
+      <Label layoutX="42.0" layoutY="392.0" text="Name" />
+      <TextField fx:id="contactName" layoutX="93.0" layoutY="388.0" />
+      <Label layoutX="42.0" layoutY="422.0" text="Email" />
+      <TextField fx:id="contactEmail" layoutX="93.0" layoutY="418.0" />
       <Button layoutX="256.0" layoutY="220.0" mnemonicParsing="false" onAction="#delCustomer" text="Delete" />
-      <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#1f93ff00" height="94.0" layoutX="34.0" layoutY="354.0" stroke="#9e9a9a" strokeType="INSIDE" width="227.0" />
       <Label fx:id="userLabel" layoutX="80.0" layoutY="18.0" prefHeight="20.0" prefWidth="121.0">
          <font>
             <Font name="System Bold Italic" size="18.0" />
@@ -63,8 +63,11 @@
             <TableColumn fx:id="custCountry" minWidth="0.0" prefWidth="127.0" text="Country" />
         </columns>
       </TableView>
-      <Button layoutX="144.0" layoutY="58.0" mnemonicParsing="false" onAction="#addApp" text="New" />
+      <Button layoutX="144.0" layoutY="58.0" mnemonicParsing="false" onAction="#newApp" text="New" />
       <Button layoutX="193.0" layoutY="58.0" mnemonicParsing="false" onAction="#modApp" text="Modify" />
       <Button layoutX="256.0" layoutY="58.0" mnemonicParsing="false" onAction="#delApp" text="Delete" />
+      <Button layoutX="142.0" layoutY="359.0" mnemonicParsing="false" onAction="#newContact" text="New" />
+      <Button layoutX="191.0" layoutY="359.0" mnemonicParsing="false" onAction="#modContact" text="Modify" />
+      <Button layoutX="254.0" layoutY="359.0" mnemonicParsing="false" onAction="#delContact" text="Delete" />
    </children>
 </AnchorPane>

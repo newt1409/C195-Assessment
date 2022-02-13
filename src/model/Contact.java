@@ -21,6 +21,7 @@ public class Contact {
         this.contactName = contactName;
         this.contactEmail = contactEmail;
     }
+    public int getContactID() { return contactId; }
     public String getContactName() { return contactName; }
     public String getContactEmail() { return contactEmail; }
 }

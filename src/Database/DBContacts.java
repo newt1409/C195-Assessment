@@ -48,13 +48,13 @@ public class DBContacts {
     public static ObservableList<Contact> getAllContacts() throws SQLException, Exception{
         ObservableList<Contact> allContacts=FXCollections.observableArrayList();
         try {
-            String sql = "select * from customers";
+            String sql = "select * from contacts";
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                int contId = rs.getInt("Customer_ID");
-                String conName = rs.getString("Customer_Name");
-                String conEmail = rs.getString("Address");
+                int contId = rs.getInt("Contact_ID");
+                String conName = rs.getString("Contact_Name");
+                String conEmail = rs.getString("Email");
                 Contact conResult = new Contact(contId, conName, conEmail);
                 allContacts.add(conResult);
             }
@@ -81,5 +81,15 @@ public class DBContacts {
             throwables.printStackTrace();
         }
         return null;
+    }
+
+    public static void delContactData(int contactId) throws SQLException, Exception{
+        try {
+            String sql = "delete * from contacts where Customer_ID = " + contactId;
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            int rs = ps.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }

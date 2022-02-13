@@ -1,7 +1,6 @@
 package Controllers;
 
 import Database.*;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,11 +14,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import model.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,7 +65,7 @@ public class MainScreen implements Initializable {
 
     public void Users(ActionEvent actionEvent) throws IOException {
         //change scenes
-        Parent root = FXMLLoader.load(getClass().getResource("../Views/addCustomer.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../Views/newCustomer.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 500, 500);
         stage.setTitle("Add Part");
@@ -81,7 +80,7 @@ public class MainScreen implements Initializable {
             validUser = LoginController.getValidUser();
             AppList.addAll(DBAppointments.getUserAppointments(validUser.getUserId()));
         } catch (Exception ex) {
-            Logger.getLogger(addCustomer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(newCustomer.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println(LoginController.getValidUser().getUserName());
         userLabel.setText(validUser.getUserName());
@@ -124,21 +123,26 @@ public class MainScreen implements Initializable {
             custCountry.setCellValueFactory(new PropertyValueFactory<Customers, String>("customerCountry"));
             contactName.setText(String.valueOf(DBContacts.getContactData(appTable.getSelectionModel().getSelectedItem().getcustomerId()).getContactName()));
             contactEmail.setText(String.valueOf(DBContacts.getContactData(appTable.getSelectionModel().getSelectedItem().getcustomerId()).getContactEmail()));
-            }
+        } else {
+
+            custTable.getItems().clear();
+            custTable.getSelectionModel().clearSelection();
+        }
+
     }
 
-    public void addCustomer(ActionEvent actionEvent) throws IOException {
+    public void newCustomer(ActionEvent actionEvent) throws Exception {
         //change scenes
-        if (appTable.getSelectionModel().getSelectedItem() == null)
-        {
-            error_message("No Appointment was selected");
-        } else if (appTable.getSelectionModel().getSelectedItem().getcustomerId() != 0) {
-            error_message("You cannot add more than one customer per appointment");
+        if (appTable.getSelectionModel().getSelectedItem() != null ) {
+            error_message("You have an appointment selected, you cannot add more than one customer per appointment");
+            appTable.getSelectionModel().clearSelection();
+            popAppData();
+
         } else {
-            Parent root = FXMLLoader.load(getClass().getResource("../Views/addCustomer.fxml"));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../Views/newCustomer.fxml")));
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             Scene scene = new Scene(root, 240, 330);
-            stage.setTitle("Add Customer");
+            stage.setTitle("New Customer");
             stage.setScene(scene);
             stage.show();
         }
@@ -147,13 +151,15 @@ public class MainScreen implements Initializable {
         //change scenes
         if (custTable.getSelectionModel().getSelectedItem() != null) {
             modCustomerId = custTable.getSelectionModel().getSelectedItem().getCustomerId();
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../Views/modCustomer.fxml")));
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root, 240, 330);
+            stage.setTitle("Modify Customer");
+            stage.setScene(scene);
+            stage.show();
+        } else {
+            error_message("You must selected a customer to modify");
         }
-        Parent root = FXMLLoader.load(getClass().getResource("../Views/modCustomer.fxml"));
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 240, 330);
-        stage.setTitle("Add Customer");
-        stage.setScene(scene);
-        stage.show();
     }
 
     public void delCustomer(ActionEvent actionEvent) {
@@ -163,7 +169,7 @@ public class MainScreen implements Initializable {
             ButtonType bar = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
             Alert alert = new Alert(Alert.AlertType.WARNING, "", foo, bar);
             alert.setTitle("WARNING");
-            alert.setHeaderText("Are you sure you want to do that?\n THIS WILL DELETE THE ASSOCIATED APPOINTMENT AS WELL!");
+            alert.setHeaderText("Are you sure you want to do that?\n THIS WILL DELETE THE ASSOCIATED APPOINTMENT AND CONTACT AS WELL!");
             alert.setContentText("Deleting Record!!");
             alert.showAndWait().ifPresent(rs -> {
                 if (rs == foo) {
@@ -180,11 +186,11 @@ public class MainScreen implements Initializable {
 
     }
 
-    public void addApp(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../Views/addAppointment.fxml"));
+    public void newApp(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("../Views/newAppointment.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 240, 330);
-        stage.setTitle("Add Customer");
+        Scene scene = new Scene(root, 300, 450);
+        stage.setTitle("New Appointment");
         stage.setScene(scene);
         stage.show();
     }
@@ -208,4 +214,42 @@ public class MainScreen implements Initializable {
     }
 
 
+    public void newContact(ActionEvent actionEvent) throws Exception {
+        if (appTable.getSelectionModel().getSelectedItem() != null ) {
+            error_message("You have an appointment selected, you cannot add more than one contact per appointment");
+            appTable.getSelectionModel().clearSelection();
+            popAppData();
+
+        } else {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../Views/newContact.fxml")));
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root, 240, 330);
+            stage.setTitle("New Contact");
+            stage.setScene(scene);
+            stage.show();
+        }
+    }
+
+    public void modContact(ActionEvent actionEvent) {
+    }
+
+    public void delContact(ActionEvent actionEvent) {
+        int delContact = appTable.getSelectionModel().getSelectedItem().getContactId();
+        ButtonType foo = new ButtonType("DELETE", ButtonBar.ButtonData.OK_DONE);
+        ButtonType bar = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+        Alert alert = new Alert(Alert.AlertType.WARNING, "", foo, bar);
+        alert.setTitle("WARNING");
+        alert.setHeaderText("Are you sure you want to do that?\n THIS WILL DELETE THE ASSOCIATED APPOINTMENT AND CONTACT AS WELL!");
+        alert.setContentText("Deleting Record!!");
+        alert.showAndWait().ifPresent(rs -> {
+            if (rs == foo) {
+                try {
+                    DBContacts.delContactData((delContact));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
 }

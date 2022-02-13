@@ -8,8 +8,6 @@ package Controllers;
 import Database.DBCountries;
 import Database.DBCustomers;
 import Database.DBDivisions;
-import Database.DBUsers;
-import com.sun.javafx.collections.ElementObservableListDecorator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -20,7 +18,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.Countries;
 import model.Divisions;
-import model.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -31,16 +28,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  * FXML Controller class
  *
  * @author carolyn.sher
  */
-public class addCustomer implements Initializable {
+public class newCustomer implements Initializable {
 
     @FXML private ComboBox customerDiv;
     @FXML private ComboBox customerCountry;
@@ -58,7 +52,7 @@ public class addCustomer implements Initializable {
             CountryList.addAll(DBCountries.getAllCountries());
             DivisionLIst.addAll(DBDivisions.getAllDivisions());
         } catch (Exception ex) {
-            Logger.getLogger(addCustomer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(newCustomer.class.getName()).log(Level.SEVERE, null, ex);
         }
         for (Countries c : CountryList) {
             customerCountry.getItems().add(c.getCountryName());

@@ -44,7 +44,7 @@ public class CountriesController implements Initializable {
 
 
         } catch (Exception ex) {
-            Logger.getLogger(addCustomer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(newCustomer.class.getName()).log(Level.SEVERE, null, ex);
         }
         CountryTable.setItems(CountryList);
         //Using Lambda for efficient selection off a tableview
