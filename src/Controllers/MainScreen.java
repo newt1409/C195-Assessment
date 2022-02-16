@@ -60,7 +60,8 @@ public class MainScreen implements Initializable {
     @FXML private static int modCustomerId;
     @FXML public static Integer getModCustomerId () { return modCustomerId; }
 
-
+    @FXML private static int modContactId;
+    @FXML public static Integer getModContactId () { return modContactId; }
 
 
     public void Users(ActionEvent actionEvent) throws IOException {
@@ -213,13 +214,11 @@ public class MainScreen implements Initializable {
        });
     }
 
-
     public void newContact(ActionEvent actionEvent) throws Exception {
         if (appTable.getSelectionModel().getSelectedItem() != null ) {
             error_message("You have an appointment selected, you cannot add more than one contact per appointment");
             appTable.getSelectionModel().clearSelection();
             popAppData();
-
         } else {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../Views/newContact.fxml")));
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -230,7 +229,19 @@ public class MainScreen implements Initializable {
         }
     }
 
-    public void modContact(ActionEvent actionEvent) {
+    public void modContact(ActionEvent actionEvent) throws IOException {
+        if (appTable.getSelectionModel().getSelectedItem() != null) {
+            modContactId = appTable.getSelectionModel().getSelectedItem().getContactId();
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../Views/modContact.fxml")));
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root, 240, 330);
+            stage.setTitle("Modify Contact");
+            stage.setScene(scene);
+            stage.show();
+        } else {
+            error_message("You must selected an appointment to modify");
+        }
+
     }
 
     public void delContact(ActionEvent actionEvent) {
