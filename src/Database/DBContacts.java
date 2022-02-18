@@ -77,29 +77,20 @@ public class DBContacts {
             throwables.printStackTrace();
         }
     }
-    public static Contact modContactData(int conID, String inConName, String inEmail) throws SQLException, Exception{
+    public static void modContactData(int conID, String inConName, String inEmail) throws SQLException, Exception{
 
         try {
             String sql = "update contacts set Contact_Name = '" + inConName + "', Email = '" + inEmail + "' WHERE Contact_ID  = '" + conID + "'";
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                int contId = rs.getInt("Contact_ID");
-                String conName = rs.getString("Contact_Name");
-                String conEmail = rs.getString("Email");
-                Contact conResult = new Contact(contId, conName, conEmail);
-
-                return conResult;
-            }
+            int rs = ps.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return null;
     }
 
     public static void delContactData(int contactId) throws SQLException, Exception{
         try {
-            String sql = "delete * from contacts where Customer_ID = " + contactId;
+            String sql = "delete from contacts where Contact_ID = '" + contactId + "'";
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
             int rs = ps.executeUpdate();
         } catch (SQLException throwables) {

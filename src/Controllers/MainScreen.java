@@ -77,23 +77,10 @@ public class MainScreen implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            UserList.addAll(DBUsers.getAllUsers());
-            validUser = LoginController.getValidUser();
-            AppList.addAll(DBAppointments.getUserAppointments(validUser.getUserId()));
-        } catch (Exception ex) {
-            Logger.getLogger(newCustomer.class.getName()).log(Level.SEVERE, null, ex);
+            popAppointments();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        System.out.println(LoginController.getValidUser().getUserName());
-        userLabel.setText(validUser.getUserName());
-        //AppList.clear();
-        appTable.setItems(AppList);
-        ID.setCellValueFactory(new PropertyValueFactory<>("appId"));
-        Title.setCellValueFactory(new PropertyValueFactory<>("appTitle"));
-        Description.setCellValueFactory(new PropertyValueFactory<>("appDesc"));
-        Location.setCellValueFactory(new PropertyValueFactory<>("appLocation"));
-        Type.setCellValueFactory(new PropertyValueFactory<>("appType"));
-        Start.setCellValueFactory(new PropertyValueFactory<>("appStart"));
-        End.setCellValueFactory(new PropertyValueFactory<>("appEnd"));
         appTable.setOnMouseClicked((MouseEvent event) -> {
             if (event.getClickCount() == 1) {
                 try {
@@ -105,10 +92,35 @@ public class MainScreen implements Initializable {
         });
     }
 
+    private void popAppointments () throws Exception {
+        AppList.clear();
+        custTable.getItems().clear();
+        contactName.setText("");
+        contactEmail.setText("");
+        try {
+            UserList.addAll(DBUsers.getAllUsers());
+            validUser = LoginController.getValidUser();
+            AppList.addAll(Objects.requireNonNull(DBAppointments.getUserAppointments(validUser.getUserId())));
+        } catch (Exception ex) {
+            Logger.getLogger(newCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        userLabel.setText(validUser.getUserName());
+        appTable.setItems(AppList);
+        ID.setCellValueFactory(new PropertyValueFactory<>("appId"));
+        Title.setCellValueFactory(new PropertyValueFactory<>("appTitle"));
+        Description.setCellValueFactory(new PropertyValueFactory<>("appDesc"));
+        Location.setCellValueFactory(new PropertyValueFactory<>("appLocation"));
+        Type.setCellValueFactory(new PropertyValueFactory<>("appType"));
+        Start.setCellValueFactory(new PropertyValueFactory<>("appStart"));
+        End.setCellValueFactory(new PropertyValueFactory<>("appEnd"));
+    }
+
     private void popAppData() throws Exception {
+
         if (appTable.getSelectionModel().getSelectedItem() != null) {
+            int custInt = appTable.getSelectionModel().getSelectedItem().getcustomerId();
+            int conID = appTable.getSelectionModel().getSelectedItem().getContactId();
             try {
-                Integer custInt = appTable.getSelectionModel().getSelectedItem().getcustomerId();
                 appCustomer = DBCustomers.getCustomerData(custInt);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -122,8 +134,8 @@ public class MainScreen implements Initializable {
             custPostal.setCellValueFactory(new PropertyValueFactory<Customers, String>("customerPostal"));
             custDiv.setCellValueFactory(new PropertyValueFactory<Customers, String>("customerDivision"));
             custCountry.setCellValueFactory(new PropertyValueFactory<Customers, String>("customerCountry"));
-            contactName.setText(String.valueOf(DBContacts.getContactData(appTable.getSelectionModel().getSelectedItem().getcustomerId()).getContactName()));
-            contactEmail.setText(String.valueOf(DBContacts.getContactData(appTable.getSelectionModel().getSelectedItem().getcustomerId()).getContactEmail()));
+            contactName.setText(String.valueOf(DBContacts.getContactData(conID).getContactName()));
+            contactEmail.setText(String.valueOf(DBContacts.getContactData(conID).getContactEmail()));
         } else {
 
             custTable.getItems().clear();
@@ -176,6 +188,7 @@ public class MainScreen implements Initializable {
                 if (rs == foo) {
                     try {
                         DBCustomers.delCustomerData(modCustomerId);
+                        popAppointments();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -256,6 +269,7 @@ public class MainScreen implements Initializable {
             if (rs == foo) {
                 try {
                     DBContacts.delContactData((delContact));
+                    popAppointments();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

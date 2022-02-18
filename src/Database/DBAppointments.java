@@ -28,12 +28,13 @@ import static utilities.TimeFiles.stringToCalendar;
 /* typically you would also have create, update and read methods*/
 public class DBAppointments {
 
-     public static Appointments getUserAppointments(int userID) throws SQLException, Exception{
+     public static ObservableList<Appointments> getUserAppointments(int userID) throws SQLException, Exception{
 
          try {
              String sql = "select * FROM appointments WHERE User_ID  = '" + userID + "'";
              PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
              ResultSet rs = ps.executeQuery();
+             ObservableList<Appointments> appResult = FXCollections.observableArrayList();
              while (rs.next()) {
                  int appId = rs.getInt("Appointment_ID");
                  String appName = rs.getString("Title");
@@ -53,10 +54,10 @@ public class DBAppointments {
                  int contactId = rs.getInt("Contact_ID");
 
                  //   s(int addressId, String address, String address2, int cityId, String postalCode, String phone, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy)
-                 Appointments appResult = new Appointments(appId, appName, appDesc, appLoc, appType, appStart, appEnd, createDateCalendar, createdBy, lastUpdateCalendar, lastUpdateby, custId, userId, contactId);
-                 return appResult;
-
+                 Appointments appointment = new Appointments(appId, appName, appDesc, appLoc, appType, appStart, appEnd, createDateCalendar, createdBy, lastUpdateCalendar, lastUpdateby, custId, userId, contactId);
+                 appResult.addAll(appointment);
              }
+             return appResult;
          } catch (SQLException | ParseException throwables) {
              throwables.printStackTrace();
          }

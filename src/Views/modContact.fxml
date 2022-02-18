@@ -8,7 +8,7 @@
 <AnchorPane id="AnchorPane" prefHeight="219.0" prefWidth="235.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.modContact">
    <children>
       <Rectangle arcHeight="15.0" arcWidth="15.0" fill="TRANSPARENT" height="186.0" layoutX="6.0" layoutY="17.0" stroke="BLACK" strokeType="INSIDE" width="219.0" />
-      <Label layoutX="69.0" layoutY="34.0" text="New Contact">
+      <Label layoutX="51.0" layoutY="27.0" text="Modify Contact">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>

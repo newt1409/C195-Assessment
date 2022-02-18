@@ -29,10 +29,10 @@ public class modContact implements Initializable {
     @FXML private TextField conID;
 
     @FXML private Contact modContact;
-    @FXML private static int modConctactId = MainScreen.getModCustomerId();
+    @FXML private static int modConctactId;
 
     public void Save(ActionEvent actionEvent) throws Exception {
-        DBContacts.addContactData(conName.getText(), conEmail.getText());
+        DBContacts.modContactData(modConctactId,conName.getText(), conEmail.getText());
         goBack(actionEvent);
     }
 
@@ -48,6 +48,7 @@ public class modContact implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        modConctactId= MainScreen.getModContactId();
         try {
             modContact = DBContacts.getContactData(modConctactId);
         } catch (Exception ex) {
