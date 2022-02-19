@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class newAppointmentsController implements Initializable {
+public class newAppointments implements Initializable {
 
 
 
@@ -45,7 +45,7 @@ public class newAppointmentsController implements Initializable {
             CustomerList.addAll(DBCustomers.getAllCustomers());
             ContactList.addAll(DBContacts.getAllContacts());
         } catch (Exception ex) {
-            Logger.getLogger(newAppointmentsController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(newAppointments.class.getName()).log(Level.SEVERE, null, ex);
         }
         for (Customers c : CustomerList) {
             appCustomer.getItems().add(c.getCustomerName());

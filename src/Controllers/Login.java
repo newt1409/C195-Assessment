@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class LoginController implements Initializable {
+public class Login implements Initializable {
 
     @FXML
     private TextField txtUsername;

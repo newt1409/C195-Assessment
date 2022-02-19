@@ -69,5 +69,15 @@
       <Button layoutX="142.0" layoutY="359.0" mnemonicParsing="false" onAction="#newContact" text="New" />
       <Button layoutX="191.0" layoutY="359.0" mnemonicParsing="false" onAction="#modContact" text="Modify" />
       <Button layoutX="254.0" layoutY="359.0" mnemonicParsing="false" onAction="#delContact" text="Delete" />
+      <Label layoutX="640.0" layoutY="23.0" text="Current Time:">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="time" alignment="TOP_LEFT" editable="false" layoutX="736.0" layoutY="17.0" prefHeight="7.0" prefWidth="121.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </TextField>
    </children>
 </AnchorPane>

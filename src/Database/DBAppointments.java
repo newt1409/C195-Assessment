@@ -63,6 +63,60 @@ public class DBAppointments {
          }
          return null;
      }
+
+    public static Appointments getAppointment(int inAppID) throws SQLException, Exception {
+
+        try {
+            String sql = "select * FROM appointments WHERE Appointment_ID  = '" + inAppID + "'";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            ObservableList<Appointments> appResult = FXCollections.observableArrayList();
+            while (rs.next()) {
+                int appId = rs.getInt("Appointment_ID");
+                String appName = rs.getString("Title");
+                String appDesc = rs.getString("Description");
+                String appLoc = rs.getString("Location");
+                String appType = rs.getString("Type");
+                String appStart = rs.getString("Start");
+                String appEnd = rs.getString("End");
+                String createDate = rs.getString("Create_Date");
+                String createdBy = rs.getString("Created_By");
+                String lastUpdate = rs.getString("Last_Update");
+                String lastUpdateby = rs.getString("Last_Updated_By");
+                Calendar createDateCalendar = stringToCalendar(createDate);
+                Calendar lastUpdateCalendar = stringToCalendar(lastUpdate);
+                int custId = rs.getInt("Customer_ID");
+                int userId = rs.getInt("User_ID");
+                int contactId = rs.getInt("Contact_ID");
+
+                //   s(int addressId, String address, String address2, int cityId, String postalCode, String phone, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy)
+                Appointments appointment = new Appointments(appId, appName, appDesc, appLoc, appType, appStart, appEnd, createDateCalendar, createdBy, lastUpdateCalendar, lastUpdateby, custId, userId, contactId);
+                return appointment;
+            }
+        } catch (SQLException | ParseException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
+    }
+
+    public static void modAppointment(int appID, String appName, String appDesc, String appLoc, String appType, String appStart, String appEnd, int appCust, int appCont) throws SQLException, Exception{
+        try {
+
+            String modifiedBy = MainScreen.validUser.getUserName();
+            int modifiedID = MainScreen.validUser.getUserId();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            //Calendar createDateCalendar = stringToCalendar(LocalDateTime.now().toString());
+            //Calendar lastUpdateCalendar = stringToCalendar(LocalDateTime.now().toString());
+            String sql = "update appointments set Title = '" + appName + "', Description = '" + appDesc + "', Location = '" + appLoc +
+                    "', Type = '" + appType + "', Start = '" + appStart + "', End = '" + appEnd + "', Last_Update = '" + LocalDateTime.now().format(formatter) + "', Last_Updated_By = '" +
+                    modifiedBy + "', Customer_ID = '" + appCust + "', User_ID = '" + modifiedID + "', Contact_ID = '" + appCont + "' where Appointment_ID = " + appID;
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            int rs = ps.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     public static ObservableList<Appointments> getAllAppointments() throws SQLException, Exception{
         ObservableList<Appointments> allAppointments=FXCollections.observableArrayList();
         //DBConnection.openConnection();
@@ -122,6 +176,15 @@ public class DBAppointments {
         }
     }
 
+    public static void delAppointment(int appID) throws SQLException, Exception{
+        try {
+            String sql = "delete from appointments where Appointment_ID = '" + appID +"'";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            int rs = ps.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 
 
 }

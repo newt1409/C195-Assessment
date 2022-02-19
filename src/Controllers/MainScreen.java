@@ -1,6 +1,9 @@
 package Controllers;
 
 import Database.*;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,10 +17,18 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import model.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.Date;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -29,6 +40,7 @@ public class MainScreen implements Initializable {
     @FXML public TableView<Customers> custTable = new TableView<>();
     @FXML public Label userLabel = new Label("");
     @FXML public static User validUser;
+    @FXML private TextField time;
 
     @FXML private TableColumn<Appointments, Integer> ID;
     @FXML private TableColumn<Appointments, String> Title;
@@ -57,22 +69,19 @@ public class MainScreen implements Initializable {
     @FXML private Countries appCountry;
     @FXML private Contact appContact;
 
+    @FXML private static int modAppointmentID;
+    @FXML public static Integer getAppointmentId () { return modAppointmentID; }
+
     @FXML private static int modCustomerId;
     @FXML public static Integer getModCustomerId () { return modCustomerId; }
 
     @FXML private static int modContactId;
     @FXML public static Integer getModContactId () { return modContactId; }
 
-
-    public void Users(ActionEvent actionEvent) throws IOException {
-        //change scenes
-        Parent root = FXMLLoader.load(getClass().getResource("../Views/newCustomer.fxml"));
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 500, 500);
-        stage.setTitle("Add Part");
-        stage.setScene(scene);
-        stage.show();
-    }
+    //time craziness
+    @FXML private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    @FXML private final ZoneId localZoneID = ZoneId.systemDefault();
+    @FXML private final ZoneId utcZoneID = ZoneId.of("UTC");
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -90,6 +99,25 @@ public class MainScreen implements Initializable {
                 }
             }
         });
+        time.setStyle("-fx-focus-color: transparent; -fx-text-box-border: transparent;");
+        Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+            LocalTime currentTime = LocalTime.now();
+            if (currentTime.getMinute() < 10 && currentTime.getHour() > 9) {
+                time.setText(currentTime.getHour() + ":0" + currentTime.getMinute() + ":" + currentTime.getSecond() + currentTime);
+            } else if (currentTime.getMinute() > 9 && currentTime.getHour() < 10){
+                time.setText("0" + currentTime.getHour() + ":" + currentTime.getMinute() + ":" + currentTime.getSecond());
+            } else {
+                time.setText(currentTime.getHour() + ":" + currentTime.getMinute() + ":" + currentTime.getSecond());
+            }
+        }),
+                new KeyFrame(Duration.seconds(1))
+        );
+        clock.setCycleCount(Animation.INDEFINITE);
+        clock.play();
+
+
+        //compare time of appintments to within 15 minutes
+
     }
 
     private void popAppointments () throws Exception {
@@ -99,7 +127,7 @@ public class MainScreen implements Initializable {
         contactEmail.setText("");
         try {
             UserList.addAll(DBUsers.getAllUsers());
-            validUser = LoginController.getValidUser();
+            validUser = Login.getValidUser();
             AppList.addAll(Objects.requireNonNull(DBAppointments.getUserAppointments(validUser.getUserId())));
         } catch (Exception ex) {
             Logger.getLogger(newCustomer.class.getName()).log(Level.SEVERE, null, ex);
@@ -182,7 +210,7 @@ public class MainScreen implements Initializable {
             ButtonType bar = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
             Alert alert = new Alert(Alert.AlertType.WARNING, "", foo, bar);
             alert.setTitle("WARNING");
-            alert.setHeaderText("Are you sure you want to do that?\n THIS WILL DELETE THE ASSOCIATED APPOINTMENT AND CONTACT AS WELL!");
+            alert.setHeaderText("Are you sure you want to do that?\n THIS WILL DELETE THE ASSOCIATED APPOINTMENT AS WELL!");
             alert.setContentText("Deleting Record!!");
             alert.showAndWait().ifPresent(rs -> {
                 if (rs == foo) {
@@ -209,10 +237,42 @@ public class MainScreen implements Initializable {
         stage.show();
     }
 
-    public void modApp(ActionEvent actionEvent) {
+    public void modApp(ActionEvent actionEvent) throws IOException {
+        if (appTable.getSelectionModel().getSelectedItem() != null) {
+            modAppointmentID = appTable.getSelectionModel().getSelectedItem().getAppId();
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../Views/modAppointment.fxml")));
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root, 300, 450);
+            stage.setTitle("Modify Contact");
+            stage.setScene(scene);
+            stage.show();
+        } else {
+            error_message("You must selected an appointment to modify");
+        }
     }
 
     public void delApp(ActionEvent actionEvent) {
+        if (appTable.getSelectionModel().getSelectedItem() != null) {
+            modAppointmentID = appTable.getSelectionModel().getSelectedItem().getAppId();
+            ButtonType foo = new ButtonType("DELETE", ButtonBar.ButtonData.OK_DONE);
+            ButtonType bar = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Alert alert = new Alert(Alert.AlertType.WARNING, "", foo, bar);
+            alert.setTitle("WARNING");
+            alert.setHeaderText("Are you sure you want to do that?\n THIS WILL DELETE THE APPOINTMENT!");
+            alert.setContentText("Deleting Record!!");
+            alert.showAndWait().ifPresent(rs -> {
+                if (rs == foo) {
+                    try {
+                        DBAppointments.delAppointment(modAppointmentID);
+                        popAppointments();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } else {
+            error_message("No Appointment was selected");
+        }
     }
 
     public static void error_message (String inMsg) {
@@ -263,7 +323,7 @@ public class MainScreen implements Initializable {
         ButtonType bar = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
         Alert alert = new Alert(Alert.AlertType.WARNING, "", foo, bar);
         alert.setTitle("WARNING");
-        alert.setHeaderText("Are you sure you want to do that?\n THIS WILL DELETE THE ASSOCIATED APPOINTMENT AND CONTACT AS WELL!");
+        alert.setHeaderText("Are you sure you want to do that?\n THIS WILL DELETE THE ASSOCIATED APPOINTMENT AS WELL!");
         alert.setContentText("Deleting Record!!");
         alert.showAndWait().ifPresent(rs -> {
             if (rs == foo) {

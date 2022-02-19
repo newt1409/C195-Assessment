@@ -49,11 +49,12 @@ public class modCustomer implements Initializable {
     @FXML private ObservableList<Divisions> DivisionLIst = FXCollections.observableArrayList();
     @FXML private Customers modCustomer;
 
-    @FXML private static int modCustomerId = MainScreen.getModCustomerId();
+    @FXML private static int modCustomerId;
 
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        modCustomerId = MainScreen.getModCustomerId();
         try {
             CountryList.addAll(DBCountries.getAllCountries());
             DivisionLIst.addAll(DBDivisions.getAllDivisions());
