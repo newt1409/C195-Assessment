@@ -14,8 +14,10 @@ import model.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
@@ -159,16 +161,16 @@ public class DBAppointments {
         return allAppointments;
     }
 
-    public static void addAppointment(String appName, String appDesc, String appLoc, String appType, String appStart, String appEnd, int appCust, int appCont) throws SQLException, Exception{
+    public static void addAppointment(String appName, String appDesc, String appLoc, String appType, ZonedDateTime appStart, ZonedDateTime appEnd, int appCust, int appCont) throws SQLException, Exception{
         try {
 
             String createdBy = MainScreen.validUser.getUserName();
             int userID = MainScreen.validUser.getUserId();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            //Calendar createDateCalendar = stringToCalendar(LocalDateTime.now().toString());
-            //Calendar lastUpdateCalendar = stringToCalendar(LocalDateTime.now().toString());
+            Timestamp sqlStartDT = Timestamp.valueOf(appStart.toLocalDateTime());
+            Timestamp sqlEndDT = Timestamp.valueOf(appEnd.toLocalDateTime());
             String sql = "insert into appointments (Title, Description, Location, Type, Start, End, Create_Date, Created_By, Last_Update, " + "Last_Updated_By, Customer_ID, User_ID, Contact_ID) " +
-                         "values ('" + appName + "', '" + appDesc + "', '" + appLoc + "', '" + appType + "', '" + appStart + "', '" + appEnd + "', '" + LocalDateTime.now().format(formatter) + "', '" + createdBy + "', '" + LocalDateTime.now().format(formatter) + "', '" + createdBy + "', '" + appCust +"', '" + userID +"', '"+ appCont +"')";
+                         "values ('" + appName + "', '" + appDesc + "', '" + appLoc + "', '" + appType + "', '" + sqlStartDT + "', '" + sqlEndDT + "', '" + LocalDateTime.now().format(formatter) + "', '" + createdBy + "', '" + LocalDateTime.now().format(formatter) + "', '" + createdBy + "', '" + appCust +"', '" + userID +"', '"+ appCont +"')";
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
             int rs = ps.executeUpdate();
         } catch (SQLException throwables) {
