@@ -16,8 +16,7 @@ import model.*;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.time.chrono.Chronology;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
@@ -43,6 +42,10 @@ public class modAppointments implements Initializable {
     @FXML private ObservableList<Customers> CustomerList = FXCollections.observableArrayList();
     @FXML private ObservableList<Contact> ContactList = FXCollections.observableArrayList();
 
+    private final DateTimeFormatter appTimeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
+    private final DateTimeFormatter appDateFormat = DateTimeFormatter.ofPattern("yyyy-mm-dd");
+    private final DateTimeFormatter appDateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private final ZoneId localZoneID = ZoneId.systemDefault();
     @FXML private int modAppointmentID;
 
     @Override
@@ -93,32 +96,44 @@ public class modAppointments implements Initializable {
             } else if (appCustomer.getValue().toString() == ""){
                 MainScreen.error_message("No Customer was chosen");
             } else if (!appTimeStart.getText().isBlank() || !appTimeStop.getText().isBlank()) {
-                //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                String appStartDateTime = appDateStart.getValue().toString() + " " + appTimeStart.getText().toString() + ":00";
-                String appStopDateTime = appDateStop.getValue().toString() +  " " + appTimeStop.getText().toString() + ":00";
-                //LocalDateTime appStartTime = LocalDateTime.parse(appStartDateTime, formatter);
-                //LocalDateTime appStopTime = LocalDateTime.parse(appStopDateTime, formatter);
-                int appCustID = 0;
-                int appContactID = 0;
-                for (Customers c : CustomerList ) {
-                    if (c.getCustomerName().equals(appCustomer.getValue())) {
-                        appCustID = c.getCustomerId();
+//time craziness
+                try {
+                    LocalDate appLocalDateStart = appDateStart.getValue();
+                    LocalDate appLocalDateEnd = appDateStop.getValue();
+                    LocalTime appLocalTimeStart = LocalTime.parse(appTimeStart.getText(), appTimeFormat);
+                    LocalTime appLocalTimeStop = LocalTime.parse(appTimeStop.getText(), appTimeFormat);
+                    LocalDateTime appStartDateTime = LocalDateTime.of(appLocalDateStart, appLocalTimeStart);
+                    LocalDateTime appStopDateTime = LocalDateTime.of(appLocalDateEnd, appLocalTimeStop);
+                    ZonedDateTime appStartUTC = appStartDateTime.atZone(localZoneID).withZoneSameInstant(ZoneId.of("UTC"));
+                    ZonedDateTime appStopUTC = appStopDateTime.atZone(localZoneID).withZoneSameInstant(ZoneId.of("UTC"));
+
+                    //String appStartDateTime = appDateStart.getValue().toString() + " " + appTimeStart.getText().toString() + ":00";
+                    //String appStopDateTime = appDateStop.getValue().toString() +  " " + appTimeStop.getText().toString() + ":00";
+
+                    int appCustID = 0;
+                    int appContactID = 0;
+                    for (Customers c : CustomerList ) {
+                        if (c.getCustomerName().equals(appCustomer.getValue())) {
+                            appCustID = c.getCustomerId();
+                        }
                     }
-                }
-                for (Contact c : ContactList ) {
-                    if (c.getContactName().equals(appContact.getValue())) {
-                        appContactID = c.getContactID();
+                    for (Contact c : ContactList ) {
+                        if (c.getContactName().equals(appContact.getValue())) {
+                            appContactID = c.getContactID();
+                        }
                     }
+                    DBAppointments.modAppointment(Integer.valueOf(appID.getText()), appTitle.getText(),
+                            appDesc.getText(),
+                            appLoc.getText(),
+                            appType.getText(),
+                            appStartUTC,
+                            appStopUTC,
+                            appCustID,
+                            appContactID);
+                    goBack(actionEvent);
+                } catch (Exception e) {
+                    MainScreen.error_message("Appointment Time format incorrect\n ex: HH:MM:SS");
                 }
-                DBAppointments.modAppointment(Integer.valueOf(appID.getText()), appTitle.getText(),
-                        appDesc.getText(),
-                        appLoc.getText(),
-                        appType.getText(),
-                        appStartDateTime,
-                        appStopDateTime,
-                        appCustID,
-                        appContactID);
-                goBack(actionEvent);
             } else {
             }
         } catch (Exception e) {

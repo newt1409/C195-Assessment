@@ -72,6 +72,8 @@ public class newAppointments implements Initializable {
                 MainScreen.error_message("No Customer was chosen");
             } else if (!appTimeStart.getText().isBlank() || !appTimeStop.getText().isBlank()) {
                 //time craziness
+
+
                 try {
                     LocalDate appLocalDateStart = appDateStart.getValue();
                     LocalDate appLocalDateEnd = appDateStop.getValue();
@@ -108,7 +110,6 @@ public class newAppointments implements Initializable {
                     goBack(actionEvent);
                 } catch (Exception e) {
                     MainScreen.error_message("Appointment Time format incorrect\n ex: HH:MM:SS");
-
                 }
             } else {
             }
