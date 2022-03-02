@@ -116,5 +116,6 @@ public class Appointments {
     }
 
 
-
+    public String getStart() { return this.start; }
+    public String getEnd() { return  this.end; }
 }

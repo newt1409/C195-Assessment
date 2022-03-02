@@ -79,5 +79,15 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </TextField>
+      <RadioButton fx:id="radWeek" layoutX="438.0" layoutY="60.0" mnemonicParsing="false" onAction="#radWeekly" selected="true" text="Weekly">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </RadioButton>
+      <RadioButton fx:id="radMonth" layoutX="511.0" layoutY="60.0" mnemonicParsing="false" onAction="#radMonthly" text="Monthly">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </RadioButton>
    </children>
 </AnchorPane>

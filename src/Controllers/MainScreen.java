@@ -6,6 +6,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +24,7 @@ import model.*;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -40,7 +42,10 @@ public class MainScreen implements Initializable {
     @FXML public TableView<Customers> custTable = new TableView<>();
     @FXML public Label userLabel = new Label("");
     @FXML public static User validUser;
+    @FXML private RadioButton radWeek;
+    @FXML private RadioButton radMonth;
     @FXML private TextField time;
+    @FXML private Boolean strWeekly = true;
 
     @FXML private TableColumn<Appointments, Integer> ID;
     @FXML private TableColumn<Appointments, String> Title;
@@ -132,8 +137,40 @@ public class MainScreen implements Initializable {
         } catch (Exception ex) {
             Logger.getLogger(newCustomer.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        if (strWeekly) {
+            //filter appointments for week
+            LocalDate now = LocalDate.now();
+            LocalDate nowPlus1Week = now.plusWeeks(1);
+
+            //lambda expression used to efficiently filter appointments by week
+            FilteredList<Appointments> filteredData = new FilteredList<>(AppList);
+            filteredData.setPredicate(row -> {
+
+                LocalDate rowDate = LocalDate.parse(row.getStart(), formatter);
+
+                return rowDate.isAfter(now.minusDays(1)) && rowDate.isBefore(nowPlus1Week);
+            });
+            appTable.setItems(filteredData);
+        } else {
+            //filter appointments for month
+            LocalDate now = LocalDate.now();
+            LocalDate nowPlus1Month = now.plusMonths(1);
+
+            //lambda expression used to efficiently filter appointments by month
+            FilteredList<Appointments> filteredData = new FilteredList<>(AppList);
+            filteredData.setPredicate(row -> {
+
+                LocalDate rowDate = LocalDate.parse(row.getStart(), formatter);
+
+                return rowDate.isAfter(now.minusDays(1)) && rowDate.isBefore(nowPlus1Month);
+            });
+
+            appTable.setItems(filteredData);
+        }
+
         userLabel.setText(validUser.getUserName());
-        appTable.setItems(AppList);
+        //appTable.setItems(AppList);
         ID.setCellValueFactory(new PropertyValueFactory<>("appId"));
         Title.setCellValueFactory(new PropertyValueFactory<>("appTitle"));
         Description.setCellValueFactory(new PropertyValueFactory<>("appDesc"));
@@ -141,6 +178,12 @@ public class MainScreen implements Initializable {
         Type.setCellValueFactory(new PropertyValueFactory<>("appType"));
         Start.setCellValueFactory(new PropertyValueFactory<>("appStart"));
         End.setCellValueFactory(new PropertyValueFactory<>("appEnd"));
+
+
+
+
+
+
     }
 
     private void popAppData() throws Exception {
@@ -170,6 +213,20 @@ public class MainScreen implements Initializable {
             custTable.getSelectionModel().clearSelection();
         }
 
+    }
+
+    public void radWeekly(ActionEvent actionEvent) throws Exception {
+        strWeekly = true;
+        radWeek.setSelected(true);
+        radMonth.setSelected(false);
+        popAppointments();
+    }
+
+    public void radMonthly(ActionEvent actionEvent) throws Exception {
+        strWeekly = false;
+        radWeek.setSelected(false);
+        radMonth.setSelected(true);
+        popAppointments();
     }
 
     public void newCustomer(ActionEvent actionEvent) throws Exception {
@@ -337,4 +394,6 @@ public class MainScreen implements Initializable {
         });
 
     }
+
+
 }
