@@ -33,9 +33,10 @@ import static utilities.TimeFiles.stringToCalendar;
 
 public class DBAppointments {
 
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    private static ZoneId localZoneID = ZoneId.systemDefault();
 
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static ZoneId localZoneID = ZoneId.systemDefault();
+    private static ZoneId utcZoneID = ZoneId.of("UTC");
 
 
      public static ObservableList<Appointments> getUserAppointments(int userID) throws SQLException, Exception{
@@ -47,35 +48,41 @@ public class DBAppointments {
              ObservableList<Appointments> appResult = FXCollections.observableArrayList();
              while (rs.next()) {
 
-                 //pulls start time from database and converts it into local time zone
-                 Timestamp timestampStart = rs.getTimestamp("Start");
-                 ZonedDateTime startUTC = timestampStart.toLocalDateTime().atZone(ZoneId.of("UTC"));
-                 ZonedDateTime newLocalStart = startUTC.withZoneSameInstant(localZoneID);
 
-                 //pulls end time from database and converts it into local time zone
-                 Timestamp timestampEnd = rs.getTimestamp("end");
-                 ZonedDateTime endUTC = timestampEnd.toLocalDateTime().atZone(ZoneId.of("UTC"));
-                 ZonedDateTime newLocalEnd = endUTC.withZoneSameInstant(localZoneID);
+
 
                  int appId = rs.getInt("Appointment_ID");
                  String appName = rs.getString("Title");
                  String appDesc = rs.getString("Description");
                  String appLoc = rs.getString("Location");
                  String appType = rs.getString("Type");
-                 //String appStart = rs.getString("Start");
-                 //String appEnd = rs.getString("End");
+                 String appStart = rs.getString("Start").substring(0, 19);
+                 String appEnd = rs.getString("End").substring(0, 19);
                  String createDate = rs.getString("Create_Date");
                  String createdBy = rs.getString("Created_By");
                  String lastUpdate = rs.getString("Last_Update");
                  String lastUpdateby = rs.getString("Last_Updated_By");
                  Calendar createDateCalendar = stringToCalendar(createDate);
                  Calendar lastUpdateCalendar = stringToCalendar(lastUpdate);
+
+                 //convert utc to local
+                 LocalDateTime utcStart = LocalDateTime.parse(appStart, formatter);
+                 LocalDateTime utcEnd = LocalDateTime.parse(appEnd, formatter);
+
+                 //convert utz zoneid to local zoneid
+                 ZonedDateTime localZoneStart = utcStart.atZone(utcZoneID).withZoneSameInstant(localZoneID);
+                 ZonedDateTime localZoneEnd = utcEnd.atZone(utcZoneID).withZoneSameInstant(localZoneID);
+
+                 //convert datetime variables to strings for easier manipulation
+                 String localStart = localZoneStart.format(formatter);
+                 String localEnd = localZoneEnd.format(formatter);
+
                  int custId = rs.getInt("Customer_ID");
                  int userId = rs.getInt("User_ID");
                  int contactId = rs.getInt("Contact_ID");
 
                  //   s(int addressId, String address, String address2, int cityId, String postalCode, String phone, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy)
-                 Appointments appointment = new Appointments(appId, appName, appDesc, appLoc, appType, newLocalStart.toString(), newLocalEnd.toString(), createDateCalendar, createdBy, lastUpdateCalendar, lastUpdateby, custId, userId, contactId);
+                 Appointments appointment = new Appointments(appId, appName, appDesc, appLoc, appType, localStart, localEnd, createDateCalendar, createdBy, lastUpdateCalendar, lastUpdateby, custId, userId, contactId);
                  appResult.addAll(appointment);
              }
              return appResult;
@@ -106,12 +113,25 @@ public class DBAppointments {
                 String lastUpdateby = rs.getString("Last_Updated_By");
                 Calendar createDateCalendar = stringToCalendar(createDate);
                 Calendar lastUpdateCalendar = stringToCalendar(lastUpdate);
+
+                //convert utc to local
+                LocalDateTime utcStart = LocalDateTime.parse(appStart, formatter);
+                LocalDateTime utcEnd = LocalDateTime.parse(appEnd, formatter);
+
+                //convert utz zoneid to local zoneid
+                ZonedDateTime localZoneStart = utcStart.atZone(utcZoneID).withZoneSameInstant(localZoneID);
+                ZonedDateTime localZoneEnd = utcEnd.atZone(utcZoneID).withZoneSameInstant(localZoneID);
+
+                //convert datetime variables to strings for easier manipulation
+                String localStart = localZoneStart.format(formatter);
+                String localEnd = localZoneEnd.format(formatter);
+
                 int custId = rs.getInt("Customer_ID");
                 int userId = rs.getInt("User_ID");
                 int contactId = rs.getInt("Contact_ID");
 
                 //   s(int addressId, String address, String address2, int cityId, String postalCode, String phone, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy)
-                Appointments appointment = new Appointments(appId, appName, appDesc, appLoc, appType, appStart, appEnd, createDateCalendar, createdBy, lastUpdateCalendar, lastUpdateby, custId, userId, contactId);
+                Appointments appointment = new Appointments(appId, appName, appDesc, appLoc, appType, localStart, localEnd, createDateCalendar, createdBy, lastUpdateCalendar, lastUpdateby, custId, userId, contactId);
                 return appointment;
             }
         } catch (SQLException | ParseException throwables) {
@@ -146,6 +166,7 @@ public class DBAppointments {
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
+
                 int appId=rs.getInt("Appointment_ID");
                 String appName=rs.getString("Title");
                 String appDesc=rs.getString("Description");
@@ -153,9 +174,6 @@ public class DBAppointments {
                 String appType=rs.getString("Type");
                 String appStart=rs.getString("Start");
                 String appEnd=rs.getString("End");
-                //String password=rs.getString("Password");
-                //int active=result.getInt("active");
-                //if(active==1) act=true;
                 String createDate=rs.getString("Create_Date");
                 String createdBy=rs.getString("Created_By");
                 String lastUpdate=rs.getString("Last_Update");
@@ -163,12 +181,24 @@ public class DBAppointments {
                 Calendar createDateCalendar=stringToCalendar(createDate);
                 Calendar lastUpdateCalendar=stringToCalendar(lastUpdate);
 
+                //convert utc to local
+                LocalDateTime utcStart = LocalDateTime.parse(appStart, formatter);
+                LocalDateTime utcEnd = LocalDateTime.parse(appEnd, formatter);
+
+                //convert utz zoneid to local zoneid
+                ZonedDateTime localZoneStart = utcStart.atZone(utcZoneID).withZoneSameInstant(localZoneID);
+                ZonedDateTime localZoneEnd = utcEnd.atZone(utcZoneID).withZoneSameInstant(localZoneID);
+
+                //convert datetime variables to strings for easier manipulation
+                String localStart = localZoneStart.format(formatter);
+                String localEnd = localZoneEnd.format(formatter);
+
                 int custId=rs.getInt("Customer_ID");
                 int userId=rs.getInt("User_ID");
                 int contactId=rs.getInt("Contact_ID");
 
                 //   s(int addressId, String address, String address2, int cityId, String postalCode, String phone, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy)
-                Appointments appResult= new Appointments(appId, appName, appDesc, appLoc, appType, appStart, appEnd, createDateCalendar, createdBy, lastUpdateCalendar, lastUpdateby, custId, userId, contactId);
+                Appointments appResult= new Appointments(appId, appName, appDesc, appLoc, appType, localStart, localEnd, createDateCalendar, createdBy, lastUpdateCalendar, lastUpdateby, custId, userId, contactId);
                 allAppointments.add(appResult);
             }
 

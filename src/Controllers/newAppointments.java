@@ -72,8 +72,6 @@ public class newAppointments implements Initializable {
                 MainScreen.error_message("No Customer was chosen");
             } else if (!appTimeStart.getText().isBlank() || !appTimeStop.getText().isBlank()) {
                 //time craziness
-
-
                 try {
                     LocalDate appLocalDateStart = appDateStart.getValue();
                     LocalDate appLocalDateEnd = appDateStop.getValue();

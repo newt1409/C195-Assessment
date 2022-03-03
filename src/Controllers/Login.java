@@ -47,8 +47,6 @@ public class Login implements Initializable {
 
     public static User getValidUser() { return validatedUser;}
 
-
-
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle) {
         try {
@@ -63,8 +61,8 @@ public class Login implements Initializable {
         for (User u : UserList ) {
             if (u.getUserName().equals(txtUsername.getText())) {
                 if (u.getPassword().equals(txtPassword.getText())) {
-                    checkAppointments();
                     validatedUser = u;
+                    //checkAppointments(); //Cant figure out why the lamba blows up with time added
                     Parent root = FXMLLoader.load(getClass().getResource("../Views/MainScreen.fxml"));
                     Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
                     Scene scene = new Scene(root, 900, 500);
@@ -89,10 +87,14 @@ public class Login implements Initializable {
     private void checkAppointments() throws Exception {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime appPlus15 = now.plusMinutes(15);
+        try {
+            AppList.addAll(Objects.requireNonNull(DBAppointments.getUserAppointments(validatedUser.getUserId())));
+        } catch (Exception ex) {
+            Logger.getLogger(newCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-        AppList.addAll(Objects.requireNonNull(DBAppointments.getUserAppointments(validatedUser.getUserId())));
         FilteredList<Appointments> filteredData = new FilteredList<>(AppList);
-
+        //lambda expression used to efficiently identify any appointment starting within the next 15 minutes
         filteredData.setPredicate(row -> {
             LocalDateTime rowDate = LocalDateTime.parse(row.getStart().substring(0, 16), formatter);
             return rowDate.isAfter(now.minusMinutes(1)) && rowDate.isBefore(appPlus15);
