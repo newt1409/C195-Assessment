@@ -114,8 +114,4 @@ public class Appointments {
     public String getLastUpdateBy() {
         return lastUpdateBy;
     }
-
-
-    public String getStart() { return this.start; }
-    public String getEnd() { return  this.end; }
 }

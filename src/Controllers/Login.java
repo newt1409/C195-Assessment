@@ -20,6 +20,8 @@ import javafx.stage.Stage;
 import model.Appointments;
 import model.User;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -62,6 +64,12 @@ public class Login implements Initializable {
             if (u.getUserName().equals(txtUsername.getText())) {
                 if (u.getPassword().equals(txtPassword.getText())) {
                     validatedUser = u;
+                    String loginLog = "Login.log";
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(loginLog, true));
+                    writer.append(LocalDateTime.now() + " " + validatedUser.getUserName() + " " + "\n");
+                    writer.flush();
+                    writer.close();
+
                     //checkAppointments(); //Cant figure out why the lamba blows up with time added
                     Parent root = FXMLLoader.load(getClass().getResource("../Views/MainScreen.fxml"));
                     Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -96,7 +104,7 @@ public class Login implements Initializable {
         FilteredList<Appointments> filteredData = new FilteredList<>(AppList);
         //lambda expression used to efficiently identify any appointment starting within the next 15 minutes
         filteredData.setPredicate(row -> {
-            LocalDateTime rowDate = LocalDateTime.parse(row.getStart().substring(0, 16), formatter);
+            LocalDateTime rowDate = LocalDateTime.parse(row.getAppStart().substring(0, 16), formatter);
             return rowDate.isAfter(now.minusMinutes(1)) && rowDate.isBefore(appPlus15);
         });
         if (! filteredData.isEmpty()) {

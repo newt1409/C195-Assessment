@@ -147,7 +147,7 @@ public class MainScreen implements Initializable {
             FilteredList<Appointments> filteredData = new FilteredList<>(AppList);
             filteredData.setPredicate(row -> {
 
-                LocalDate rowDate = LocalDate.parse(row.getStart(), formatter);
+                LocalDate rowDate = LocalDate.parse(row.getAppStart(), formatter);
 
                 return rowDate.isAfter(now.minusDays(1)) && rowDate.isBefore(nowPlus1Week);
             });
@@ -161,7 +161,7 @@ public class MainScreen implements Initializable {
             FilteredList<Appointments> filteredData = new FilteredList<>(AppList);
             filteredData.setPredicate(row -> {
 
-                LocalDate rowDate = LocalDate.parse(row.getStart(), formatter);
+                LocalDate rowDate = LocalDate.parse(row.getAppStart(), formatter);
 
                 return rowDate.isAfter(now.minusDays(1)) && rowDate.isBefore(nowPlus1Month);
             });
@@ -399,7 +399,7 @@ public class MainScreen implements Initializable {
     public void btnReports(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("../Views/Reporting.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 300, 450);
+        Scene scene = new Scene(root, 850, 535);
         stage.setTitle("Reporting");
         stage.setScene(scene);
         stage.show();
