@@ -1,5 +1,5 @@
-# C195-Assessment
-WGU Software II Project
+# C195-Assessment\n
+WGU Software II Project\n
 
 By Weston Brehe
 Wdbrehe@gmail.com
