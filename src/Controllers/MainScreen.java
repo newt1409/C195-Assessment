@@ -396,4 +396,16 @@ public class MainScreen implements Initializable {
     }
 
 
+    public void btnReports(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("../Views/Reporting.fxml"));
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root, 300, 450);
+        stage.setTitle("Reporting");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void btnExit(ActionEvent actionEvent) {
+        System.exit(0);
+    }
 }

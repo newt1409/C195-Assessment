@@ -89,5 +89,7 @@
             <Font size="13.0" />
          </font>
       </RadioButton>
+      <Button layoutX="638.0" layoutY="389.0" mnemonicParsing="false" onAction="#btnReports" prefHeight="39.0" prefWidth="95.0" text="Reports" />
+      <Button layoutX="758.0" layoutY="389.0" mnemonicParsing="false" onAction="#btnExit" prefHeight="39.0" prefWidth="95.0" text="Exit" />
    </children>
 </AnchorPane>

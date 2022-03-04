@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.*;
@@ -52,12 +53,16 @@ public class ReportController implements Initializable {
     @FXML private TableColumn colAppCust_Count;
 
     @FXML private ObservableList<Appointments> AppList = FXCollections.observableArrayList();
-
+    @FXML private ObservableList<Reports> rptAppByType = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ArrayList<Integer> appMonths = null;
-        ArrayList<String> appTypes = null;
+        colAppByType_Month.setCellValueFactory(new PropertyValueFactory<>("rptAppByType_Months"));
+        colAppByType_Type.setCellValueFactory(new PropertyValueFactory<>("rptAppByType_Type"));
+        colAppByType_Count.setCellValueFactory(new PropertyValueFactory<>("rptAppByType_Count"));
+
+        ArrayList<Integer> appMonths = new ArrayList<>();
+        ArrayList<String> appTypes = new ArrayList<>();
 
         try {
             AppList.addAll(Objects.requireNonNull(DBAppointments.getAllAppointments()));
@@ -70,100 +75,115 @@ public class ReportController implements Initializable {
             int count = 0;
 
             for (Appointments m : AppList) {
-                if (!Arrays.asList(appTypes).contains(m.getAppType())) {
+                if (! appTypes.contains(m.getAppType())) {
                     appTypes.add(m.getAppType());
                 }
-                if (Arrays.asList(appMonths).contains(m.getAppStart().substring(5,7))) {
+                if (! appMonths.contains(Integer.valueOf(m.getAppStart().substring(5,7)))) {
                     appMonths.add(Integer.valueOf(m.getAppStart().substring(5,7)));
                 }
             }
             for (int i : appMonths) {
                 if (i == 1) {
                     for (String s : appTypes) {
-                        count = counter(s);
+                        count = counter(s, i);
                         if (count> 0) {
-                            tblAppByType.getItems().addAll("January", s, count);
+                            Reports tmpReport = new Reports("January", s, count);
+                            rptAppByType.addAll(tmpReport);
                         }
                     }
                 } else if (i == 2){
                     for (String s : appTypes) {
-                        count = counter(s);
+                        count = counter(s, i);;
                         if (count > 0) {
-                            tblAppByType.getItems().addAll("February", s, count);
+                            Reports tmpReport = new Reports("February", s, count);
+                            rptAppByType.addAll(tmpReport);
                         }
                     }
                 } else if (i == 3){
                     for (String s : appTypes) {
-                        count = counter(s);
+                        count = counter(s, i);
                         if (count > 0) {
-                            tblAppByType.getItems().addAll("March", s, count);
+                            Reports tmpReport = new Reports("March", s, count);
+                            rptAppByType.addAll(tmpReport);
                         }
                     }
                 } else if (i == 4){
                     for (String s : appTypes) {
-                        count = counter(s);
+                        count = counter(s, i);
                         if (count > 0) {
-                            tblAppByType.getItems().addAll("April", s, count);
+                            Reports tmpReport = new Reports("April", s, count);
+                            rptAppByType.addAll(tmpReport);
                         }
                     }
                 } else if (i == 5){
                     for (String s : appTypes) {
-                        count = counter(s);
+                        count = counter(s, i);
                         if (count > 0) {
-                            tblAppByType.getItems().addAll("May", s, count);
+                            Reports tmpReport = new Reports("May", s, count);
+                            rptAppByType.addAll(tmpReport);
                         }
                     }
                 } else if (i == 6){
                     for (String s : appTypes) {
-                        count = counter(s);
+                        count = counter(s, i);
                         if (count > 0) {
-                            tblAppByType.getItems().addAll("June", s, count);
+                            Reports tmpReport = new Reports("June", s, count);
+                            rptAppByType.addAll(tmpReport);
                         }
                     }
                 } else if (i == 7){
                     for (String s : appTypes) {
-                        count = counter(s);
+                        count = counter(s, i);
                         if (count > 0) {
-                            tblAppByType.getItems().addAll("July", s, count);
+                            Reports tmpReport = new Reports("July", s, count);
+                            rptAppByType.addAll(tmpReport);
                         }
                     }
                 } else if (i == 8){
                     for (String s : appTypes) {
-                        count = counter(s);
+                        count = counter(s, i);
                         if (count > 0) {
-                            tblAppByType.getItems().addAll("August", s, count);
+                            Reports tmpReport = new Reports("August", s, count);
+                            rptAppByType.addAll(tmpReport);
                         }
                     }
                 } else if (i == 9){
                     for (String s : appTypes) {
-                        count = counter(s);
+                        count = counter(s, i);
                         if (count > 0) {
-                            tblAppByType.getItems().addAll("September", s, count);
+                            Reports tmpReport = new Reports("September", s, count);
+                            rptAppByType.addAll(tmpReport);
                         }
                     }
                 } else if (i == 10){
                     for (String s : appTypes) {
-                        count = counter(s);
+                        count = counter(s, i);
                         if (count > 0) {
-                            tblAppByType.getItems().addAll("October", s, count);
+                            Reports tmpReport = new Reports("October", s, count);
+                            rptAppByType.addAll(tmpReport);
                         }
                     }
                 } else if (i == 11){
                     for (String s : appTypes) {
-                        count = counter(s);
+                        count = counter(s, i);
                         if (count > 0) {
-                            tblAppByType.getItems().addAll("November", s, count);
+                            Reports tmpReport = new Reports("November", s, count);
+                            rptAppByType.addAll(tmpReport);
                         }
                     }
                 } else if (i == 12){
                     for (String s : appTypes) {
-                        count = counter(s);
+                        count = counter(s, i);
                         if (count > 0) {
-                            tblAppByType.getItems().addAll("December", s, count);
+                            Reports tmpReport = new Reports("December", s, count);
+                            rptAppByType.addAll(tmpReport);
                         }
                     }
                 }
             }
+
+        tblAppByType.setItems(rptAppByType);
+
 
         } else if (tabContactSchedule.isSelected()) {
 
@@ -171,10 +191,13 @@ public class ReportController implements Initializable {
 
         }
     }
-    private int counter (String inStr) {
+
+
+
+    private int counter (String inStr, int inMonth) {
         int count = 0;
         for (Appointments m : AppList) {
-            if (m.getAppType().equals(inStr)) {
+            if (m.getAppType().equals(inStr) && Integer.valueOf(m.getAppStart().substring(5,7)).equals(inMonth)) {
                 count++;
             }
         }
