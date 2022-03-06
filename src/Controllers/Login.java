@@ -60,16 +60,16 @@ public class Login implements Initializable {
 
     public void Login(ActionEvent actionEvent) throws Exception {
         boolean validUser = false;
+        String loginLog = "login_activity.txt";
+        BufferedWriter writer = new BufferedWriter(new FileWriter(loginLog, true));
         for (User u : UserList ) {
             if (u.getUserName().equals(txtUsername.getText())) {
                 if (u.getPassword().equals(txtPassword.getText())) {
                     validatedUser = u;
-                    String loginLog = "Login.log";
-                    BufferedWriter writer = new BufferedWriter(new FileWriter(loginLog, true));
-                    writer.append(LocalDateTime.now() + " " + validatedUser.getUserName() + " " + "\n");
+
+                    writer.append(LocalDateTime.now() + " " + validatedUser.getUserName() + " Successful Login" + "\n");
                     writer.flush();
                     writer.close();
-
                     //checkAppointments(); //Cant figure out why the lamba blows up with time added
                     Parent root = FXMLLoader.load(getClass().getResource("../Views/MainScreen.fxml"));
                     Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -79,16 +79,21 @@ public class Login implements Initializable {
                     stage.show();
                     validUser = true;
                 } else {
+                    writer.append(LocalDateTime.now() + " " + validatedUser.getUserName() + " Unsuccessful Login" + "\n");
+                    writer.flush();
+                    writer.close();
                     break;
                 }
             }
         }
         if (!validUser){
+
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Incorrect Credentials");
             alert.setHeaderText("Error!:  Incorrect Credentials");
             alert.setContentText("Bummer, should of wrote it down");
             alert.showAndWait();
+
         }
     }
 
