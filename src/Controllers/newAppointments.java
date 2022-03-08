@@ -97,15 +97,20 @@ public class newAppointments implements Initializable {
                             appContactID = c.getContactID();
                         }
                     }
-                    DBAppointments.addAppointment(appTitle.getText(),
-                            appDesc.getText(),
-                            appLoc.getText(),
-                            appType.getText(),
-                            appStartUTC,
-                            appStopUTC,
-                            appCustID,
-                            appContactID);
-                    goBack(actionEvent);
+                    if (!DBAppointments.appOverlap(appStartUTC, appStopUTC)) {
+                        DBAppointments.addAppointment(appTitle.getText(),
+                                appDesc.getText(),
+                                appLoc.getText(),
+                                appType.getText(),
+                                appStartUTC,
+                                appStopUTC,
+                                appCustID,
+                                appContactID);
+                        goBack(actionEvent);
+                    } else {
+                        MainScreen.error_message("This appointment overlaps with another appointment");
+                    }
+
                 } catch (Exception e) {
                     MainScreen.error_message("Appointment Time format incorrect\n ex: HH:MM:SS");
                 }

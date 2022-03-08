@@ -47,10 +47,6 @@ public class DBAppointments {
              ResultSet rs = ps.executeQuery();
              ObservableList<Appointments> appResult = FXCollections.observableArrayList();
              while (rs.next()) {
-
-
-
-
                  int appId = rs.getInt("Appointment_ID");
                  String appName = rs.getString("Title");
                  String appDesc = rs.getString("Description");
@@ -211,6 +207,7 @@ public class DBAppointments {
     }
 
     public static void addAppointment(String appName, String appDesc, String appLoc, String appType, ZonedDateTime appStart, ZonedDateTime appEnd, int appCust, int appCont) throws SQLException, Exception{
+
         try {
 
             String createdBy = MainScreen.validUser.getUserName();
@@ -236,6 +233,36 @@ public class DBAppointments {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    public static boolean appOverlap (ZonedDateTime appStart, ZonedDateTime appEnd) throws SQLException, Exception {
+        boolean isOverlap = false;
+        String userName = MainScreen.validUser.getUserName();
+
+        try {
+            //String tmpString = "SELECT * FROM appointment WHERE (" + appStart.toLocalDateTime().toString() + " BETWEEN start AND end OR "
+                    //+ appEnd.toLocalDateTime().toString() + " BETWEEN start AND end OR " + appStart.toLocalDateTime() + " < start AND "
+                    //+ appEnd.toLocalDateTime() + "> end) AND (createdBy = ?)";
+            PreparedStatement pst = DBConnection.getConnection().prepareStatement(
+                    "SELECT * FROM appointments "
+                            + "WHERE (? BETWEEN start AND end OR ? BETWEEN start AND end OR ? < start AND ? > end) "
+                            + "AND (Created_By = ?)");
+            pst.setTimestamp(1, Timestamp.valueOf(appStart.toLocalDateTime()));
+            pst.setTimestamp(2, Timestamp.valueOf(appEnd.toLocalDateTime()));
+            pst.setTimestamp(3, Timestamp.valueOf(appStart.toLocalDateTime()));
+            pst.setTimestamp(4, Timestamp.valueOf(appEnd.toLocalDateTime()));
+            pst.setString(5, userName);
+
+            System.out.println(pst.toString());
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println("Overlap Error\n" + e);
+        }
+        return isOverlap;
     }
 
 
