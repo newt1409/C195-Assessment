@@ -263,11 +263,17 @@ public class MainScreen implements Initializable {
     public void delCustomer(ActionEvent actionEvent) {
         if (custTable.getSelectionModel().getSelectedItem() != null) {
             modCustomerId = custTable.getSelectionModel().getSelectedItem().getCustomerId();
+            String appDeleteData = "";
+            for (Appointments a : AppList) {
+                if (a.getcustomerId() == modCustomerId) {
+                    appDeleteData = appDeleteData + "\t" + a.getAppId() + "\t" + a.getAppType() + "\n";
+                }
+            }
             ButtonType foo = new ButtonType("DELETE", ButtonBar.ButtonData.OK_DONE);
             ButtonType bar = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
             Alert alert = new Alert(Alert.AlertType.WARNING, "", foo, bar);
             alert.setTitle("WARNING");
-            alert.setHeaderText("Are you sure you want to do that?\n THIS WILL DELETE THE ASSOCIATED APPOINTMENT AS WELL!");
+            alert.setHeaderText("Are you sure you want to do that?\n THIS WILL DELETE THE ASSOCIATED APPOINTMENT(S):\n" + appDeleteData );
             alert.setContentText("Deleting Record!!");
             alert.showAndWait().ifPresent(rs -> {
                 if (rs == foo) {
@@ -315,7 +321,7 @@ public class MainScreen implements Initializable {
             ButtonType bar = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
             Alert alert = new Alert(Alert.AlertType.WARNING, "", foo, bar);
             alert.setTitle("WARNING");
-            alert.setHeaderText("Are you sure you want to do that?\n THIS WILL DELETE THE APPOINTMENT!");
+            alert.setHeaderText("Are you sure you want to do that?\n THIS WILL DELETE THE APPOINTMENT:" + "\n\t" + modAppointmentID + "\t" + appTable.getSelectionModel().getSelectedItem().getAppType());
             alert.setContentText("Deleting Record!!");
             alert.showAndWait().ifPresent(rs -> {
                 if (rs == foo) {
@@ -376,11 +382,17 @@ public class MainScreen implements Initializable {
 
     public void delContact(ActionEvent actionEvent) {
         int delContact = appTable.getSelectionModel().getSelectedItem().getContactId();
+        String appDeleteData = "";
+        for (Appointments a : AppList) {
+            if (a.getContactId() == delContact) {
+                appDeleteData = appDeleteData + "\t" + a.getAppId() + "\t" + a.getAppType() + "\n";
+            }
+        }
         ButtonType foo = new ButtonType("DELETE", ButtonBar.ButtonData.OK_DONE);
         ButtonType bar = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
         Alert alert = new Alert(Alert.AlertType.WARNING, "", foo, bar);
         alert.setTitle("WARNING");
-        alert.setHeaderText("Are you sure you want to do that?\n THIS WILL DELETE THE ASSOCIATED APPOINTMENT AS WELL!");
+        alert.setHeaderText("Are you sure you want to do that?\n THIS WILL DELETE THE ASSOCIATED APPOINTMENT(S):\n" + appDeleteData);
         alert.setContentText("Deleting Record!!");
         alert.showAndWait().ifPresent(rs -> {
             if (rs == foo) {
