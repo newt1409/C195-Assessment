@@ -12,7 +12,7 @@
         <TextField fx:id="txtUsername" layoutX="44.0" layoutY="33.0" promptText="Username" />
         <PasswordField fx:id="txtPassword" layoutX="42.0" layoutY="73.0" promptText="Password" style="-fx-border-color: silver;" />
         <Button fx:id="btnLogin" layoutX="95.0" layoutY="116.0" mnemonicParsing="false" onAction="#Login" text="Login" />
-          <Label alignment="TOP_CENTER" layoutX="54.0" layoutY="-23.0" text="User Login" textAlignment="CENTER" textFill="#160101">
+          <Label fx:id="lblTitle" alignment="TOP_CENTER" layoutX="54.0" layoutY="-23.0" text="User Login" textAlignment="CENTER" textFill="#160101">
             <font>
               <Font name="System Bold Italic" size="26.0" />
             </font>

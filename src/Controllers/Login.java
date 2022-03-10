@@ -1,6 +1,7 @@
 package Controllers;
 
 import Database.DBAppointments;
+import Database.DBConnection;
 import Database.DBUsers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,10 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.Appointments;
 import model.User;
@@ -24,16 +22,27 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static utilities.TimeFiles.stringToCalendar;
+
 public class Login implements Initializable {
 
+    @FXML private Button btnLogin;
+    @FXML private Label lblTitle;
     @FXML
     private TextField txtUsername;
     @FXML
@@ -44,13 +53,21 @@ public class Login implements Initializable {
     private ObservableList<User> UserList = FXCollections.observableArrayList();
 
     @FXML private ObservableList<Appointments> AppList = FXCollections.observableArrayList();
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     private static ZoneId localZoneID = ZoneId.systemDefault();
 
     public static User getValidUser() { return validatedUser;}
+    ResourceBundle rssBundle;
 
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle) {
+        rssBundle = ResourceBundle.getBundle("Properties.Login", Locale.getDefault());
+        lblTitle.setText(rssBundle.getString("title"));
+        txtUsername.setPromptText(rssBundle.getString("username"));
+        txtPassword.setPromptText(rssBundle.getString("password"));
+        btnLogin.setText(rssBundle.getString("login"));
+
+
         try {
             UserList.addAll(DBUsers.getAllUsers());
         } catch (Exception ex) {
@@ -70,7 +87,7 @@ public class Login implements Initializable {
                     writer.append(LocalDateTime.now() + " " + validatedUser.getUserName() + " Successful Login" + "\n");
                     writer.flush();
                     writer.close();
-                    //checkAppointments(); //Cant figure out why the lamba blows up with time added
+                    checkAppointments(); //Cant figure out why the lamba blows up with time added
                     Parent root = FXMLLoader.load(getClass().getResource("../Views/MainScreen.fxml"));
                     Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
                     Scene scene = new Scene(root, 900, 500);
@@ -87,25 +104,55 @@ public class Login implements Initializable {
             }
         }
         if (!validUser){
-
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Incorrect Credentials");
-            alert.setHeaderText("Error!:  Incorrect Credentials");
-            alert.setContentText("Bummer, should of wrote it down");
+            alert.setTitle(rssBundle.getString("error"));
+            alert.setHeaderText(rssBundle.getString("error"));
+            alert.setContentText(rssBundle.getString("incorrect"));
             alert.showAndWait();
-
         }
     }
 
     private void checkAppointments() throws Exception {
+        try {
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(
+                    "SELECT appointments.Appointment_ID, appointments.Customer_ID, appointments.Title, appointments.Description, appointments.Location, appointments.Type, "
+                            + "appointments.`Start`, appointments.`End`, customers.Customer_ID, customers.Customer_Name, appointments.Created_By "
+                            + "FROM appointments, customers "
+                            + "WHERE appointments.Customer_ID = customers.Customer_ID AND appointments.Created_By = ? "
+                            + "ORDER BY `start`");
+            ps.setString(1, validatedUser.getUserName());
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                //pulls start time from database and converts it into local time zone
+                Timestamp timestampStart = rs.getTimestamp("Start");
+                ZonedDateTime startUTC = timestampStart.toLocalDateTime().atZone(ZoneId.of("UTC"));
+                ZonedDateTime newLocalStart = startUTC.withZoneSameInstant(localZoneID);
+                Timestamp outStart = Timestamp.valueOf(newLocalStart.toLocalDateTime());
+
+                //pulls end time from database and converts it into local time zone
+                Timestamp timestampEnd = rs.getTimestamp("End");
+                ZonedDateTime endUTC = timestampEnd.toLocalDateTime().atZone(ZoneId.of("UTC"));
+                ZonedDateTime newLocalEnd = endUTC.withZoneSameInstant(localZoneID);
+                Timestamp outEnd = Timestamp.valueOf(newLocalStart.toLocalDateTime());
+
+                //grab the rest of the data to create an instance of an appointment
+                String appName = rs.getString("Title");
+                String appDesc = rs.getString("Description");
+                String appLoc = rs.getString("Location");
+                String appType = rs.getString("Type");
+                String customerName = rs.getString("Customer_Name");
+
+                AppList.add(new Appointments(appName, appDesc, appLoc, appType, outStart.toString(), outEnd.toString(), customerName));
+            }
+        } catch (SQLException e) {
+            System.out.println("There is an error from SQL server");
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime appPlus15 = now.plusMinutes(15);
-        try {
-            AppList.addAll(Objects.requireNonNull(DBAppointments.getUserAppointments(validatedUser.getUserId())));
-        } catch (Exception ex) {
-            Logger.getLogger(newCustomer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
         FilteredList<Appointments> filteredData = new FilteredList<>(AppList);
         //lambda expression used to efficiently identify any appointment starting within the next 15 minutes
         filteredData.setPredicate(row -> {
@@ -119,6 +166,7 @@ public class Login implements Initializable {
     }
 
     public static void error_message (String inMsg) {
+
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Error");
         alert.setHeaderText(inMsg);

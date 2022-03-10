@@ -25,6 +25,7 @@ public class Appointments {
     private String lastUpdateBy;
 
     private int customerId;
+    private String customerName;
     private int userId;
     private int contactId;
 
@@ -46,6 +47,16 @@ public class Appointments {
         this.userId = userId;
         this.contactId = contactId;
     }
+    public Appointments(String appTitle, String appDesc, String appLocation, String appType, String appStart, String appEnd, String inCustomer) {
+        this.title = appTitle;
+        this.description = appDesc;
+        this.location = appLocation;
+        this.type = appType;
+        this.start = appStart;
+        this.end = appEnd;
+        this.customerName = inCustomer;
+    }
+
     /**
      * @return the appId
      */
