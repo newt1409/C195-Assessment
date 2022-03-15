@@ -37,10 +37,13 @@ public class modAppointments implements Initializable {
     @FXML private TextField appTimeStop;
     @FXML private DatePicker appDateStop;
 
+
     @FXML private ComboBox appCustomer;
     @FXML private ComboBox appContact;
+    @FXML private ComboBox appUser;
     @FXML private ObservableList<Customers> CustomerList = FXCollections.observableArrayList();
     @FXML private ObservableList<Contact> ContactList = FXCollections.observableArrayList();
+    @FXML private ObservableList<User> UserList = FXCollections.observableArrayList();
 
     private final DateTimeFormatter appTimeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
     private final DateTimeFormatter appDateFormat = DateTimeFormatter.ofPattern("yyyy-mm-dd");
@@ -58,6 +61,7 @@ public class modAppointments implements Initializable {
             modAppointment = DBAppointments.getAppointment(modAppointmentID);
             CustomerList.addAll(DBCustomers.getAllCustomers());
             ContactList.addAll(DBContacts.getAllContacts());
+            UserList.addAll((DBUsers.getAllUsers()));
         } catch (Exception ex) {
             Logger.getLogger(newAppointments.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -73,6 +77,12 @@ public class modAppointments implements Initializable {
                 appContact.setValue(c.getContactName());
             }
         }
+        for (User u : UserList) {
+            appUser.getItems().add(u.getUserName());
+            if (u.getUserId() == modAppointment.getUserId()) {
+                appUser.setValue(u.getUserName());
+            }
+        }
         appID.setText(String.valueOf(modAppointment.getAppId()));
         appDesc.setText(modAppointment.getAppDesc());
         appTitle.setText(modAppointment.getAppTitle());
@@ -85,6 +95,7 @@ public class modAppointments implements Initializable {
         appDateStart.setValue(appDate);
         appDate = LocalDate.parse(modAppointment.getAppEnd().substring(0,10), formatter);
         appDateStop.setValue(appDate);
+
     }
 
     public void Save(ActionEvent actionEvent) throws Exception {
@@ -112,6 +123,7 @@ public class modAppointments implements Initializable {
 
                     int appCustID = 0;
                     int appContactID = 0;
+                    int appUserID =0;
                     for (Customers c : CustomerList ) {
                         if (c.getCustomerName().equals(appCustomer.getValue())) {
                             appCustID = c.getCustomerId();
@@ -122,6 +134,11 @@ public class modAppointments implements Initializable {
                             appContactID = c.getContactID();
                         }
                     }
+                    for (User u : UserList ) {
+                        if (u.getUserName().equals(appUser.getValue())) {
+                            appUserID = u.getUserId();
+                        }
+                    }
                     DBAppointments.modAppointment(Integer.valueOf(appID.getText()), appTitle.getText(),
                             appDesc.getText(),
                             appLoc.getText(),
@@ -129,7 +146,9 @@ public class modAppointments implements Initializable {
                             appStartUTC,
                             appStopUTC,
                             appCustID,
-                            appContactID);
+                            appContactID,
+                            appUser.getValue().toString(),
+                            appUserID);
                     goBack(actionEvent);
                 } catch (Exception e) {
                     MainScreen.error_message("Appointment Time format incorrect\n ex: HH:MM:SS");

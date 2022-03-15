@@ -39,7 +39,7 @@ public class DBAppointments {
     private static ZoneId utcZoneID = ZoneId.of("UTC");
 
 
-     public static ObservableList<Appointments> getUserAppointments(int userID) throws SQLException, Exception{
+    public static ObservableList<Appointments> getUserAppointments(int userID) throws SQLException, Exception{
 
          try {
              String sql = "select * FROM appointments WHERE User_ID  = '" + userID + "'";
@@ -136,11 +136,11 @@ public class DBAppointments {
         return null;
     }
 
-    public static void modAppointment(int appID, String appName, String appDesc, String appLoc, String appType, ZonedDateTime appStart, ZonedDateTime appEnd, int appCust, int appCont) throws SQLException, Exception{
+    public static void modAppointment(int appID, String appName, String appDesc, String appLoc, String appType, ZonedDateTime appStart, ZonedDateTime appEnd, int appCust, int appCont, String appUserName, int appUserId) throws SQLException, Exception{
         try {
 
-            String modifiedBy = MainScreen.validUser.getUserName();
-            int modifiedID = MainScreen.validUser.getUserId();
+            String modifiedBy = appUserName;
+            int modifiedID = appUserId;
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             Timestamp sqlStartDT = Timestamp.valueOf(appStart.toLocalDateTime());
             Timestamp sqlEndDT = Timestamp.valueOf(appEnd.toLocalDateTime());
@@ -206,12 +206,12 @@ public class DBAppointments {
         return allAppointments;
     }
 
-    public static void addAppointment(String appName, String appDesc, String appLoc, String appType, ZonedDateTime appStart, ZonedDateTime appEnd, int appCust, int appCont) throws SQLException, Exception{
+    public static void addAppointment(String appName, String appDesc, String appLoc, String appType, ZonedDateTime appStart, ZonedDateTime appEnd, int appCust, int appCont, String appUserName, int appUserId) throws SQLException, Exception{
 
         try {
 
-            String createdBy = MainScreen.validUser.getUserName();
-            int userID = MainScreen.validUser.getUserId();
+            String createdBy = appUserName;
+            int userID = appUserId;
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             Timestamp sqlStartDT = Timestamp.valueOf(appStart.toLocalDateTime());
             Timestamp sqlEndDT = Timestamp.valueOf(appEnd.toLocalDateTime());

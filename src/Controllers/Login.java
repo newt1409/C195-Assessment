@@ -43,6 +43,7 @@ public class Login implements Initializable {
 
     @FXML private Button btnLogin;
     @FXML private Label lblTitle;
+    @FXML private Label lblZone;
     @FXML
     private TextField txtUsername;
     @FXML
@@ -66,7 +67,7 @@ public class Login implements Initializable {
         txtUsername.setPromptText(rssBundle.getString("username"));
         txtPassword.setPromptText(rssBundle.getString("password"));
         btnLogin.setText(rssBundle.getString("login"));
-
+        lblZone.setText(localZoneID.toString());
 
         try {
             UserList.addAll(DBUsers.getAllUsers());

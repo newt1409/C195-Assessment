@@ -36,10 +36,13 @@ public class newAppointments implements Initializable {
     @FXML private TextField appTimeStop;
     @FXML private DatePicker appDateStop;
 
+
     @FXML private ComboBox appCustomer;
     @FXML private ComboBox appContact;
+    @FXML private ComboBox appUser;
     @FXML private ObservableList<Customers> CustomerList = FXCollections.observableArrayList();
     @FXML private ObservableList<Contact> ContactList = FXCollections.observableArrayList();
+    @FXML private ObservableList<User> UserList = FXCollections.observableArrayList();
 
     private final DateTimeFormatter appTimeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
     private final DateTimeFormatter appDateFormat = DateTimeFormatter.ofPattern("yyyy-mm-dd");
@@ -51,6 +54,7 @@ public class newAppointments implements Initializable {
         try {
             CustomerList.addAll(DBCustomers.getAllCustomers());
             ContactList.addAll(DBContacts.getAllContacts());
+            UserList.addAll(DBUsers.getAllUsers());
         } catch (Exception ex) {
             Logger.getLogger(newAppointments.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -59,6 +63,9 @@ public class newAppointments implements Initializable {
         }
         for (Contact c : ContactList) {
             appContact.getItems().add(c.getContactName());
+        }
+        for (User u : UserList) {
+            appUser.getItems().add(u.getUserName());
         }
     }
 
@@ -87,6 +94,7 @@ public class newAppointments implements Initializable {
 
                     int appCustID = 0;
                     int appContactID = 0;
+                    int appUserID =0;
                     for (Customers c : CustomerList ) {
                         if (c.getCustomerName().equals(appCustomer.getValue())) {
                             appCustID = c.getCustomerId();
@@ -97,6 +105,11 @@ public class newAppointments implements Initializable {
                             appContactID = c.getContactID();
                         }
                     }
+                    for (User u : UserList ) {
+                        if (u.getUserName().equals(appUser.getValue())) {
+                            appUserID = u.getUserId();
+                        }
+                    }
                     if (!DBAppointments.appOverlap(appStartUTC, appStopUTC)) {
                         DBAppointments.addAppointment(appTitle.getText(),
                                 appDesc.getText(),
@@ -105,7 +118,9 @@ public class newAppointments implements Initializable {
                                 appStartUTC,
                                 appStopUTC,
                                 appCustID,
-                                appContactID);
+                                appContactID,
+                                appUser.getValue().toString(),
+                                appUserID);
                         goBack(actionEvent);
                     } else {
                         MainScreen.error_message("This appointment overlaps with another appointment");

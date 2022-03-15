@@ -54,6 +54,7 @@ public class MainScreen implements Initializable {
     @FXML private TableColumn<Appointments, String> Type;
     @FXML private TableColumn<Appointments, String> Start;
     @FXML private TableColumn<Appointments, String> End;
+    @FXML private TableColumn<Appointments, Integer> UserID;
 
     @FXML private TableColumn<Customers, Integer> custID;
     @FXML private TableColumn<Customers, String> custName;
@@ -168,7 +169,6 @@ public class MainScreen implements Initializable {
 
             appTable.setItems(filteredData);
         }
-
         userLabel.setText(validUser.getUserName());
         //appTable.setItems(AppList);
         ID.setCellValueFactory(new PropertyValueFactory<>("appId"));
@@ -178,12 +178,7 @@ public class MainScreen implements Initializable {
         Type.setCellValueFactory(new PropertyValueFactory<>("appType"));
         Start.setCellValueFactory(new PropertyValueFactory<>("appStart"));
         End.setCellValueFactory(new PropertyValueFactory<>("appEnd"));
-
-
-
-
-
-
+        UserID.setCellValueFactory(new PropertyValueFactory<>("UserId"));
     }
 
     private void popAppData() throws Exception {

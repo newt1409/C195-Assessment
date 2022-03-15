@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="408.0" prefWidth="281.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.newAppointments">
+<AnchorPane id="AnchorPane" prefHeight="436.0" prefWidth="281.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.newAppointments">
    <children>
-      <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#0a0a0a00" height="389.0" layoutX="33.0" layoutY="11.0" stroke="BLACK" strokeType="INSIDE" width="216.0" />
+      <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#0a0a0a00" height="414.0" layoutX="33.0" layoutY="11.0" stroke="BLACK" strokeType="INSIDE" width="216.0" />
       <TextField fx:id="appDesc" layoutX="111.0" layoutY="107.0" prefHeight="25.0" prefWidth="114.0" text="asdf" />
       <Label layoutX="43.0" layoutY="55.0" text="ID" />
       <Label layoutX="54.0" layoutY="14.0" text="New Appointment">
@@ -25,8 +30,8 @@
       <TextField fx:id="appID" disable="true" editable="false" layoutX="111.0" layoutY="53.0" prefHeight="25.0" prefWidth="114.0" />
       <TextField fx:id="appLoc" layoutX="111.0" layoutY="134.0" prefHeight="25.0" prefWidth="114.0" text="asdf" />
       <TextField fx:id="appType" layoutX="111.0" layoutY="161.0" prefHeight="25.0" prefWidth="114.0" text="asdf" />
-      <Button layoutX="122.0" layoutY="369.0" mnemonicParsing="false" onAction="#Save" text="Save" />
-      <Button layoutX="172.0" layoutY="369.0" mnemonicParsing="false" onAction="#goBack" text="Cancel" />
+      <Button layoutX="122.0" layoutY="394.0" mnemonicParsing="false" onAction="#Save" text="Save" />
+      <Button layoutX="172.0" layoutY="394.0" mnemonicParsing="false" onAction="#goBack" text="Cancel" />
       <Separator prefWidth="200.0" />
       <DatePicker fx:id="appDateStart" layoutX="110.0" layoutY="217.0" prefHeight="25.0" prefWidth="114.0" />
       <DatePicker fx:id="appDateStop" layoutX="111.0" layoutY="273.0" prefHeight="25.0" prefWidth="114.0" />
@@ -38,5 +43,7 @@
       <Label layoutX="42.0" layoutY="308.0" text="Customer" />
       <ComboBox fx:id="appContact" layoutX="111.0" layoutY="333.0" prefHeight="25.0" prefWidth="114.0" />
       <Label layoutX="42.0" layoutY="337.0" text="Contact" />
+      <Label layoutX="43.0" layoutY="367.0" text="User:" />
+      <ComboBox fx:id="appUser" layoutX="111.0" layoutY="363.0" prefHeight="25.0" prefWidth="114.0" />
    </children>
 </AnchorPane>
