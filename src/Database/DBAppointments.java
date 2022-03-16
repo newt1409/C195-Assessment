@@ -138,7 +138,6 @@ public class DBAppointments {
 
     public static void modAppointment(int appID, String appName, String appDesc, String appLoc, String appType, ZonedDateTime appStart, ZonedDateTime appEnd, int appCust, int appCont, String appUserName, int appUserId) throws SQLException, Exception{
         try {
-
             String modifiedBy = appUserName;
             int modifiedID = appUserId;
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -235,25 +234,27 @@ public class DBAppointments {
         }
     }
 
-    public static boolean appOverlap (ZonedDateTime appStart, ZonedDateTime appEnd) throws SQLException, Exception {
+    public static boolean appOverlap (int userID, ZonedDateTime appStart, ZonedDateTime appEnd) throws SQLException, Exception {
         boolean isOverlap = false;
-        String userName = MainScreen.validUser.getUserName();
+        System.out.print(Timestamp.valueOf(appStart.toLocalDateTime()));
+        System.out.print(Timestamp.valueOf(appEnd.toLocalDateTime()));
 
         try {
-            //String tmpString = "SELECT * FROM appointment WHERE (" + appStart.toLocalDateTime().toString() + " BETWEEN start AND end OR "
-                    //+ appEnd.toLocalDateTime().toString() + " BETWEEN start AND end OR " + appStart.toLocalDateTime() + " < start AND "
-                    //+ appEnd.toLocalDateTime() + "> end) AND (createdBy = ?)";
-            PreparedStatement pst = DBConnection.getConnection().prepareStatement(
+            String tmpString = "SELECT * FROM appointments WHERE ('" + Timestamp.valueOf(appStart.toLocalDateTime()) + "' BETWEEN Start AND End OR '"
+                    + Timestamp.valueOf(appEnd.toLocalDateTime()) + "' BETWEEN Start AND End OR '" + Timestamp.valueOf(appStart.toLocalDateTime()) + "' < Start AND '"
+                     + Timestamp.valueOf(appEnd.toLocalDateTime()) + "' > End) AND (User_ID = " + userID + " )";
+            PreparedStatement pst = DBConnection.getConnection().prepareStatement(tmpString);
+            /*PreparedStatement pst = DBConnection.getConnection().prepareStatement(
                     "SELECT * FROM appointments "
-                            + "WHERE (? BETWEEN start AND end OR ? BETWEEN start AND end OR ? < start AND ? > end) "
-                            + "AND (Created_By = ?)");
+                            + "WHERE (? BETWEEN Start AND End OR ? BETWEEN Start AND End OR ? < Start AND ? > End) "
+                            + "AND (User_ID = ?)");
             pst.setTimestamp(1, Timestamp.valueOf(appStart.toLocalDateTime()));
             pst.setTimestamp(2, Timestamp.valueOf(appEnd.toLocalDateTime()));
             pst.setTimestamp(3, Timestamp.valueOf(appStart.toLocalDateTime()));
             pst.setTimestamp(4, Timestamp.valueOf(appEnd.toLocalDateTime()));
-            pst.setString(5, userName);
+            pst.setInt(5, userID);
+            */
 
-            System.out.println(pst.toString());
             ResultSet rs = pst.executeQuery();
 
             if (rs.next()) {

@@ -78,13 +78,15 @@ public class Login implements Initializable {
 
     public void Login(ActionEvent actionEvent) throws Exception {
         boolean validUser = false;
+        //write to file if the username supplied is a successful or unsuccesful
         String loginLog = "login_activity.txt";
         BufferedWriter writer = new BufferedWriter(new FileWriter(loginLog, true));
+        //cycle through the database of users and check the password
         for (User u : UserList ) {
             if (u.getUserName().equals(txtUsername.getText())) {
                 if (u.getPassword().equals(txtPassword.getText())) {
                     validatedUser = u;
-
+                    //write to log of successful login
                     writer.append(LocalDateTime.now() + " " + validatedUser.getUserName() + " Successful Login" + "\n");
                     writer.flush();
                     writer.close();
@@ -97,7 +99,8 @@ public class Login implements Initializable {
                     stage.show();
                     validUser = true;
                 } else {
-                    writer.append(LocalDateTime.now() + " " + validatedUser.getUserName() + " Unsuccessful Login" + "\n");
+                    //write to log of unsuccessful login
+                    writer.append(LocalDateTime.now() + " " + u.getUserName() + " Unsuccessful Login" + "\n");
                     writer.flush();
                     writer.close();
                     break;
@@ -105,6 +108,7 @@ public class Login implements Initializable {
             }
         }
         if (!validUser){
+            //alert catch for any issue with login
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle(rssBundle.getString("error"));
             alert.setHeaderText(rssBundle.getString("error"));
@@ -126,16 +130,19 @@ public class Login implements Initializable {
 
             while (rs.next()) {
                 //pulls start time from database and converts it into local time zone
-                Timestamp timestampStart = rs.getTimestamp("Start");
+
+                Timestamp timestampStart = Timestamp.valueOf(rs.getString("Start"));
                 ZonedDateTime startUTC = timestampStart.toLocalDateTime().atZone(ZoneId.of("UTC"));
                 ZonedDateTime newLocalStart = startUTC.withZoneSameInstant(localZoneID);
                 Timestamp outStart = Timestamp.valueOf(newLocalStart.toLocalDateTime());
 
+
                 //pulls end time from database and converts it into local time zone
-                Timestamp timestampEnd = rs.getTimestamp("End");
+                Timestamp timestampEnd = Timestamp.valueOf(rs.getString("End"));
                 ZonedDateTime endUTC = timestampEnd.toLocalDateTime().atZone(ZoneId.of("UTC"));
                 ZonedDateTime newLocalEnd = endUTC.withZoneSameInstant(localZoneID);
-                Timestamp outEnd = Timestamp.valueOf(newLocalStart.toLocalDateTime());
+                Timestamp outEnd = Timestamp.valueOf(newLocalEnd.toLocalDateTime());
+
 
                 //grab the rest of the data to create an instance of an appointment
                 String appName = rs.getString("Title");
@@ -161,7 +168,7 @@ public class Login implements Initializable {
             return rowDate.isAfter(now.minusMinutes(1)) && rowDate.isBefore(appPlus15);
         });
         if (! filteredData.isEmpty()) {
-            error_message("Reminder - You have an appointment starting with the next 15 min \n DONT BE LATE!" );
+            error_message("Reminder - You have an appointment starting within the next 15 min \n DONT BE LATE!" );
         }
 
     }

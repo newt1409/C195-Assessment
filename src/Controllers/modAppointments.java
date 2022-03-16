@@ -3,6 +3,7 @@ package Controllers;
 import Database.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -113,43 +114,51 @@ public class modAppointments implements Initializable {
                     LocalDate appLocalDateEnd = appDateStop.getValue();
                     LocalTime appLocalTimeStart = LocalTime.parse(appTimeStart.getText(), appTimeFormat);
                     LocalTime appLocalTimeStop = LocalTime.parse(appTimeStop.getText(), appTimeFormat);
-                    LocalDateTime appStartDateTime = LocalDateTime.of(appLocalDateStart, appLocalTimeStart);
-                    LocalDateTime appStopDateTime = LocalDateTime.of(appLocalDateEnd, appLocalTimeStop);
-                    ZonedDateTime appStartUTC = appStartDateTime.atZone(localZoneID).withZoneSameInstant(ZoneId.of("UTC"));
-                    ZonedDateTime appStopUTC = appStopDateTime.atZone(localZoneID).withZoneSameInstant(ZoneId.of("UTC"));
 
-                    //String appStartDateTime = appDateStart.getValue().toString() + " " + appTimeStart.getText().toString() + ":00";
-                    //String appStopDateTime = appDateStop.getValue().toString() +  " " + appTimeStop.getText().toString() + ":00";
+                    LocalTime startTime = LocalTime.of(8,0,0);
+                    LocalTime endTime = startTime.plusHours(9);
+                    if ( appLocalTimeStart.isAfter(startTime) && appLocalTimeStop.isBefore(endTime)) {
+                        LocalDateTime appStartDateTime = LocalDateTime.of(appLocalDateStart, appLocalTimeStart);
+                        LocalDateTime appStopDateTime = LocalDateTime.of(appLocalDateEnd, appLocalTimeStop);
+                        ZonedDateTime appStartUTC = appStartDateTime.atZone(localZoneID).withZoneSameInstant(ZoneId.of("UTC"));
+                        ZonedDateTime appStopUTC = appStopDateTime.atZone(localZoneID).withZoneSameInstant(ZoneId.of("UTC"));
 
-                    int appCustID = 0;
-                    int appContactID = 0;
-                    int appUserID =0;
-                    for (Customers c : CustomerList ) {
-                        if (c.getCustomerName().equals(appCustomer.getValue())) {
-                            appCustID = c.getCustomerId();
+                        int appCustID = 0;
+                        int appContactID = 0;
+                        int appUserID =0;
+                        for (Customers c : CustomerList ) {
+                            if (c.getCustomerName().equals(appCustomer.getValue())) {
+                                appCustID = c.getCustomerId();
+                            }
                         }
-                    }
-                    for (Contact c : ContactList ) {
-                        if (c.getContactName().equals(appContact.getValue())) {
-                            appContactID = c.getContactID();
+                        for (Contact c : ContactList ) {
+                            if (c.getContactName().equals(appContact.getValue())) {
+                                appContactID = c.getContactID();
+                            }
                         }
-                    }
-                    for (User u : UserList ) {
-                        if (u.getUserName().equals(appUser.getValue())) {
-                            appUserID = u.getUserId();
+                        for (User u : UserList ) {
+                            if (u.getUserName().equals(appUser.getValue())) {
+                                appUserID = u.getUserId();
+                            }
                         }
+                        if (!DBAppointments.appOverlap(appUserID, appStartUTC, appStopUTC)) {
+                            DBAppointments.addAppointment(appTitle.getText(),
+                                    appDesc.getText(),
+                                    appLoc.getText(),
+                                    appType.getText(),
+                                    appStartUTC,
+                                    appStopUTC,
+                                    appCustID,
+                                    appContactID,
+                                    appUser.getValue().toString(),
+                                    appUserID);
+                            goBack(actionEvent);
+                        } else {
+                            MainScreen.error_message("This appointment overlaps with another appointment");
+                        }
+                    } else {
+                        MainScreen.error_message("Appointment Time is outside of work hours");
                     }
-                    DBAppointments.modAppointment(Integer.valueOf(appID.getText()), appTitle.getText(),
-                            appDesc.getText(),
-                            appLoc.getText(),
-                            appType.getText(),
-                            appStartUTC,
-                            appStopUTC,
-                            appCustID,
-                            appContactID,
-                            appUser.getValue().toString(),
-                            appUserID);
-                    goBack(actionEvent);
                 } catch (Exception e) {
                     MainScreen.error_message("Appointment Time format incorrect\n ex: HH:MM:SS");
                 }
