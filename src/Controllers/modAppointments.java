@@ -88,7 +88,7 @@ public class modAppointments implements Initializable {
         appDesc.setText(modAppointment.getAppDesc());
         appTitle.setText(modAppointment.getAppTitle());
         appLoc.setText((modAppointment.getAppLocation()));
-        appType.setText(modAppointment.getAppTitle());
+        appType.setText(modAppointment.getAppType());
         appTimeStart.setText(modAppointment.getAppStart().substring(11, 16));
         appTimeStop.setText(modAppointment.getAppEnd().substring(11, 16));
 
@@ -142,7 +142,7 @@ public class modAppointments implements Initializable {
                             }
                         }
                         if (!DBAppointments.appOverlap(appUserID, appStartUTC, appStopUTC)) {
-                            DBAppointments.addAppointment(appTitle.getText(),
+                            DBAppointments.modAppointment(modAppointmentID, appTitle.getText(),
                                     appDesc.getText(),
                                     appLoc.getText(),
                                     appType.getText(),
