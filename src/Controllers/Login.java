@@ -171,7 +171,10 @@ public class Login implements Initializable {
         if (! filteredData.isEmpty()) {
             error_message("Reminder - You have an appointment starting within the next 15 min \n DONT BE LATE!\n\tAppointment ID: " + filteredData.get(0).getAppId() +
                                 "\n\tAppointment Date: " + filteredData.get(0).getAppStart().substring(0, 10) + "\n\tAppointment Time: " + filteredData.get(0).getAppStart().substring(11,16));
+        } else {
+            error_message("You have no coming up appointments within 15 minutes");
         }
+
 
     }
 
