@@ -47,7 +47,8 @@ public class Appointments {
         this.userId = userId;
         this.contactId = contactId;
     }
-    public Appointments(String appTitle, String appDesc, String appLocation, String appType, String appStart, String appEnd, String inCustomer) {
+    public Appointments(int inAppID, String appTitle, String appDesc, String appLocation, String appType, String appStart, String appEnd, String inCustomer) {
+        this.id = inAppID;
         this.title = appTitle;
         this.description = appDesc;
         this.location = appLocation;

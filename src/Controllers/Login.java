@@ -145,13 +145,14 @@ public class Login implements Initializable {
 
 
                 //grab the rest of the data to create an instance of an appointment
+                int appID = Integer.valueOf(rs.getString("Appointment_ID"));
                 String appName = rs.getString("Title");
                 String appDesc = rs.getString("Description");
                 String appLoc = rs.getString("Location");
                 String appType = rs.getString("Type");
                 String customerName = rs.getString("Customer_Name");
 
-                AppList.add(new Appointments(appName, appDesc, appLoc, appType, outStart.toString(), outEnd.toString(), customerName));
+                AppList.add(new Appointments(appID, appName, appDesc, appLoc, appType, outStart.toString(), outEnd.toString(), customerName));
             }
         } catch (SQLException e) {
             System.out.println("There is an error from SQL server");
@@ -168,7 +169,8 @@ public class Login implements Initializable {
             return rowDate.isAfter(now.minusMinutes(1)) && rowDate.isBefore(appPlus15);
         });
         if (! filteredData.isEmpty()) {
-            error_message("Reminder - You have an appointment starting within the next 15 min \n DONT BE LATE!" );
+            error_message("Reminder - You have an appointment starting within the next 15 min \n DONT BE LATE!\n\tAppointment ID: " + filteredData.get(0).getAppId() +
+                                "\n\tAppointment Date: " + filteredData.get(0).getAppStart().substring(0, 10) + "\n\tAppointment Time: " + filteredData.get(0).getAppStart().substring(11,16));
         }
 
     }
