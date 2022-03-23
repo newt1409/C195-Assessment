@@ -86,7 +86,7 @@ public class newAppointments implements Initializable {
                     LocalTime appLocalTimeStop = LocalTime.parse(appTimeStop.getText(), appTimeFormat);
 
                     LocalTime startTime = LocalTime.of(8,0,0);
-                    LocalTime endTime = startTime.plusHours(9);
+                    LocalTime endTime = startTime.plusHours(14);
                     if ( appLocalTimeStart.isAfter(startTime) && appLocalTimeStop.isBefore(endTime)) {
                         LocalDateTime appStartDateTime = LocalDateTime.of(appLocalDateStart, appLocalTimeStart);
                         LocalDateTime appStopDateTime = LocalDateTime.of(appLocalDateEnd, appLocalTimeStop);
