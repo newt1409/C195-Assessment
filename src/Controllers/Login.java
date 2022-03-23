@@ -162,8 +162,13 @@ public class Login implements Initializable {
         }
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime appPlus15 = now.plusMinutes(15);
+        /**
+         *lambda expression used to efficiently identify any appointment starting within the next 15 minutes
+         * @param the current list of appointments
+         * @return the appointments that are plus 15
+         */
         FilteredList<Appointments> filteredData = new FilteredList<>(AppList);
-        //lambda expression used to efficiently identify any appointment starting within the next 15 minutes
+
         filteredData.setPredicate(row -> {
             LocalDateTime rowDate = LocalDateTime.parse(row.getAppStart().substring(0, 16), formatter);
             return rowDate.isAfter(now.minusMinutes(1)) && rowDate.isBefore(appPlus15);
