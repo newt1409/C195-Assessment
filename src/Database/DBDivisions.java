@@ -16,16 +16,19 @@ import java.sql.SQLException;
 import java.util.Calendar;
 
 import static utilities.TimeFiles.stringToCalendar;
-
 /**
- *
- * @author carolyn.sher
+ * Database interface for state or province methods
+ *@author Weston Brehe
  */
-/* typically you would also have create, update and read methods*/
 public class DBDivisions {
-
+    /**
+     * return a singular division data record
+     * @param divID
+     * @return
+     * @throws SQLException
+     * @throws Exception
+     */
     public static Divisions getDivisionData(int divID) throws SQLException, Exception{
-
          try {
              String sql = "select * FROM first_level_divisions WHERE Division_ID  = '" + divID + "'";
              PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
@@ -41,7 +44,6 @@ public class DBDivisions {
                  Calendar lastUpdateCalendar = stringToCalendar(lastUpdate);
                  int divCountry = rs.getInt("Country_ID");
                  Divisions divResult = new Divisions(divId, divName, createDateCalendar, createdBy, lastUpdateCalendar, lastUpdateby, divCountry);
-
                  return divResult;
              }
          } catch (SQLException throwables) {
@@ -49,6 +51,13 @@ public class DBDivisions {
          }
         return null;
      }
+
+    /**
+     * Method to return all states/provinces
+     * @return
+     * @throws SQLException
+     * @throws Exception
+     */
     public static ObservableList<Divisions> getAllDivisions() throws SQLException, Exception{
         ObservableList<Divisions> allDivisions=FXCollections.observableArrayList();
         try {

@@ -24,34 +24,97 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Repeat class of new appoontment but modified as it uses a modify ID to populate the data and save over that id
+ * @author Weston Brehe
+ */
 public class modAppointments implements Initializable {
-
-
-
+    /**
+     * Textfield of the current appointment ID
+     */
     @FXML private TextField appID;
+    /**
+     * Textfield of the current appointment Description
+     */
     @FXML private TextField appDesc;
+    /**
+     * Textfield of the current appointment Title
+     */
     @FXML private TextField appTitle;
+    /**
+     * Textfield of the current appointment Location
+     */
     @FXML private TextField appLoc;
+    /**
+     * Textfield of the current appointment Type
+     */
     @FXML private TextField appType;
+    /**
+     * Textfield of the current appointment Start time
+     */
     @FXML private TextField appTimeStart;
+    /**
+     * Textfield of the current appointment Start date
+     */
     @FXML private DatePicker appDateStart;
+    /**
+     * Textfield of the current appointment End time
+     */
     @FXML private TextField appTimeStop;
+    /**
+     * Textfield of the current appointment End data
+     */
     @FXML private DatePicker appDateStop;
-
-
+    /**
+     * Combo box to be filled with all the Customers
+     */
     @FXML private ComboBox appCustomer;
+    /**
+     * Combo box to be filled with all the Contacts
+     */
     @FXML private ComboBox appContact;
+    /**
+     * Combo box to be filled with all the Users
+     */
     @FXML private ComboBox appUser;
+    /**
+     * Observable list of all Customers in database
+     */
     @FXML private ObservableList<Customers> CustomerList = FXCollections.observableArrayList();
+    /**
+     * Observable list of all Contacts in database
+     */
     @FXML private ObservableList<Contact> ContactList = FXCollections.observableArrayList();
+    /**
+     * Observable list of all Users in the database
+     */
     @FXML private ObservableList<User> UserList = FXCollections.observableArrayList();
-
+    /**
+     * Date time format for time in the database
+     */
     private final DateTimeFormatter appTimeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
+    /**
+     * Date time format for date in the database
+     */
     private final DateTimeFormatter appDateFormat = DateTimeFormatter.ofPattern("yyyy-mm-dd");
+    /**
+     * Date time format for date and time together in the database
+     */
     private final DateTimeFormatter appDateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    /**
+     * Current local zone id
+     */
     private final ZoneId localZoneID = ZoneId.systemDefault();
+    /**
+     * Current appointment id to be modified
+     */
     @FXML private int modAppointmentID;
 
+    /**
+     * Initialize the frame and populate all the data from modAppointmentID and the data needed combo boxes
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -91,7 +154,6 @@ public class modAppointments implements Initializable {
         appType.setText(modAppointment.getAppType());
         appTimeStart.setText(modAppointment.getAppStart().substring(11, 16));
         appTimeStop.setText(modAppointment.getAppEnd().substring(11, 16));
-
         appDate = LocalDate.parse(modAppointment.getAppStart().substring(0,10), formatter);
         appDateStart.setValue(appDate);
         appDate = LocalDate.parse(modAppointment.getAppEnd().substring(0,10), formatter);
@@ -99,6 +161,12 @@ public class modAppointments implements Initializable {
 
     }
 
+    /**
+     * Main method to error check the input data, check overlap of other appointments, convert time to UTC,
+     * check for business hours and then send curated data DBAppointment.java to be saved
+     * @param actionEvent
+     * @throws Exception
+     */
     public void Save(ActionEvent actionEvent) throws Exception {
         try {
             String tmpDateStart = appDateStart.getValue().toString();
@@ -122,7 +190,6 @@ public class modAppointments implements Initializable {
                         LocalDateTime appStopDateTime = LocalDateTime.of(appLocalDateEnd, appLocalTimeStop);
                         ZonedDateTime appStartUTC = appStartDateTime.atZone(localZoneID).withZoneSameInstant(ZoneId.of("UTC"));
                         ZonedDateTime appStopUTC = appStopDateTime.atZone(localZoneID).withZoneSameInstant(ZoneId.of("UTC"));
-
                         int appCustID = 0;
                         int appContactID = 0;
                         int appUserID =0;
@@ -167,12 +234,13 @@ public class modAppointments implements Initializable {
         } catch (Exception e) {
             MainScreen.error_message("No Start/Stop date was entered");
         }
-
-
-
-
     }
 
+    /**
+     * Simple go back to previous frame
+     * @param actionEvent
+     * @throws IOException
+     */
     public void goBack(ActionEvent actionEvent) throws IOException {
         //change scenes
         Parent root = FXMLLoader.load(getClass().getResource("../Views/MainScreen.fxml"));

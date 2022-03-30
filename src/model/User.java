@@ -1,25 +1,49 @@
-package model;/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+package model;
 import java.util.Calendar;
-
 /**
- *
- * @author carolyn.sher
+ * Main class for Users
+ *@author Weston Brehe
  */
 public class User {
+    /**
+     * User ID
+     */
     private int userId;
+    /**
+     * User Name
+     */
     private String userName;
+    /**
+     * User Password
+     */
     private String password;
-
+    /**
+     * User Create date
+     */
     private Calendar createDate;
+    /**
+     * User created by who
+     */
     private String createdBy;
+    /**
+     * User last updated
+     */
     private Calendar lastUpdate;
-    private String lastUpdateBy; 
+    /**
+     * User last updated by who
+     */
+    private String lastUpdateBy;
 
+    /**
+     * Main constructor for the User class
+     * @param userId
+     * @param userName
+     * @param password
+     * @param createDate
+     * @param createdBy
+     * @param lastUpdate
+     * @param lastUpdateBy
+     */
     public User(int userId, String userName, String password, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy) {
         this.userId = userId;
         this.userName = userName;
@@ -30,7 +54,6 @@ public class User {
         this.lastUpdate = lastUpdate;
         this.lastUpdateBy = lastUpdateBy;
     }
-
     /**
      * @return the userId
      */

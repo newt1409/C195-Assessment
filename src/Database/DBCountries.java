@@ -12,8 +12,18 @@ import java.text.ParseException;
 import java.util.Calendar;
 
 import static utilities.TimeFiles.stringToCalendar;
-
+/**
+ * Database interface for country methods
+ *@author Weston Brehe
+ */
 public class DBCountries {
+    /**
+     * Method to get a singular country data
+     * @param conId
+     * @return
+     * @throws SQLException
+     * @throws Exception
+     */
     public static Countries getCountryData(int conId) throws SQLException, Exception{
 
         try {
@@ -30,7 +40,6 @@ public class DBCountries {
                 Calendar createDateCalendar=stringToCalendar(createDate);
                 Calendar lastUpdateCalendar=stringToCalendar(lastUpdate);
                 Countries countryResult = new Countries(countryId, countryName, createDateCalendar, createdBy, lastUpdateCalendar, lastUpdateby);
-
                 return countryResult;
             }
         } catch (SQLException throwables) {
@@ -39,15 +48,16 @@ public class DBCountries {
         return null;
     }
 
+    /**
+     * Method to return all country data
+     * @return
+     */
     public static ObservableList<Countries> getAllCountries(){
         ObservableList<Countries> clist = FXCollections.observableArrayList();
-
         try{
             String sql = "select * from countries";
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-
             ResultSet rs = ps.executeQuery();
-
             while(rs.next()) {
                 int countryId = rs.getInt("Country_ID");
                 String countryName = rs.getString("Country");
@@ -65,5 +75,4 @@ public class DBCountries {
         }
         return clist;
     }
-
 }

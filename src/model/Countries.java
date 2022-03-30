@@ -1,23 +1,44 @@
-package model;/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+package model;
 import java.util.Calendar;
-
 /**
- *
- * @author carolyn.sher
+ * Main class for Countries
+ *@author Weston Brehe
  */
 public class Countries {
+    /**
+     * Country ID
+     */
     private int countryId;
+    /**
+     * Country Name
+     */
     private String countryName;
+    /**
+     * Country created date
+     */
     private Calendar createDate;
+    /**
+     * Country created by who
+     */
     private String createdBy;
+    /**
+     * Country last update date
+     */
     private Calendar lastUpdate;
+    /**
+     * Country last updated by who
+     */
     private String lastUpdateBy;
 
+    /**
+     * Main constructor for the Country class
+     * @param countryId
+     * @param countryName
+     * @param createDate
+     * @param createdBy
+     * @param lastUpdate
+     * @param lastUpdateBy
+     */
     public Countries(int countryId, String countryName, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy) {
         this.countryId = countryId;
         this.countryName = countryName;

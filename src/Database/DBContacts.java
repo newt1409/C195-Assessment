@@ -20,16 +20,19 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 import static utilities.TimeFiles.stringToCalendar;
-
 /**
- *
- * @author carolyn.sher
+ * Database interface for contact methods
+ *@author Weston Brehe
  */
-/* typically you would also have create, update and read methods*/
 public class DBContacts {
-
+    /**
+     * Method to get singular contact data
+     * @param conID
+     * @return
+     * @throws SQLException
+     * @throws Exception
+     */
     public static Contact getContactData(int conID) throws SQLException, Exception{
-
          try {
              String sql = "select * FROM contacts WHERE Contact_ID  = '" + conID + "'";
              PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
@@ -48,6 +51,12 @@ public class DBContacts {
         return null;
      }
 
+    /**
+     * Method to return all contact data
+     * @return
+     * @throws SQLException
+     * @throws Exception
+     */
     public static ObservableList<Contact> getAllContacts() throws SQLException, Exception{
         ObservableList<Contact> allContacts=FXCollections.observableArrayList();
         try {
@@ -67,6 +76,13 @@ public class DBContacts {
         return allContacts;
     }
 
+    /**
+     * Method to input a new contact info into the database
+     * @param conName
+     * @param conEmail
+     * @throws SQLException
+     * @throws Exception
+     */
     public static void addContactData(String conName, String conEmail) throws SQLException, Exception{
         try {
             String sql = "insert into contacts (Contact_Name, Email) " +
@@ -77,6 +93,15 @@ public class DBContacts {
             throwables.printStackTrace();
         }
     }
+
+    /**
+     * Method to modify a current contact and replace those values
+     * @param conID
+     * @param inConName
+     * @param inEmail
+     * @throws SQLException
+     * @throws Exception
+     */
     public static void modContactData(int conID, String inConName, String inEmail) throws SQLException, Exception{
 
         try {
@@ -88,6 +113,12 @@ public class DBContacts {
         }
     }
 
+    /**
+     * Method to delete a contact from the database
+     * @param contactId
+     * @throws SQLException
+     * @throws Exception
+     */
     public static void delContactData(int contactId) throws SQLException, Exception{
         try {
             String sql = "delete from contacts where Contact_ID = '" + contactId + "'";

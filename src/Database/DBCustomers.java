@@ -20,16 +20,19 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 import static utilities.TimeFiles.stringToCalendar;
-
 /**
- *
- * @author carolyn.sher
+ * Database interface for customer methods
+ *@author Weston Brehe
  */
-/* typically you would also have create, update and read methods*/
 public class DBCustomers {
-
+    /**
+     * Method to return a singular customer data
+     * @param custID
+     * @return
+     * @throws SQLException
+     * @throws Exception
+     */
     public static Customers getCustomerData(int custID) throws SQLException, Exception{
-
          try {
              String sql = "select * FROM customers WHERE Customer_ID  = '" + custID + "'";
              PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
@@ -55,6 +58,13 @@ public class DBCustomers {
          }
         return null;
      }
+
+    /**
+     * Method to return all customer data
+     * @return
+     * @throws SQLException
+     * @throws Exception
+     */
     public static ObservableList<Customers> getAllCustomers() throws SQLException, Exception{
         ObservableList<Customers> allCustomers=FXCollections.observableArrayList();
         try {
@@ -84,9 +94,18 @@ public class DBCustomers {
         return allCustomers;
     }
 
+    /**
+     * Method to add a new customer to the database
+     * @param custName
+     * @param custAddress
+     * @param custPostal
+     * @param custPhone
+     * @param divId
+     * @throws SQLException
+     * @throws Exception
+     */
     public static void addCustomerData(String custName, String custAddress, String custPostal, String custPhone, int divId) throws SQLException, Exception{
         try {
-
             String createdBy = MainScreen.validUser.getUserName();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             //Calendar createDateCalendar = stringToCalendar(LocalDateTime.now().toString());
@@ -100,9 +119,19 @@ public class DBCustomers {
         }
     }
 
+    /**
+     * Method to modify the customer data of a given customer ID
+     * @param custId
+     * @param custName
+     * @param custAddress
+     * @param custPostal
+     * @param custPhone
+     * @param divId
+     * @throws SQLException
+     * @throws Exception
+     */
     public static void modCustomerData(int custId, String custName, String custAddress, String custPostal, String custPhone, int divId) throws SQLException, Exception{
         try {
-
             String modifiedBy = MainScreen.validUser.getUserName();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             //Calendar createDateCalendar = stringToCalendar(LocalDateTime.now().toString());
@@ -117,6 +146,12 @@ public class DBCustomers {
         }
     }
 
+    /**
+     * Method to delete a customer from the database
+     * @param custId
+     * @throws SQLException
+     * @throws Exception
+     */
     public static void delCustomerData(int custId) throws SQLException, Exception{
         try {
             String sql = "delete from customers where Customer_ID = '" + custId +"'";

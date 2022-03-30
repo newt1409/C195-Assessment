@@ -1,5 +1,4 @@
 package Controllers;
-
 import Database.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,38 +25,113 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
-
+/**
+ * Creates the report frame for metrics
+ * @author Weston Brehe
+ */
 public class ReportController implements Initializable {
-
+    /**
+     * Tab view for switching between reports Appointments by Type
+     */
     @FXML private Tab tabAppByTypes;
+    /**
+     * Table view of all appointment types
+     */
     @FXML private TableView tblAppByType;
+    /**
+     * table column appointment by type value Month
+     */
     @FXML private TableColumn colAppByType_Month;
+    /**
+     * table column appointment by type value Type
+     */
     @FXML private TableColumn colAppByType_Type;
+    /**
+     * table column appointment by type value Count
+     */
     @FXML private TableColumn colAppByType_Count;
+    /**
+     * Tab view for switching between reports Contact Schedule
+     */
     @FXML private Tab tabContactSchedule;
+    /**
+     * Table view of all contacts schedule
+     */
     @FXML private TableView tblConApp;
+    /**
+     * table column contacts schedule value Name
+     */
     @FXML private TableColumn colConApp_Name;
+    /**
+     * table column contacts schedule value Title
+     */
     @FXML private TableColumn colConApp_Title;
+    /**
+     * table column contacts schedule value Type
+     */
     @FXML private TableColumn colConApp_Type;
+    /**
+     * table column contacts schedule value Start time
+     */
     @FXML private TableColumn colConApp_Start;
+    /**
+     * table column contacts schedule value End time
+     */
     @FXML private TableColumn colConApp_End;
+    /**
+     * Tab view for switching between reports Appointments by Customer
+     */
     @FXML private Tab tabAppByContact;
+    /**
+     * Table view of the appointments by customer
+     */
     @FXML private TableView tblAppCustomer;
+    /**
+     * table column of appointments by customer value Month
+     */
     @FXML private TableColumn colAppCust_Month;
+    /**
+     * table column of appointments by customer value Name
+     */
     @FXML private TableColumn colAppCust_Name;
+    /**
+     * table column of appointments by customer value Phone
+     */
     @FXML private TableColumn colAppCust_Phone;
+    /**
+     * table column of appointments by customer value State or Province
+     */
     @FXML private TableColumn colAppCust_Div;
+    /**
+     * table column of appointments by customer value Country
+     */
     @FXML private TableColumn colAppCust_Country;
+    /**
+     * table column of appointments by customer value Count
+     */
     @FXML private TableColumn colAppCust_Count;
-
+    /**
+     * Observable list of all the appointments
+     */
     @FXML private ObservableList<Appointments> AppList = FXCollections.observableArrayList();
-    //@FXML private ObservableList<Customers> CustomerList = FXCollections.observableArrayList();
-    //@FXML private ObservableList<Divisions> DivList = FXCollections.observableArrayList();
-    //@FXML private ObservableList<Countries> CountryList = FXCollections.observableArrayList();
+    /**
+     * Observable list for each report, Appointment by Type
+     */
     @FXML private ObservableList<Reports> rptAppByType = FXCollections.observableArrayList();
+    /**
+     * Observable list for each report, Contact schedule
+     */
     @FXML private ObservableList<Reports> rptAppByContact = FXCollections.observableArrayList();
+    /**
+     * Observable list for each report, Appointment by Customers
+     */
     @FXML private ObservableList<Reports> rptAppByCustomer = FXCollections.observableArrayList();
 
+    /**
+     * initialize all the table view properties, and populate the data for each tab
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         colAppByType_Month.setCellValueFactory(new PropertyValueFactory<>("rptAppByType_Months"));
@@ -76,13 +150,8 @@ public class ReportController implements Initializable {
         colAppCust_Div.setCellValueFactory(new PropertyValueFactory<>("RptAppByCustomer_Div"));
         colAppCust_Country.setCellValueFactory(new PropertyValueFactory<>("RptAppByCustomer_Country"));
         colAppCust_Count.setCellValueFactory(new PropertyValueFactory<>("RptAppByCustomer_Count"));
-
-
         try {
             AppList.addAll(Objects.requireNonNull(DBAppointments.getAllAppointments()));
-            //CustomerList.addAll(DBCustomers.getAllCustomers());
-            //DivList.addAll(DBDivisions.getAllDivisions());
-            //CountryList.addAll(DBCountries.getAllCountries());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -95,6 +164,12 @@ public class ReportController implements Initializable {
         }
     }
 
+    /**
+     * Counter method to keep track of how many appointments types there are for each month
+     * @param inStr
+     * @param inMonth
+     * @return
+     */
     private int counter (String inStr, int inMonth) {
         //Counter for Types in Appointments
         int count = 0;
@@ -106,6 +181,12 @@ public class ReportController implements Initializable {
         return count;
     }
 
+    /**
+     * Counter method to keep track of how many customers there are for each month
+     * @param inCustID
+     * @param inMonth
+     * @return
+     */
     private int counter2 (int inCustID, int inMonth) {
         //Counter for Customers in Appointments
         int count = 0;
@@ -117,6 +198,11 @@ public class ReportController implements Initializable {
         return count;
     }
 
+    /**
+     * action handler for switch between tabs
+     * @param actionEvent
+     * @throws IOException
+     */
     public void ReportsMainMenuButtonHandler(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("../Views/MainScreen.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -126,6 +212,9 @@ public class ReportController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Method to populate data for Appointments by Type.  Method collects types and what months they occur
+     */
     public void rptAppTypeByMonth() {
         ArrayList<Integer> appMonths = new ArrayList<>();
         ArrayList<String> appTypes = new ArrayList<>();
@@ -244,6 +333,9 @@ public class ReportController implements Initializable {
         tblAppByType.setItems(rptAppByType);
     }
 
+    /**
+     * Method populates the data for contact schedule.
+     */
     public void rptContactSchedule() {
         Contact tmpContact = null;
         for (Appointments m : AppList) {
@@ -259,12 +351,14 @@ public class ReportController implements Initializable {
         tblConApp.getSortOrder().add(colConApp_Start);
     }
 
+    /**
+     * Method populates the data for customers based on months
+     * @throws Exception
+     */
     public void rptAppCustByMonth() throws Exception {
         ArrayList<Integer> appMonths = new ArrayList<>();
         ArrayList<Integer> appCustomers = new ArrayList<>();
         int count = 0;
-
-
         for (Appointments m : AppList) {
             if (! appCustomers.contains(m.getcustomerId())) {
                 appCustomers.add(m.getcustomerId());
@@ -422,6 +516,5 @@ public class ReportController implements Initializable {
         }
         //populate the tableview with the reporting
         tblAppCustomer.setItems(rptAppByCustomer);
-
     }
 }
