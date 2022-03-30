@@ -3,8 +3,12 @@ package Database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
+/**
+ * Database interface for database connection methods
+ *@author Weston Brehe
+ */
 public class DBConnection {
+
     private static final String protocol = "jdbc";
     private static final String vendor = ":mysql:";
     private static final String location = "//localhost/";

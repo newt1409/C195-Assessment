@@ -1,39 +1,78 @@
-package model;/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+package model;
 import Database.DBCountries;
 import Database.DBDivisions;
-import com.mysql.cj.conf.IntegerProperty;
-import com.mysql.cj.conf.StringProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-
 import java.util.Calendar;
-
 /**
- *
- * @author carolyn.sher
+ * Main class for Customers
+ *@author Weston Brehe
  */
 public class Customers {
+    /**
+     * Customer ID
+     */
     private int customerId;
+    /**
+     * Customer Name
+     */
     private String customerName;
+    /**
+     * Customer Address
+     */
     private String customerAddress;
+    /**
+     * Customer Postal code
+     */
     private String customerPostal;
+    /**
+     * Customer Phone number
+     */
     private String customerPhone;
+    /**
+     * Customer State or province
+     */
     private String customerDivision;
+    /**
+     * Customer Country
+     */
     private String customerCountry;
-
+    /**
+     * Customer created date
+     */
     private Calendar createDate;
+    /**
+     * Customer created by who
+     */
     private String createdBy;
+    /**
+     * Customer last update date
+     */
     private Calendar lastUpdate;
+    /**
+     * Customer last updated by who
+     */
     private String lastUpdateBy;
-
+    /**
+     * Customer State or Province ID
+     */
     private int divId;
+    /**
+     * Customer Country ID
+     */
     private int countryId;
 
+    /**
+     * Main constructor for customer class
+     * @param custID
+     * @param custName
+     * @param custAddress
+     * @param custPostal
+     * @param custPhone
+     * @param createDate
+     * @param createdBy
+     * @param lastUpdate
+     * @param lastUpdateBy
+     * @param divId
+     */
     public Customers(int custID, String custName, String custAddress, String custPostal, String custPhone, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy, int divId) {
         this.customerId = custID;
         this.customerName = custName;
@@ -47,6 +86,7 @@ public class Customers {
         this.lastUpdateBy = lastUpdateBy;
 
         this.divId = divId;
+        //add data to class to make tableviews easier
         try {
             this.customerDivision = (DBDivisions.getDivisionData(divId)).getDivName();
             this.countryId = (DBDivisions.getDivisionData(divId)).getCountryId();
@@ -67,23 +107,38 @@ public class Customers {
         return divId;
     }
     /**
-     * @return the userName
+     * @return the customerName
      */
     public String getCustomerName() {
         return customerName;
     }
+    /**
+     * @return the customerAddress
+     */
     public String getCustomerAddress() {
         return customerAddress;
     }
+    /**
+     * @return the customerPostal
+     */
     public String getCustomerPostal() {
         return customerPostal;
     }
+    /**
+     * @return the customerPhone
+     */
     public String getCustomerPhone() {
         return customerPhone;
     }
+    /**
+     * @return the customerDivision
+     */
     public String getCustomerDivision() {
         return customerDivision;
     }
+    /**
+     * @return the customerCountry
+     */
     public String getCustomerCountry() {
         return customerCountry;
     }
