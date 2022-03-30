@@ -13,7 +13,7 @@ mysql-connector-java-8.0.25
 
 Main.java will start the program and display the main screen.  I wrote it so that all appointments for a user can be oberserved as well as the customer and contact per appointment.  Having multiple views felt very clunky.
 
-My JavaDoc files are in teh JavaDoc folder
+My JavaDoc files are in the JavaDoc folder
 
 I wrote an extra report for how many customers had appointments in the database
 
